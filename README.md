@@ -1,7 +1,7 @@
-# Zenith Focus
+# InfiniteFocus
 
 ## Introduction
-Zenith Focus is a revolutionary mobile app designed to combat digital distractions and promote productivity and mindfulness. Utilizing the MERN stack (MongoDB, Express.js, React Native, Node.js), this app is crafted to minimize phone addiction and provide users with constructive breaks. Random notifications encourage users to take short breaks, offering activities like physical exercises or calming visuals like a fireplace.
+InfiniteFocus is a revolutionary mobile app designed to combat digital distractions and promote productivity and mindfulness. Utilizing the MERN stack (MongoDB, Express.js, React Native, Node.js), this app is crafted to minimize phone addiction and provide users with constructive breaks. Random notifications encourage users to take short breaks, offering activities like physical exercises or calming visuals like a fireplace.
 
 ## Features
 - **Distraction Alerts:** Randomly timed alerts to break the cycle of phone overuse.
@@ -10,20 +10,20 @@ Zenith Focus is a revolutionary mobile app designed to combat digital distractio
 - **Customizable Settings:** Users can tailor alert frequency and activity types.
 
 ## Installation
-To install Zenith Focus, clone the repo and install the dependencies:
+To install InfiniteFocus, clone the repo and install the dependencies:
 
 - `git clone https://github.com/YourRepo/Zenith-Focus.git`
-- `cd Zenith-Focus`
+- `cd InfiniteFocus`
 - `yarn install`
 
 
 ## Usage
-To run Zenith Focus, execute the following command in the terminal:
+To run InfiniteFocus, execute the following command in the terminal:
 `yarn start`
 
 
 ## Contributing
-Contributions to Zenith Focus are welcome. Please follow these steps to contribute:
+Contributions to InfiniteFocus are welcome. Please follow these steps to contribute:
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature-branch`).
 3. Make changes and commit (`git commit -am 'Add some feature'`).
@@ -31,7 +31,7 @@ Contributions to Zenith Focus are welcome. Please follow these steps to contribu
 5. Create a new Pull Request.
 
 ## Credits
-Zenith Focus was created by Joslin Some, Ben DeSollar, and Adnane Ezouhri.
+InfiniteFocus was created by Joslin Some, Ben DeSollar, and Adnane Ezouhri.
 
 ## License
-Zenith Focus is MIT licensed. See the LICENSE file for more details.
+InfiniteFocus is Apache 2.0 licensed. See the LICENSE file for more details.
