@@ -12,8 +12,9 @@ InfiniteFocus is a revolutionary mobile app designed to combat digital distracti
 ## Installation
 To install InfiniteFocus, clone the repo and install the dependencies:
 
-- `git clone https://github.com/YourRepo/Zenith-Focus.git`
-- `cd InfiniteFocus`
+- `git clone (https://github.com/uiowaSEP2024/001_DisAv.git)`
+- `cd 001_DisAv`
+- `cd Mobile`
 - `yarn install`
 
 
