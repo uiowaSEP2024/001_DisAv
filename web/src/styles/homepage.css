@@ -1,0 +1,27 @@
+.homepage {
+    /* Gradient background with calming colors */
+    background: linear-gradient(to right, #88d3ce, #6e45e2);
+    height: 100vh;
+    color: white;
+  }
+  
+  .homepage .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  .homepage .logo {
+    /* Add your logo styles here */
+  }
+  
+  .homepage .buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .homepage .section {
+    display: flex;
+    /* Use 'flex-direction: row-reverse;' to swap text and image positions */
+    padding: 20px;
+  }
