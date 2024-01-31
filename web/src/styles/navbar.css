@@ -5,16 +5,16 @@
     background-color: #6e45e2; /* Different background color for navbar */
     color: white; /* White text for better readability */
   }
-  
+
   .navbar .logo {
     /* Add your logo styles here */
   }
-  
+
   .navbar .buttons {
     display: flex;
     gap: 10px;
   }
-  
+
   .navbar .buttons button {
     background-color: #88d3ce; /* Initial background color for buttons */
     color: #6e45e2; /* Text color for buttons */
@@ -23,7 +23,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease; /* Smooth transition for hover effect */
   }
-  
+
   .navbar .buttons button:hover {
     background-color: #6e45e2; /* Background color for buttons when hovered over */
     color: white; /* Text color for buttons when hovered over */

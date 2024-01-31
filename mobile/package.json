@@ -1,13 +1,4 @@
 {
-  "name": "infinitefocus",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "expo start --dev-client",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
-    "web": "expo start --web"
-  },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^6.1.9",
@@ -26,5 +17,14 @@
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
-  "private": true
+  "main": "index.js",
+  "name": "infinitefocus",
+  "private": true,
+  "scripts": {
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "start": "expo start --dev-client",
+    "web": "expo start --web"
+  },
+  "version": "1.0.0"
 }

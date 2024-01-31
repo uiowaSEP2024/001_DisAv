@@ -1,0 +1,6 @@
+extension/build/
+extension/node_modules
+mobile/android
+mobile/ios
+mobile/node_modules
+web/node_modules

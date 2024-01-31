@@ -4,22 +4,22 @@
     height: 100vh;
     color: white;
   }
-  
+
   .homepage .header {
     display: flex;
     justify-content: space-between;
     padding: 20px;
   }
-  
+
   .homepage .logo {
     /* Add your logo styles here */
   }
-  
+
   .homepage .buttons {
     display: flex;
     gap: 10px;
   }
-  
+
   .homepage .section {
     display: flex;
     /* Use 'flex-direction: row-reverse;' to swap text and image positions */

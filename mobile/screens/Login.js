@@ -2,12 +2,12 @@ import React from 'react';
 import { View } from 'react-native';
 import { Button, Title } from 'react-native-paper';
 
-export default function ForgotPassword({ navigation }) {
+export default function Login({ navigation }) {
   return (
     <View style={{ flex: 1, justifyContent: 'center', padding: 16 }}>
-      <Title>Forgot Password Screen</Title>
-      <Button mode="contained" onPress={() => navigation.navigate('Login')}>
-        Go to Login
+      <Title>Login Screen</Title>
+      <Button mode="contained" onPress={() => navigation.navigate('SignUp')}>
+        Go to Sign Up
       </Button>
     </View>
   );
