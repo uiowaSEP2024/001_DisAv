@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "name": "infiniteFocus",
+    "slug": "infiniteFocus",
+    "version": "1.0.0"
+  }
+}
