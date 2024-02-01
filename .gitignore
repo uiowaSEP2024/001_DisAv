@@ -35,3 +35,7 @@ yarn-error.*
 *.tsbuildinfo
 web/package-lock.json
 web/package.json
+
+# mobile
+mobile/yarn.lock
+mobile/node_modules
