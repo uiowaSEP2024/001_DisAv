@@ -3,6 +3,12 @@ import Homepage from '../Homepage.js';
 
 test('renders homepage', () => {
   render(<Homepage />);
-  const linkElement = screen.getByText(/sign up/i);
-  expect(linkElement).toBeInTheDocument();
+
+  // Check if Navbar is rendered
+  const navbarElement = screen.getByRole('navigation');
+  expect(navbarElement).toBeInTheDocument();
+
+  // Check if homepage class is present
+  const homepageElement = screen.getByTestId('homepage');
+  expect(homepageElement).toBeInTheDocument();
 });
