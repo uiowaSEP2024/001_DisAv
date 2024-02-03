@@ -4,6 +4,7 @@
     "@babel/preset-env": "^7.23.9",
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
+    "metro-react-native-babel-preset": "^0.77.0",
     "prettier": "^3.2.4",
     "react": "^18.2.0"
   },
