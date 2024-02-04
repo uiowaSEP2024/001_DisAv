@@ -37,3 +37,5 @@ web/package-lock.json
 web/package.json
 
 SEPvenv/
+/server/.env
+/server/package-lock.json
