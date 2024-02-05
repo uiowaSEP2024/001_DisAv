@@ -4,16 +4,16 @@ import '../styles/login.css';
 const Login = () => {
   return (
     <div className="login">
-      <h2>Login</h2>
       <form>
-        <label>
-          Username:
-          <input type="text" name="username" />
-        </label>
-        <label>
-          Password:
-          <input type="password" name="password" />
-        </label>
+        <h2>Login</h2>
+        <div className="input-group">
+          <label htmlFor="username">Username:</label>
+          <input type="text" id="username" name="username" />
+        </div>
+        <div className="input-group">
+          <label htmlFor="password">Password:</label>
+          <input type="password" id="password" name="password" />
+        </div>
         <input type="submit" value="Submit" />
       </form>
     </div>

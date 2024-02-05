@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 const Homepage = () => {
   return (
     <div className="homepage" data-testid="homepage">
-      <Navbar />
+      {/* <Navbar /> */}
       {/* Rest of the homepage content */}
     </div>
   );
