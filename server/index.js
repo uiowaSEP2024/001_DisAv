@@ -2,11 +2,14 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import { authRouter } from './routes/AuthRoute.js';
 
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+app.use('/auth', authRouter);
 
 mongoose
   .connect(
@@ -19,3 +22,4 @@ mongoose
   .then(r => console.log('db connected'))
   .catch(e => console.log('DB not connected check IP'));
 app.listen(3002, () => console.log('SERVER STARTED'));
+export default app;
