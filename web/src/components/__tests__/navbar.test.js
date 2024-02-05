@@ -1,8 +1,13 @@
 import { render, screen } from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from '../Navbar.js';
 
 test('renders navbar', () => {
-  render(<Navbar />);
+  render(
+    <Router>
+      <Navbar />
+    </Router>
+  );
 
   // Check if logo is rendered
   const logoElement = screen.getByText('Logo');

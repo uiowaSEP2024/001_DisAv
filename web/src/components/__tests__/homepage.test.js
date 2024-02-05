@@ -1,8 +1,13 @@
 import { render, screen } from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Homepage from '../Homepage.js';
 
 test('renders homepage', () => {
-  render(<Homepage />);
+  render(
+    <Router>
+      <Homepage />
+    </Router>
+  );
 
   // Check if Navbar is rendered
   const navbarElement = screen.getByRole('navigation');
