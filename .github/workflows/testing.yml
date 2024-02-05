@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies (Web)
         run: cd web && npm install
       - name: Run tests (Web)
-        run: cd web && npm tests
+        run: cd web && npm test
   test-server:
     runs-on: ubuntu-latest
     steps:

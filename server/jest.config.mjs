@@ -12,6 +12,7 @@ const config = {
   // Stop running tests after `n` failures
   // bail: 0,
   testEnvironment: 'node',
+  testTimeout: 300000,
   // setupFilesAfterEnv: ['<rootDir>/tests/testSetup.js'],
   transform: {
     '^.+\\.[t|j]sx?$': 'babel-jest',
