@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "test": "nyc mocha --exit"
+    "test": "jest"
   },
   "nyc": {
     "reporter": [
@@ -40,5 +40,10 @@
     "sinon": "^7.5.0",
     "sinon-mongoose": "^2.3.0",
     "supertest": "^6.3.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
+    "babel-jest": "^29.7.0"
   }
 }
