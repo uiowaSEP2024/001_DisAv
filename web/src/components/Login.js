@@ -4,7 +4,7 @@ import '../styles/login.css';
 const Login = () => {
   return (
     <div className="login">
-      <form>
+      <form data-testid="login-form">
         <h2>Login</h2>
         <div className="input-group">
           <label htmlFor="username">Username:</label>
