@@ -4,7 +4,7 @@ import Navbar from './Navbar';
 
 const Homepage = () => {
   return (
-    <div className="homepage">
+    <div className="homepage" data-testid="homepage">
       <Navbar />
       {/* Rest of the homepage content */}
     </div>
