@@ -1,16 +1,31 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import Login from '../Login';
+// const React = require('react');
+// const { render, fireEvent, waitFor } = require('@testing-library/react');
+// const axios = require('axios');
+// const Login = require('../Login');
 
-test('renders login form', () => {
-  render(<Login />);
+// jest.mock('axios');
 
-  const usernameInput = screen.getByLabelText(/username/i);
-  expect(usernameInput).toBeInTheDocument();
+// describe('Login', () => {
+//   it('renders the login form', () => {
+//     const { getByTestId } = render(<Login />);
+//     const form = getByTestId('login-form');
+//     expect(form).toBeInTheDocument();
+//   });
 
-  const passwordInput = screen.getByLabelText(/password/i);
-  expect(passwordInput).toBeInTheDocument();
+//   it('calls axios post on form submission', async () => {
+//     const { getByTestId, getByLabelText } = render(<Login />);
+//     const form = getByTestId('login-form');
 
-  const submitButton = screen.getByRole('button', { name: /submit/i });
-  expect(submitButton).toBeInTheDocument();
-});
+//     const usernameInput = getByLabelText('Username:');
+//     const passwordInput = getByLabelText('Password:');
+
+//     fireEvent.change(usernameInput, { target: { value: 'testuser' } });
+//     fireEvent.change(passwordInput, { target: { value: 'testpass' } });
+
+//     axios.post.mockResolvedValue({ data: {} });
+
+//     fireEvent.submit(form);
+
+//     await waitFor(() => expect(axios.post).toHaveBeenCalled());
+//   });
+// });

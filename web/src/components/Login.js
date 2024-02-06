@@ -8,13 +8,14 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate(); // Initialize useNavigate hook
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
 
-    axios.post("http://localhost:3002/auth/login", {
-      username: username,
-      password: password
-    })
+    axios
+      .post('http://localhost:3002/auth/login', {
+        username: username,
+        password: password,
+      })
       .then(response => {
         // Store the token in localStorage
         localStorage.setItem('token', response.data.token);
@@ -22,10 +23,10 @@ const Login = () => {
         sessionStorage.setItem('user', JSON.stringify(response.data.user));
         // Redirect to the dashboard using navigate
         navigate('/dashboard', { state: { user: response.data.user } });
-        console.log("login response:", response.data);
+        console.log('login response:', response.data);
       })
       .catch(error => {
-        console.error("Login error:", error.response || error.message);
+        console.error('Login error:', error.response || error.message);
         // Handle login error (e.g., show an error message to the user)
       });
   };
