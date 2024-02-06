@@ -1,31 +1,39 @@
-// const React = require('react');
-// const { render, fireEvent, waitFor } = require('@testing-library/react');
-// const axios = require('axios');
-// const Login = require('../Login');
+import React from 'react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import axios from 'axios';
+import Login from '../Login';
 
-// jest.mock('axios');
+jest.mock('axios');
 
-// describe('Login', () => {
-//   it('renders the login form', () => {
-//     const { getByTestId } = render(<Login />);
-//     const form = getByTestId('login-form');
-//     expect(form).toBeInTheDocument();
-//   });
+describe('Login', () => {
+  it('renders the login form', () => {
+    render(
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
+    );
+    const form = screen.getByTestId('login-form');
+    expect(form).toBeInTheDocument();
+  });
 
-//   it('calls axios post on form submission', async () => {
-//     const { getByTestId, getByLabelText } = render(<Login />);
-//     const form = getByTestId('login-form');
+  it('calls axios post on form submission', async () => {
+    render(
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
+    );
 
-//     const usernameInput = getByLabelText('Username:');
-//     const passwordInput = getByLabelText('Password:');
+    const usernameInput = screen.getByLabelText('Username:');
+    const passwordInput = screen.getByLabelText('Password:');
 
-//     fireEvent.change(usernameInput, { target: { value: 'testuser' } });
-//     fireEvent.change(passwordInput, { target: { value: 'testpass' } });
+    fireEvent.change(usernameInput, { target: { value: 'adnane' } });
+    fireEvent.change(passwordInput, { target: { value: '1234' } });
 
-//     axios.post.mockResolvedValue({ data: {} });
+    axios.post.mockResolvedValue({ data: {} });
 
-//     fireEvent.submit(form);
+    fireEvent.submit(screen.getByTestId('login-form'));
 
-//     await waitFor(() => expect(axios.post).toHaveBeenCalled());
-//   });
-// });
+    await waitFor(() => expect(axios.post).toHaveBeenCalled());
+  });
+});
