@@ -15,17 +15,19 @@ const Login = () => {
       username: username,
       password: password
     })
-    .then(response => {
-      // Store the token in localStorage
-      localStorage.setItem('token', response.data.token);
-      // Redirect to the dashboard using navigate
-      navigate('/dashboard');
-      console.log("login response:", response.data);
-    })
-    .catch(error => {
-      console.error("Login error:", error.response || error.message);
-      // Handle login error (e.g., show an error message to the user)
-    });
+      .then(response => {
+        // Store the token in localStorage
+        localStorage.setItem('token', response.data.token);
+        // Store user information in session storage
+        sessionStorage.setItem('user', JSON.stringify(response.data.user));
+        // Redirect to the dashboard using navigate
+        navigate('/dashboard', { state: { user: response.data.user } });
+        console.log("login response:", response.data);
+      })
+      .catch(error => {
+        console.error("Login error:", error.response || error.message);
+        // Handle login error (e.g., show an error message to the user)
+      });
   };
 
   return (
