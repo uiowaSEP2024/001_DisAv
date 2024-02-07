@@ -12,9 +12,6 @@
   "description": "A Chrome extension built with React",
   "manifest_version": 3,
   "name": "Infinite Focus",
-  "permissions": [
-    "alarms",
-    "tabs"
-  ],
+  "permissions": ["alarms", "tabs"],
   "version": "1.0"
 }

@@ -42,3 +42,8 @@ web/package.json
 mobile/yarn.lock
 mobile/node_modules
 mobile/coverage
+
+# server
+SEPvenv/
+/server/.env
+/server/package-lock.json
