@@ -24,10 +24,18 @@ const dbUri =
       ':' +
       process.env.MONGO_PWD +
       '@infinitefocus.gluou11.mongodb.net/active?retryWrites=true&w=majority';
-console.log('DBURI:' + dbUri, 'Mongouri' + process.env.MONGO_URI, process.env.NODE_ENV);
+
 mongoose
   .connect(dbUri)
   .then(r => console.log('db connected'))
   .catch(e => console.log('DB not connected check IP'));
-app.listen(3002, () => console.log('SERVER STARTED'));
+app
+  .listen(3002, () => console.log('SERVER STARTED'))
+  .on('error', err => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`Error: Port 3002 is already in use.`);
+    } else {
+      console.error('Error starting the app:', err);
+    }
+  });
 export default app;
