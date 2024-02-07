@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1707335166778" clover="3.2.0">
+  <project timestamp="1707335166778" name="All files">
+    <metrics statements="31" coveredstatements="29" conditionals="0" coveredconditionals="0" methods="17" coveredmethods="14" elements="48" coveredelements="43" complexity="0" loc="31" ncloc="31" packages="2" files="8" classes="8"/>
+    <package name="mobile">
+      <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <file name="App.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/App.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+      </file>
+      <file name="AppNavigator.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/AppNavigator.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="mobile.screens">
+      <metrics statements="27" coveredstatements="25" conditionals="0" coveredconditionals="0" methods="15" coveredmethods="12"/>
+      <file name="ForgotPassword.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/ForgotPassword.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+      </file>
+      <file name="Home.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Home.js">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+      </file>
+      <file name="Login.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Login.js">
+        <metrics statements="7" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+      </file>
+      <file name="Rewards.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Rewards.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+      </file>
+      <file name="Settings.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Settings.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+      </file>
+      <file name="SignUp.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/SignUp.js">
+        <metrics statements="11" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="2"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="28" count="3" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="30" count="3" type="stmt"/>
+        <line num="31" count="3" type="stmt"/>
+        <line num="32" count="3" type="stmt"/>
+        <line num="33" count="3" type="stmt"/>
+        <line num="35" count="3" type="stmt"/>
+        <line num="39" count="3" type="stmt"/>
+        <line num="90" count="0" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

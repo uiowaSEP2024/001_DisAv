@@ -25,7 +25,7 @@ export default function Login({ navigation }) {
     },
   };
 
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
@@ -35,14 +35,16 @@ export default function Login({ navigation }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <TextInput
-        label="Username"
-        value={username}
-        onChangeText={setUsername}
+        label="Email"
+        testID="email-input"
+        value={email}
+        onChangeText={setEmail}
         mode="outlined"
         style={styles.textInput}
       />
       <TextInput
         label="Password"
+        testID="password-input"
         value={password}
         onChangeText={setPassword}
         secureTextEntry

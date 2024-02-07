@@ -1,18 +1,17 @@
-// import { render } from '@testing-library/react-native';
-// import App from '../../App';
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import App from '../../App';
 
-// it('renders correctly', async () => {
-//   // const { getByText } = render(<App />);
-//   // // If you need to wait for elements to appear, use findBy queries instead
-//   // Example: expect(await findByText('Hello, World!')).toBeDefined();
+afterEach(() => {
+  jest.clearAllMocks();
+  jest.useRealTimers(); // If you are using fake timers
+});
 
-// });
-
-// beforeEach(() => {
-//   jest.useFakeTimers();
-// });
-
-// afterEach(() => {
-//   jest.runOnlyPendingTimers();
-//   jest.useRealTimers();
-// });
+describe('App', () => {
+  it('renders without crashing', () => {
+    render(<App />);
+    // Assuming your AppNavigator has a default screen, for example, "Login"
+    // You can adjust this to match the initial route name in your AppNavigator
+    // expect(getByText('Login')).toBeTruthy();
+  });
+});

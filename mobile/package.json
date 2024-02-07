@@ -3,9 +3,11 @@
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
-    "expo": "~50.0.3",
+    "expo": "^49.0.22",
     "expo-status-bar": "~1.11.1",
-    "jest-expo": "~50.0.1",
+    "jest": "^29.2.1",
+    "jest-expo": "~49.0.0",
+    "prettier": "^3.2.5",
     "react": "18.2.0",
     "react-native": "0.73.2",
     "react-native-dotenv": "^3.4.9",
@@ -27,9 +29,11 @@
     "@testing-library/react-native": "^12.4.3",
     "babel-jest": "^29.7.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-expo": "^10.0.1",
+    "babel-preset-react-native": "^4.0.1",
     "jest": "^29.7.0",
     "metro-react-native-babel-preset": "^0.77.0",
-    "react-test-renderer": "18.2.0"
+    "react-test-renderer": "^18.2.0"
   },
   "main": "index.js",
   "name": "infinitefocus",
@@ -39,19 +43,29 @@
     "ios": "expo run:ios",
     "start": "expo start --dev-client",
     "web": "expo start --web",
-    "test": "jest --watch --coverage=false --changedSince=origin/main",
+    "test": "jest",
     "testDebug": "jest -o --watch --coverage=false",
     "testFinal": "jest",
-    "updateSnapshots": "jest -u --coverage=false"
+    "updateSnapshots": "jest -u --coverage=false",
+    "lint": "prettier --write ."
   },
   "jest": {
-    "jest": {
-      "preset": "jest-expo",
-      "setupFilesAfterEnv": ["<rootDir>/jest.setup.js"]
-    },
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    },
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
+    ],
+    "testPathIgnorePatterns": [
+      "mobile/.expo/",
+      "mobile/node_modules/",
+      "mobile/index.js",
+      "mobile/metro.config.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "mobile/.expo/",
+      "mobile/\\.expo/metro/.*\\.js",
+      "mobile/index.js",
+      "mobile/metro.config.js"
+    ],
     "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.{js,jsx}",

@@ -54,6 +54,7 @@ export default function SignUpScreen({ navigation }) {
       />
       <TextInput
         label="Email"
+        testID="email-input"
         value={email}
         onChangeText={setEmail}
         mode="outlined"
@@ -69,6 +70,7 @@ export default function SignUpScreen({ navigation }) {
       <TextInput
         label="Password"
         value={password}
+        testID="password-input"
         onChangeText={setPassword}
         secureTextEntry
         mode="outlined"
