@@ -1,16 +1,39 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import axios from 'axios';
 import Login from '../Login';
 
-test('renders login form', () => {
-  render(<Login />);
+jest.mock('axios');
 
-  const usernameInput = screen.getByLabelText(/username/i);
-  expect(usernameInput).toBeInTheDocument();
+describe('Login', () => {
+  it('renders the login form', () => {
+    render(
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
+    );
+    const form = screen.getByTestId('login-form');
+    expect(form).toBeInTheDocument();
+  });
 
-  const passwordInput = screen.getByLabelText(/password/i);
-  expect(passwordInput).toBeInTheDocument();
+  it('calls axios post on form submission', async () => {
+    render(
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
+    );
 
-  const submitButton = screen.getByRole('button', { name: /submit/i });
-  expect(submitButton).toBeInTheDocument();
+    const usernameInput = screen.getByLabelText('Username:');
+    const passwordInput = screen.getByLabelText('Password:');
+
+    fireEvent.change(usernameInput, { target: { value: 'adnane' } });
+    fireEvent.change(passwordInput, { target: { value: '1234' } });
+
+    axios.post.mockResolvedValue({ data: {} });
+
+    fireEvent.submit(screen.getByTestId('login-form'));
+
+    await waitFor(() => expect(axios.post).toHaveBeenCalled());
+  });
 });
