@@ -6,7 +6,8 @@
     "eslint-plugin-promise": "^6.1.1",
     "metro-react-native-babel-preset": "^0.77.0",
     "prettier": "^3.2.4",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "react-toastify": "^10.0.4"
   },
   "devDependencies": {
     "eslint-config-prettier": "^9.1.0",
