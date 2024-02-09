@@ -16,7 +16,7 @@ export default function AppNavigator() {
     <Stack.Navigator initialRouteName="Welcome">
       <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
       <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
-      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Rewards" component={Rewards} />

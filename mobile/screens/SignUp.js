@@ -17,6 +17,7 @@ export default function SignUp({ navigation }) {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   async function signUp() {
+    console.log('HELLO');
     if (
       firstname === '' ||
       lastname === '' ||
@@ -41,7 +42,7 @@ export default function SignUp({ navigation }) {
         })
         .then(r => {
           console.log('Response: ', r.data);
-          navigation.navigate('Home');
+          navigation.navigate('Login');
         })
         .catch(err => {
           console.log('Error', err);
@@ -64,7 +65,7 @@ export default function SignUp({ navigation }) {
         <TextField title={'Email'} onChange={setEmail} />
         <TextField title={'Password'} password={true} onChange={setPassword} />
         <TextField title={'Re-Enter Password'} password={true} onChange={setRePassword} />
-        <LongBtn text={'Sign Up'} onPress={signUp} />
+        <LongBtn text={'Signh Up'} onClick={signUp} />
 
         <TouchableOpacity style={styles.signup} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.signupText}>Already have an account? Sign In!</Text>

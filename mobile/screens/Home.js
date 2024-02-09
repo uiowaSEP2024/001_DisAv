@@ -2,7 +2,9 @@ import React from 'react';
 import { View } from 'react-native';
 import { Button, Title } from 'react-native-paper';
 
-export default function Home({ navigation }) {
+export default function Home({ navigation, route }) {
+  const { user } = route.params;
+  console.log('user', user);
   return (
     <View style={{ flex: 1, justifyContent: 'center', padding: 16 }}>
       <Title>Home Screen</Title>
