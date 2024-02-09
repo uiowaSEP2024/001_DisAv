@@ -12,12 +12,24 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/register', { username, email, password, firstname, lastname });
-      console.log(res.data);
+      await axios.post("http://localhost:3002/auth/register", {
+        firstname: firstname,
+        lastname: lastname,
+        username: username,
+        password: password,
+        email: email
+      })
+      .then(r => {
+        console.log(r.data.message);
+      })
+      .catch(err => {
+        console.log(err);
+      });
     } catch (err) {
       console.error(err);
     }
   };
+
 
   return (
     <div className="signup">
