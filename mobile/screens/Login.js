@@ -43,8 +43,8 @@ export default function Login({ navigation }) {
         <Image source={logo} style={styles.logo} />
         <Text style={styles.title}>Sign In</Text>
         <Text style={styles.err}>{err}</Text>
-        <TextField title={'User Name'} onChange={setUserName} />
-        <TextField title={'Password'} password={true} onChange={setPassword} />
+        <TextField testID="username" title={'User Name'} onChange={setUserName} />
+        <TextField testID="password-input" title={'Password'} password={true} onChange={setPassword} />
         <View style={styles.btn}>
           <LongBtn text="Sign In" onClick={signIn} />
         </View>

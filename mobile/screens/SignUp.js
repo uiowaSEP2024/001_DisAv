@@ -62,8 +62,8 @@ export default function SignUp({ navigation }) {
           <TextField title={'Last name'} half={true} onChange={setlastname} />
         </View>
         <TextField title={'User name'} onChange={setUserName} />
-        <TextField title={'Email'} onChange={setEmail} />
-        <TextField title={'Password'} password={true} onChange={setPassword} />
+        <TextField testID="email-input" title={'Email'} onChange={setEmail} />
+        <TextField testID="password-input" title={'Password'} password={true} onChange={setPassword} />
         <TextField title={'Re-Enter Password'} password={true} onChange={setRePassword} />
         <LongBtn text={'Signh Up'} onClick={signUp} />
 

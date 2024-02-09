@@ -1,7 +1,6 @@
 name: CI testing
 
 on:
-  push:
   pull_request:
 
 jobs:
@@ -17,6 +16,18 @@ jobs:
         run: cd web && npm install
       - name: Run tests (Web)
         run: cd web && npm test
+  test-mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - name: Install dependencies (Mobile)
+        run: cd mobile && npm install
+      - name: Run tests (Mobile)
+        run: cd mobile && npm test
   test-server:
     runs-on: ubuntu-latest
     steps:
