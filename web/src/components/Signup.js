@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import '../styles/signup.css';
 
 
@@ -30,10 +30,10 @@ function Signup() {
       .then(r => {
         if (r.data.message === 'User already exists') {
             console.log('Username is already used');
-          toast('Username is already used');
+          // toast('Username is already used');
 
         } else {
-          toast('Account has been created successfully');
+          // toast('Account has been created successfully');
           navigate('/'); // Redirect to home page
         }
       })
@@ -47,7 +47,7 @@ function Signup() {
 
   return (
     <div className="signup">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} data-testid="signup-form">
         <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
         <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
         <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
