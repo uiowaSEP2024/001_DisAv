@@ -3,6 +3,9 @@
     "assetBundlePatterns": ["**/*"],
     "name": "infiniteFocus",
     "slug": "infiniteFocus",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "extra": {
+      "dev": "true"
+    }
   }
 }
