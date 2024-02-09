@@ -7,12 +7,14 @@ import ForgotPassword from './screens/ForgotPassword';
 import Home from './screens/Home';
 import Rewards from './screens/Rewards';
 import Settings from './screens/Settings';
+import Welcome from './screens/Welcome';
 
 const Stack = createStackNavigator();
 
 export default function AppNavigator() {
   return (
-    <Stack.Navigator initialRouteName="SignUp">
+    <Stack.Navigator initialRouteName="Welcome">
+      <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
       <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} />

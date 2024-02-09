@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { width, height } from '../config/DeviceDimensions';
 import TextField from '../components/TextField';
 import logo from '../assets/logo.png';
 import axios from 'axios';
 import { api } from '../config/Api';
+import LongBtn from '../components/LongBtn';
 export default function SignUp({ navigation }) {
   const [firstname, setfirstname] = useState('');
   const [lastname, setlastname] = useState('');
@@ -63,9 +64,7 @@ export default function SignUp({ navigation }) {
         <TextField title={'Email'} onChange={setEmail} />
         <TextField title={'Password'} password={true} onChange={setPassword} />
         <TextField title={'Re-Enter Password'} password={true} onChange={setRePassword} />
-        <Button onPress={signUp} style={styles.btn}>
-          <Text style={{ fontSize: 22, color: '#fff', fontWeight: 'bold' }}>Sign Up</Text>
-        </Button>
+        <LongBtn text={'Sign Up'} onPress={signUp} />
 
         <TouchableOpacity style={styles.signup} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.signupText}>Already have an account? Sign In!</Text>
