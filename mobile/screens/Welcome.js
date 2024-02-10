@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View, ScrollView } from 'react-native';
+import { Image, StyleSheet, ScrollView } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
 import logo from '../assets/logo.png'; // Adjust the path as necessary
@@ -13,12 +13,24 @@ export default function Welcome({ navigation }) {
       style={styles.gradient}
     >
       <ScrollView contentContainerStyle={styles.container}>
-        <Image source={logo} style={styles.logo} />
+        <Image testID="logo" source={logo} style={styles.logo} />
         <Text style={styles.title}>Infinite Focus</Text>
-        <View style={styles.btns}>
-          <Button text={'Sign In'} onClick={() => navigation.navigate('Login')} />
-          <Button text={'Create an account'} onClick={() => navigation.navigate('SignUp')} />
-        </View>
+        <Button
+          style={styles.button}
+          testID="login"
+          mode="contained"
+          onPress={() => navigation.navigate('Login')}
+        >
+          Login
+        </Button>
+        <Button
+          style={styles.button}
+          testID="signup"
+          mode="contained"
+          onPress={() => navigation.navigate('SignUp')}
+        >
+          Sign Up
+        </Button>
       </ScrollView>
     </LinearGradient>
   );
@@ -47,9 +59,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
-  btns: {
-    width: '100%', // Ensure buttons are full width
-    alignItems: 'center', // Center buttons horizontally
+  button: {
+    marginTop: 10,
+    width: '100%',
+    paddingVertical: 8,
+    backgroundColor: '#6200ee', // Or any color that suits your theme
+    color: 'white',
   },
   gif: {
     width: width * 0.8, // 80% of screen width

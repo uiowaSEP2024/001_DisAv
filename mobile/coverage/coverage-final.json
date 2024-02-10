@@ -1,12 +1,495 @@
-{"/Users/bendesollar/School/SEP/001_DisAv/mobile/App.js": {"path":"/Users/bendesollar/School/SEP/001_DisAv/mobile/App.js","statementMap":{"0":{"start":{"line":6,"column":14},"end":{"line":17,"column":1}},"1":{"start":{"line":20,"column":2},"end":{"line":26,"column":4}}},"fnMap":{"0":{"name":"App","decl":{"start":{"line":19,"column":24},"end":{"line":19,"column":27}},"loc":{"start":{"line":19,"column":30},"end":{"line":27,"column":1}},"line":19}},"branchMap":{},"s":{"0":1,"1":1},"f":{"0":1},"b":{},"_coverageSchema":"1a1c01bbd47fc00a2c39e90264f33305004495a9","hash":"2ccaf27a44867dd9f9ec3af8845d5329a06c8938"}
-,"/Users/bendesollar/School/SEP/001_DisAv/mobile/AppNavigator.js": {"path":"/Users/bendesollar/School/SEP/001_DisAv/mobile/AppNavigator.js","statementMap":{"0":{"start":{"line":12,"column":14},"end":{"line":12,"column":36}},"1":{"start":{"line":15,"column":2},"end":{"line":25,"column":4}}},"fnMap":{"0":{"name":"AppNavigator","decl":{"start":{"line":14,"column":24},"end":{"line":14,"column":36}},"loc":{"start":{"line":14,"column":39},"end":{"line":26,"column":1}},"line":14}},"branchMap":{},"s":{"0":1,"1":1},"f":{"0":1},"b":{},"_coverageSchema":"1a1c01bbd47fc00a2c39e90264f33305004495a9","hash":"121079810530ce4fbd9b6cc4dd9ab1c94720fe03"}
-,"/Users/bendesollar/School/SEP/001_DisAv/mobile/config/Api.js": {"path":"/Users/bendesollar/School/SEP/001_DisAv/mobile/config/Api.js","statementMap":{"0":{"start":{"line":4,"column":19},"end":{"line":4,"column":45}},"1":{"start":{"line":6,"column":0},"end":{"line":6,"column":41}},"2":{"start":{"line":8,"column":12},"end":{"line":10,"column":21}},"3":{"start":{"line":12,"column":0},"end":{"line":12,"column":17}}},"fnMap":{},"branchMap":{"0":{"loc":{"start":{"line":4,"column":19},"end":{"line":4,"column":45}},"type":"binary-expr","locations":[{"start":{"line":4,"column":19},"end":{"line":4,"column":39}},{"start":{"line":4,"column":43},"end":{"line":4,"column":45}}],"line":4},"1":{"loc":{"start":{"line":8,"column":12},"end":{"line":10,"column":21}},"type":"cond-expr","locations":[{"start":{"line":9,"column":4},"end":{"line":9,"column":57}},{"start":{"line":10,"column":4},"end":{"line":10,"column":21}}],"line":8}},"s":{"0":3,"1":3,"2":3,"3":3},"f":{},"b":{"0":[3,0],"1":[3,0]},"_coverageSchema":"1a1c01bbd47fc00a2c39e90264f33305004495a9","hash":"5eebfb99e14a0120ac32d60330e34415f0a7c054"}
-,"/Users/bendesollar/School/SEP/001_DisAv/mobile/config/DeviceDimensions.js": {"path":"/Users/bendesollar/School/SEP/001_DisAv/mobile/config/DeviceDimensions.js","statementMap":{"0":{"start":{"line":3,"column":20},"end":{"line":3,"column":50}},"1":{"start":{"line":4,"column":21},"end":{"line":4,"column":52}}},"fnMap":{},"branchMap":{},"s":{"0":3,"1":3},"f":{},"b":{},"_coverageSchema":"1a1c01bbd47fc00a2c39e90264f33305004495a9","hash":"5e54a339aace9e9853ed06ccb152bd328fbb0c08"}
-,"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/ForgotPassword.js": {"path":"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/ForgotPassword.js","statementMap":{"0":{"start":{"line":6,"column":2},"end":{"line":13,"column":4}},"1":{"start":{"line":9,"column":46},"end":{"line":9,"column":74}}},"fnMap":{"0":{"name":"ForgotPassword","decl":{"start":{"line":5,"column":24},"end":{"line":5,"column":38}},"loc":{"start":{"line":5,"column":55},"end":{"line":14,"column":1}},"line":5},"1":{"name":"(anonymous_1)","decl":{"start":{"line":9,"column":40},"end":{"line":9,"column":41}},"loc":{"start":{"line":9,"column":46},"end":{"line":9,"column":74}},"line":9}},"branchMap":{},"s":{"0":1,"1":1},"f":{"0":1,"1":1},"b":{},"_coverageSchema":"1a1c01bbd47fc00a2c39e90264f33305004495a9","hash":"39555b3fefa3946d3691492e731cb4e2d538312e"}
-,"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Home.js": {"path":"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Home.js","statementMap":{"0":{"start":{"line":6,"column":19},"end":{"line":6,"column":31}},"1":{"start":{"line":7,"column":2},"end":{"line":7,"column":28}},"2":{"start":{"line":8,"column":2},"end":{"line":18,"column":4}},"3":{"start":{"line":11,"column":46},"end":{"line":11,"column":76}},"4":{"start":{"line":14,"column":46},"end":{"line":14,"column":76}}},"fnMap":{"0":{"name":"Home","decl":{"start":{"line":5,"column":24},"end":{"line":5,"column":28}},"loc":{"start":{"line":5,"column":52},"end":{"line":19,"column":1}},"line":5},"1":{"name":"(anonymous_1)","decl":{"start":{"line":11,"column":40},"end":{"line":11,"column":41}},"loc":{"start":{"line":11,"column":46},"end":{"line":11,"column":76}},"line":11},"2":{"name":"(anonymous_2)","decl":{"start":{"line":14,"column":40},"end":{"line":14,"column":41}},"loc":{"start":{"line":14,"column":46},"end":{"line":14,"column":76}},"line":14}},"branchMap":{},"s":{"0":3,"1":3,"2":3,"3":1,"4":1},"f":{"0":3,"1":1,"2":1},"b":{},"_coverageSchema":"1a1c01bbd47fc00a2c39e90264f33305004495a9","hash":"0280d04e6db8b84e326b7602998f974d258e922c"}
-,"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Login.js": {"path":"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Login.js","statementMap":{"0":{"start":{"line":11,"column":34},"end":{"line":11,"column":46}},"1":{"start":{"line":12,"column":34},"end":{"line":12,"column":46}},"2":{"start":{"line":13,"column":24},"end":{"line":13,"column":36}},"3":{"start":{"line":16,"column":4},"end":{"line":19,"column":5}},"4":{"start":{"line":17,"column":6},"end":{"line":17,"column":40}},"5":{"start":{"line":18,"column":6},"end":{"line":18,"column":13}},"6":{"start":{"line":20,"column":4},"end":{"line":37,"column":9}},"7":{"start":{"line":26,"column":8},"end":{"line":32,"column":9}},"8":{"start":{"line":27,"column":10},"end":{"line":27,"column":33}},"9":{"start":{"line":29,"column":10},"end":{"line":29,"column":30}},"10":{"start":{"line":30,"column":10},"end":{"line":30,"column":32}},"11":{"start":{"line":31,"column":10},"end":{"line":31,"column":60}},"12":{"start":{"line":35,"column":8},"end":{"line":35,"column":36}},"13":{"start":{"line":36,"column":8},"end":{"line":36,"column":50}},"14":{"start":{"line":40,"column":2},"end":{"line":78,"column":4}},"15":{"start":{"line":70,"column":25},"end":{"line":70,"column":54}},"16":{"start":{"line":81,"column":15},"end":{"line":127,"column":2}}},"fnMap":{"0":{"name":"Login","decl":{"start":{"line":10,"column":24},"end":{"line":10,"column":29}},"loc":{"start":{"line":10,"column":46},"end":{"line":79,"column":1}},"line":10},"1":{"name":"signIn","decl":{"start":{"line":15,"column":17},"end":{"line":15,"column":23}},"loc":{"start":{"line":15,"column":26},"end":{"line":38,"column":3}},"line":15},"2":{"name":"(anonymous_2)","decl":{"start":{"line":25,"column":12},"end":{"line":25,"column":13}},"loc":{"start":{"line":25,"column":17},"end":{"line":33,"column":7}},"line":25},"3":{"name":"(anonymous_3)","decl":{"start":{"line":34,"column":13},"end":{"line":34,"column":14}},"loc":{"start":{"line":34,"column":22},"end":{"line":37,"column":7}},"line":34},"4":{"name":"(anonymous_4)","decl":{"start":{"line":70,"column":19},"end":{"line":70,"column":20}},"loc":{"start":{"line":70,"column":25},"end":{"line":70,"column":54}},"line":70}},"branchMap":{"0":{"loc":{"start":{"line":16,"column":4},"end":{"line":19,"column":5}},"type":"if","locations":[{"start":{"line":16,"column":4},"end":{"line":19,"column":5}},{"start":{},"end":{}}],"line":16},"1":{"loc":{"start":{"line":16,"column":8},"end":{"line":16,"column":42}},"type":"binary-expr","locations":[{"start":{"line":16,"column":8},"end":{"line":16,"column":23}},{"start":{"line":16,"column":27},"end":{"line":16,"column":42}}],"line":16},"2":{"loc":{"start":{"line":26,"column":8},"end":{"line":32,"column":9}},"type":"if","locations":[{"start":{"line":26,"column":8},"end":{"line":32,"column":9}},{"start":{"line":28,"column":15},"end":{"line":32,"column":9}}],"line":26},"3":{"loc":{"start":{"line":48,"column":9},"end":{"line":48,"column":80}},"type":"cond-expr","locations":[{"start":{"line":48,"column":15},"end":{"line":48,"column":73}},{"start":{"line":48,"column":76},"end":{"line":48,"column":80}}],"line":48}},"s":{"0":8,"1":8,"2":8,"3":2,"4":1,"5":1,"6":1,"7":1,"8":0,"9":1,"10":1,"11":0,"12":1,"13":1,"14":8,"15":0,"16":2},"f":{"0":8,"1":2,"2":1,"3":1,"4":0},"b":{"0":[1,1],"1":[2,2],"2":[0,1],"3":[2,6]},"_coverageSchema":"1a1c01bbd47fc00a2c39e90264f33305004495a9","hash":"019a95a517f9db7abd45cf793f8206ce0f93cd3e"}
-,"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Rewards.js": {"path":"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Rewards.js","statementMap":{"0":{"start":{"line":6,"column":2},"end":{"line":13,"column":4}},"1":{"start":{"line":9,"column":46},"end":{"line":9,"column":77}}},"fnMap":{"0":{"name":"Rewards","decl":{"start":{"line":5,"column":24},"end":{"line":5,"column":31}},"loc":{"start":{"line":5,"column":48},"end":{"line":14,"column":1}},"line":5},"1":{"name":"(anonymous_1)","decl":{"start":{"line":9,"column":40},"end":{"line":9,"column":41}},"loc":{"start":{"line":9,"column":46},"end":{"line":9,"column":77}},"line":9}},"branchMap":{},"s":{"0":1,"1":1},"f":{"0":1,"1":1},"b":{},"_coverageSchema":"1a1c01bbd47fc00a2c39e90264f33305004495a9","hash":"44346eb01e38be932357e777c5f5ce57f00f56e8"}
-,"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Settings.js": {"path":"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Settings.js","statementMap":{"0":{"start":{"line":6,"column":2},"end":{"line":13,"column":4}},"1":{"start":{"line":9,"column":46},"end":{"line":9,"column":73}}},"fnMap":{"0":{"name":"Settings","decl":{"start":{"line":5,"column":24},"end":{"line":5,"column":32}},"loc":{"start":{"line":5,"column":49},"end":{"line":14,"column":1}},"line":5},"1":{"name":"(anonymous_1)","decl":{"start":{"line":9,"column":40},"end":{"line":9,"column":41}},"loc":{"start":{"line":9,"column":46},"end":{"line":9,"column":73}},"line":9}},"branchMap":{},"s":{"0":2,"1":1},"f":{"0":2,"1":1},"b":{},"_coverageSchema":"1a1c01bbd47fc00a2c39e90264f33305004495a9","hash":"238abad2f03eee7c1db707f602b212d086836dcf"}
-,"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/SignUp.js": {"path":"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/SignUp.js","statementMap":{"0":{"start":{"line":12,"column":36},"end":{"line":12,"column":48}},"1":{"start":{"line":13,"column":34},"end":{"line":13,"column":46}},"2":{"start":{"line":14,"column":34},"end":{"line":14,"column":46}},"3":{"start":{"line":15,"column":34},"end":{"line":15,"column":46}},"4":{"start":{"line":16,"column":38},"end":{"line":16,"column":50}},"5":{"start":{"line":17,"column":28},"end":{"line":17,"column":40}},"6":{"start":{"line":18,"column":28},"end":{"line":18,"column":40}},"7":{"start":{"line":20,"column":4},"end":{"line":20,"column":25}},"8":{"start":{"line":21,"column":4},"end":{"line":50,"column":5}},"9":{"start":{"line":29,"column":6},"end":{"line":29,"column":42}},"10":{"start":{"line":30,"column":11},"end":{"line":50,"column":5}},"11":{"start":{"line":31,"column":6},"end":{"line":31,"column":41}},"12":{"start":{"line":33,"column":6},"end":{"line":33,"column":19}},"13":{"start":{"line":34,"column":6},"end":{"line":34,"column":23}},"14":{"start":{"line":35,"column":6},"end":{"line":49,"column":11}},"15":{"start":{"line":44,"column":10},"end":{"line":44,"column":44}},"16":{"start":{"line":45,"column":10},"end":{"line":45,"column":39}},"17":{"start":{"line":48,"column":10},"end":{"line":48,"column":36}},"18":{"start":{"line":52,"column":16},"end":{"line":52,"column":26}},"19":{"start":{"line":54,"column":2},"end":{"line":124,"column":4}},"20":{"start":{"line":110,"column":25},"end":{"line":110,"column":33}},"21":{"start":{"line":116,"column":25},"end":{"line":116,"column":53}},"22":{"start":{"line":127,"column":15},"end":{"line":172,"column":2}}},"fnMap":{"0":{"name":"SignUp","decl":{"start":{"line":11,"column":24},"end":{"line":11,"column":30}},"loc":{"start":{"line":11,"column":47},"end":{"line":125,"column":1}},"line":11},"1":{"name":"signUp","decl":{"start":{"line":19,"column":17},"end":{"line":19,"column":23}},"loc":{"start":{"line":19,"column":26},"end":{"line":51,"column":3}},"line":19},"2":{"name":"(anonymous_2)","decl":{"start":{"line":43,"column":14},"end":{"line":43,"column":15}},"loc":{"start":{"line":43,"column":19},"end":{"line":46,"column":9}},"line":43},"3":{"name":"(anonymous_3)","decl":{"start":{"line":47,"column":15},"end":{"line":47,"column":16}},"loc":{"start":{"line":47,"column":22},"end":{"line":49,"column":9}},"line":47},"4":{"name":"(anonymous_4)","decl":{"start":{"line":110,"column":19},"end":{"line":110,"column":20}},"loc":{"start":{"line":110,"column":25},"end":{"line":110,"column":33}},"line":110},"5":{"name":"(anonymous_5)","decl":{"start":{"line":116,"column":19},"end":{"line":116,"column":20}},"loc":{"start":{"line":116,"column":25},"end":{"line":116,"column":53}},"line":116}},"branchMap":{"0":{"loc":{"start":{"line":21,"column":4},"end":{"line":50,"column":5}},"type":"if","locations":[{"start":{"line":21,"column":4},"end":{"line":50,"column":5}},{"start":{"line":30,"column":11},"end":{"line":50,"column":5}}],"line":21},"1":{"loc":{"start":{"line":22,"column":6},"end":{"line":27,"column":18}},"type":"binary-expr","locations":[{"start":{"line":22,"column":6},"end":{"line":22,"column":22}},{"start":{"line":23,"column":6},"end":{"line":23,"column":21}},{"start":{"line":24,"column":6},"end":{"line":24,"column":21}},{"start":{"line":25,"column":6},"end":{"line":25,"column":21}},{"start":{"line":26,"column":6},"end":{"line":26,"column":23}},{"start":{"line":27,"column":6},"end":{"line":27,"column":18}}],"line":22},"2":{"loc":{"start":{"line":30,"column":11},"end":{"line":50,"column":5}},"type":"if","locations":[{"start":{"line":30,"column":11},"end":{"line":50,"column":5}},{"start":{"line":32,"column":11},"end":{"line":50,"column":5}}],"line":30},"3":{"loc":{"start":{"line":62,"column":9},"end":{"line":62,"column":87}},"type":"cond-expr","locations":[{"start":{"line":62,"column":17},"end":{"line":62,"column":80}},{"start":{"line":62,"column":83},"end":{"line":62,"column":87}}],"line":62}},"s":{"0":8,"1":8,"2":8,"3":8,"4":8,"5":8,"6":8,"7":1,"8":1,"9":0,"10":1,"11":0,"12":1,"13":1,"14":1,"15":1,"16":1,"17":1,"18":8,"19":8,"20":1,"21":0,"22":2},"f":{"0":8,"1":1,"2":1,"3":1,"4":1,"5":0},"b":{"0":[0,1],"1":[1,1,1,1,1,1],"2":[0,1],"3":[0,8]},"_coverageSchema":"1a1c01bbd47fc00a2c39e90264f33305004495a9","hash":"c905f39c5ba9ab7ef8f947e44b6e16610f01ca53"}
-,"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Welcome.js": {"path":"/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Welcome.js","statementMap":{"0":{"start":{"line":11,"column":2},"end":{"line":31,"column":4}},"1":{"start":{"line":20,"column":50},"end":{"line":20,"column":78}},"2":{"start":{"line":21,"column":60},"end":{"line":21,"column":89}},"3":{"start":{"line":34,"column":15},"end":{"line":66,"column":2}}},"fnMap":{"0":{"name":"Welcome","decl":{"start":{"line":10,"column":24},"end":{"line":10,"column":31}},"loc":{"start":{"line":10,"column":48},"end":{"line":32,"column":1}},"line":10},"1":{"name":"(anonymous_1)","decl":{"start":{"line":20,"column":44},"end":{"line":20,"column":45}},"loc":{"start":{"line":20,"column":50},"end":{"line":20,"column":78}},"line":20},"2":{"name":"(anonymous_2)","decl":{"start":{"line":21,"column":54},"end":{"line":21,"column":55}},"loc":{"start":{"line":21,"column":60},"end":{"line":21,"column":89}},"line":21}},"branchMap":{},"s":{"0":0,"1":0,"2":0,"3":1},"f":{"0":0,"1":0,"2":0},"b":{},"_coverageSchema":"1a1c01bbd47fc00a2c39e90264f33305004495a9","hash":"2ea28928e067151bf0ddc49ba039457632df8b8b"}
+{
+  "/Users/bendesollar/School/SEP/001_DisAv/mobile/App.js": {
+    "path": "/Users/bendesollar/School/SEP/001_DisAv/mobile/App.js",
+    "statementMap": {
+      "0": { "start": { "line": 6, "column": 14 }, "end": { "line": 17, "column": 1 } },
+      "1": { "start": { "line": 20, "column": 2 }, "end": { "line": 26, "column": 4 } }
+    },
+    "fnMap": {
+      "0": {
+        "name": "App",
+        "decl": { "start": { "line": 19, "column": 24 }, "end": { "line": 19, "column": 27 } },
+        "loc": { "start": { "line": 19, "column": 30 }, "end": { "line": 27, "column": 1 } },
+        "line": 19
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 1, "1": 1 },
+    "f": { "0": 1 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "2ccaf27a44867dd9f9ec3af8845d5329a06c8938"
+  },
+  "/Users/bendesollar/School/SEP/001_DisAv/mobile/AppNavigator.js": {
+    "path": "/Users/bendesollar/School/SEP/001_DisAv/mobile/AppNavigator.js",
+    "statementMap": {
+      "0": { "start": { "line": 12, "column": 14 }, "end": { "line": 12, "column": 36 } },
+      "1": { "start": { "line": 15, "column": 2 }, "end": { "line": 25, "column": 4 } }
+    },
+    "fnMap": {
+      "0": {
+        "name": "AppNavigator",
+        "decl": { "start": { "line": 14, "column": 24 }, "end": { "line": 14, "column": 36 } },
+        "loc": { "start": { "line": 14, "column": 39 }, "end": { "line": 26, "column": 1 } },
+        "line": 14
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 1, "1": 1 },
+    "f": { "0": 1 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "121079810530ce4fbd9b6cc4dd9ab1c94720fe03"
+  },
+  "/Users/bendesollar/School/SEP/001_DisAv/mobile/config/Api.js": {
+    "path": "/Users/bendesollar/School/SEP/001_DisAv/mobile/config/Api.js",
+    "statementMap": {
+      "0": { "start": { "line": 4, "column": 19 }, "end": { "line": 4, "column": 45 } },
+      "1": { "start": { "line": 6, "column": 0 }, "end": { "line": 6, "column": 41 } },
+      "2": { "start": { "line": 8, "column": 12 }, "end": { "line": 10, "column": 21 } },
+      "3": { "start": { "line": 12, "column": 0 }, "end": { "line": 12, "column": 17 } }
+    },
+    "fnMap": {},
+    "branchMap": {
+      "0": {
+        "loc": { "start": { "line": 4, "column": 19 }, "end": { "line": 4, "column": 45 } },
+        "type": "binary-expr",
+        "locations": [
+          { "start": { "line": 4, "column": 19 }, "end": { "line": 4, "column": 39 } },
+          { "start": { "line": 4, "column": 43 }, "end": { "line": 4, "column": 45 } }
+        ],
+        "line": 4
+      },
+      "1": {
+        "loc": { "start": { "line": 8, "column": 12 }, "end": { "line": 10, "column": 21 } },
+        "type": "cond-expr",
+        "locations": [
+          { "start": { "line": 9, "column": 4 }, "end": { "line": 9, "column": 57 } },
+          { "start": { "line": 10, "column": 4 }, "end": { "line": 10, "column": 21 } }
+        ],
+        "line": 8
+      }
+    },
+    "s": { "0": 3, "1": 3, "2": 3, "3": 3 },
+    "f": {},
+    "b": { "0": [3, 0], "1": [3, 0] },
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "5eebfb99e14a0120ac32d60330e34415f0a7c054"
+  },
+  "/Users/bendesollar/School/SEP/001_DisAv/mobile/config/DeviceDimensions.js": {
+    "path": "/Users/bendesollar/School/SEP/001_DisAv/mobile/config/DeviceDimensions.js",
+    "statementMap": {
+      "0": { "start": { "line": 3, "column": 20 }, "end": { "line": 3, "column": 50 } },
+      "1": { "start": { "line": 4, "column": 21 }, "end": { "line": 4, "column": 52 } }
+    },
+    "fnMap": {},
+    "branchMap": {},
+    "s": { "0": 4, "1": 4 },
+    "f": {},
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "5e54a339aace9e9853ed06ccb152bd328fbb0c08"
+  },
+  "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/ForgotPassword.js": {
+    "path": "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/ForgotPassword.js",
+    "statementMap": {
+      "0": { "start": { "line": 6, "column": 2 }, "end": { "line": 13, "column": 4 } },
+      "1": { "start": { "line": 9, "column": 46 }, "end": { "line": 9, "column": 74 } }
+    },
+    "fnMap": {
+      "0": {
+        "name": "ForgotPassword",
+        "decl": { "start": { "line": 5, "column": 24 }, "end": { "line": 5, "column": 38 } },
+        "loc": { "start": { "line": 5, "column": 55 }, "end": { "line": 14, "column": 1 } },
+        "line": 5
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": { "start": { "line": 9, "column": 40 }, "end": { "line": 9, "column": 41 } },
+        "loc": { "start": { "line": 9, "column": 46 }, "end": { "line": 9, "column": 74 } },
+        "line": 9
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 1, "1": 1 },
+    "f": { "0": 1, "1": 1 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "39555b3fefa3946d3691492e731cb4e2d538312e"
+  },
+  "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Home.js": {
+    "path": "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Home.js",
+    "statementMap": {
+      "0": { "start": { "line": 6, "column": 19 }, "end": { "line": 6, "column": 31 } },
+      "1": { "start": { "line": 7, "column": 2 }, "end": { "line": 7, "column": 28 } },
+      "2": { "start": { "line": 8, "column": 2 }, "end": { "line": 18, "column": 4 } },
+      "3": { "start": { "line": 11, "column": 46 }, "end": { "line": 11, "column": 76 } },
+      "4": { "start": { "line": 14, "column": 46 }, "end": { "line": 14, "column": 76 } }
+    },
+    "fnMap": {
+      "0": {
+        "name": "Home",
+        "decl": { "start": { "line": 5, "column": 24 }, "end": { "line": 5, "column": 28 } },
+        "loc": { "start": { "line": 5, "column": 52 }, "end": { "line": 19, "column": 1 } },
+        "line": 5
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": { "start": { "line": 11, "column": 40 }, "end": { "line": 11, "column": 41 } },
+        "loc": { "start": { "line": 11, "column": 46 }, "end": { "line": 11, "column": 76 } },
+        "line": 11
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": { "start": { "line": 14, "column": 40 }, "end": { "line": 14, "column": 41 } },
+        "loc": { "start": { "line": 14, "column": 46 }, "end": { "line": 14, "column": 76 } },
+        "line": 14
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 3, "1": 3, "2": 3, "3": 1, "4": 1 },
+    "f": { "0": 3, "1": 1, "2": 1 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "0280d04e6db8b84e326b7602998f974d258e922c"
+  },
+  "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Login.js": {
+    "path": "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Login.js",
+    "statementMap": {
+      "0": { "start": { "line": 11, "column": 34 }, "end": { "line": 11, "column": 46 } },
+      "1": { "start": { "line": 12, "column": 34 }, "end": { "line": 12, "column": 46 } },
+      "2": { "start": { "line": 13, "column": 24 }, "end": { "line": 13, "column": 36 } },
+      "3": { "start": { "line": 16, "column": 4 }, "end": { "line": 19, "column": 5 } },
+      "4": { "start": { "line": 17, "column": 6 }, "end": { "line": 17, "column": 40 } },
+      "5": { "start": { "line": 18, "column": 6 }, "end": { "line": 18, "column": 13 } },
+      "6": { "start": { "line": 20, "column": 4 }, "end": { "line": 37, "column": 9 } },
+      "7": { "start": { "line": 26, "column": 8 }, "end": { "line": 32, "column": 9 } },
+      "8": { "start": { "line": 27, "column": 10 }, "end": { "line": 27, "column": 33 } },
+      "9": { "start": { "line": 29, "column": 10 }, "end": { "line": 29, "column": 30 } },
+      "10": { "start": { "line": 30, "column": 10 }, "end": { "line": 30, "column": 32 } },
+      "11": { "start": { "line": 31, "column": 10 }, "end": { "line": 31, "column": 60 } },
+      "12": { "start": { "line": 35, "column": 8 }, "end": { "line": 35, "column": 36 } },
+      "13": { "start": { "line": 36, "column": 8 }, "end": { "line": 36, "column": 50 } },
+      "14": { "start": { "line": 40, "column": 2 }, "end": { "line": 82, "column": 4 } },
+      "15": { "start": { "line": 74, "column": 25 }, "end": { "line": 74, "column": 54 } },
+      "16": { "start": { "line": 85, "column": 15 }, "end": { "line": 131, "column": 2 } }
+    },
+    "fnMap": {
+      "0": {
+        "name": "Login",
+        "decl": { "start": { "line": 10, "column": 24 }, "end": { "line": 10, "column": 29 } },
+        "loc": { "start": { "line": 10, "column": 46 }, "end": { "line": 83, "column": 1 } },
+        "line": 10
+      },
+      "1": {
+        "name": "signIn",
+        "decl": { "start": { "line": 15, "column": 17 }, "end": { "line": 15, "column": 23 } },
+        "loc": { "start": { "line": 15, "column": 26 }, "end": { "line": 38, "column": 3 } },
+        "line": 15
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": { "start": { "line": 25, "column": 12 }, "end": { "line": 25, "column": 13 } },
+        "loc": { "start": { "line": 25, "column": 17 }, "end": { "line": 33, "column": 7 } },
+        "line": 25
+      },
+      "3": {
+        "name": "(anonymous_3)",
+        "decl": { "start": { "line": 34, "column": 13 }, "end": { "line": 34, "column": 14 } },
+        "loc": { "start": { "line": 34, "column": 22 }, "end": { "line": 37, "column": 7 } },
+        "line": 34
+      },
+      "4": {
+        "name": "(anonymous_4)",
+        "decl": { "start": { "line": 74, "column": 19 }, "end": { "line": 74, "column": 20 } },
+        "loc": { "start": { "line": 74, "column": 25 }, "end": { "line": 74, "column": 54 } },
+        "line": 74
+      }
+    },
+    "branchMap": {
+      "0": {
+        "loc": { "start": { "line": 16, "column": 4 }, "end": { "line": 19, "column": 5 } },
+        "type": "if",
+        "locations": [
+          { "start": { "line": 16, "column": 4 }, "end": { "line": 19, "column": 5 } },
+          { "start": {}, "end": {} }
+        ],
+        "line": 16
+      },
+      "1": {
+        "loc": { "start": { "line": 16, "column": 8 }, "end": { "line": 16, "column": 42 } },
+        "type": "binary-expr",
+        "locations": [
+          { "start": { "line": 16, "column": 8 }, "end": { "line": 16, "column": 23 } },
+          { "start": { "line": 16, "column": 27 }, "end": { "line": 16, "column": 42 } }
+        ],
+        "line": 16
+      },
+      "2": {
+        "loc": { "start": { "line": 26, "column": 8 }, "end": { "line": 32, "column": 9 } },
+        "type": "if",
+        "locations": [
+          { "start": { "line": 26, "column": 8 }, "end": { "line": 32, "column": 9 } },
+          { "start": { "line": 28, "column": 15 }, "end": { "line": 32, "column": 9 } }
+        ],
+        "line": 26
+      },
+      "3": {
+        "loc": { "start": { "line": 48, "column": 9 }, "end": { "line": 52, "column": 16 } },
+        "type": "cond-expr",
+        "locations": [
+          { "start": { "line": 49, "column": 10 }, "end": { "line": 51, "column": 17 } },
+          { "start": { "line": 52, "column": 12 }, "end": { "line": 52, "column": 16 } }
+        ],
+        "line": 48
+      }
+    },
+    "s": {
+      "0": 8,
+      "1": 8,
+      "2": 8,
+      "3": 2,
+      "4": 1,
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 0,
+      "9": 1,
+      "10": 1,
+      "11": 0,
+      "12": 1,
+      "13": 1,
+      "14": 8,
+      "15": 0,
+      "16": 2
+    },
+    "f": { "0": 8, "1": 2, "2": 1, "3": 1, "4": 0 },
+    "b": { "0": [1, 1], "1": [2, 2], "2": [0, 1], "3": [2, 6] },
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "06c0cf7dec9b5cf6a038dd0cdbc115b46fecae43"
+  },
+  "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Rewards.js": {
+    "path": "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Rewards.js",
+    "statementMap": {
+      "0": { "start": { "line": 6, "column": 2 }, "end": { "line": 13, "column": 4 } },
+      "1": { "start": { "line": 9, "column": 46 }, "end": { "line": 9, "column": 77 } }
+    },
+    "fnMap": {
+      "0": {
+        "name": "Rewards",
+        "decl": { "start": { "line": 5, "column": 24 }, "end": { "line": 5, "column": 31 } },
+        "loc": { "start": { "line": 5, "column": 48 }, "end": { "line": 14, "column": 1 } },
+        "line": 5
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": { "start": { "line": 9, "column": 40 }, "end": { "line": 9, "column": 41 } },
+        "loc": { "start": { "line": 9, "column": 46 }, "end": { "line": 9, "column": 77 } },
+        "line": 9
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 1, "1": 1 },
+    "f": { "0": 1, "1": 1 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "44346eb01e38be932357e777c5f5ce57f00f56e8"
+  },
+  "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Settings.js": {
+    "path": "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Settings.js",
+    "statementMap": {
+      "0": { "start": { "line": 6, "column": 2 }, "end": { "line": 13, "column": 4 } },
+      "1": { "start": { "line": 9, "column": 46 }, "end": { "line": 9, "column": 73 } }
+    },
+    "fnMap": {
+      "0": {
+        "name": "Settings",
+        "decl": { "start": { "line": 5, "column": 24 }, "end": { "line": 5, "column": 32 } },
+        "loc": { "start": { "line": 5, "column": 49 }, "end": { "line": 14, "column": 1 } },
+        "line": 5
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": { "start": { "line": 9, "column": 40 }, "end": { "line": 9, "column": 41 } },
+        "loc": { "start": { "line": 9, "column": 46 }, "end": { "line": 9, "column": 73 } },
+        "line": 9
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 2, "1": 1 },
+    "f": { "0": 2, "1": 1 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "238abad2f03eee7c1db707f602b212d086836dcf"
+  },
+  "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/SignUp.js": {
+    "path": "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/SignUp.js",
+    "statementMap": {
+      "0": { "start": { "line": 12, "column": 36 }, "end": { "line": 12, "column": 48 } },
+      "1": { "start": { "line": 13, "column": 34 }, "end": { "line": 13, "column": 46 } },
+      "2": { "start": { "line": 14, "column": 34 }, "end": { "line": 14, "column": 46 } },
+      "3": { "start": { "line": 15, "column": 34 }, "end": { "line": 15, "column": 46 } },
+      "4": { "start": { "line": 16, "column": 38 }, "end": { "line": 16, "column": 50 } },
+      "5": { "start": { "line": 17, "column": 28 }, "end": { "line": 17, "column": 40 } },
+      "6": { "start": { "line": 18, "column": 28 }, "end": { "line": 18, "column": 40 } },
+      "7": { "start": { "line": 20, "column": 4 }, "end": { "line": 20, "column": 25 } },
+      "8": { "start": { "line": 21, "column": 4 }, "end": { "line": 50, "column": 5 } },
+      "9": { "start": { "line": 29, "column": 6 }, "end": { "line": 29, "column": 42 } },
+      "10": { "start": { "line": 30, "column": 11 }, "end": { "line": 50, "column": 5 } },
+      "11": { "start": { "line": 31, "column": 6 }, "end": { "line": 31, "column": 41 } },
+      "12": { "start": { "line": 33, "column": 6 }, "end": { "line": 33, "column": 19 } },
+      "13": { "start": { "line": 34, "column": 6 }, "end": { "line": 34, "column": 23 } },
+      "14": { "start": { "line": 35, "column": 6 }, "end": { "line": 49, "column": 11 } },
+      "15": { "start": { "line": 44, "column": 10 }, "end": { "line": 44, "column": 44 } },
+      "16": { "start": { "line": 45, "column": 10 }, "end": { "line": 45, "column": 39 } },
+      "17": { "start": { "line": 48, "column": 10 }, "end": { "line": 48, "column": 36 } },
+      "18": { "start": { "line": 53, "column": 2 }, "end": { "line": 123, "column": 4 } },
+      "19": { "start": { "line": 109, "column": 25 }, "end": { "line": 109, "column": 33 } },
+      "20": { "start": { "line": 115, "column": 25 }, "end": { "line": 115, "column": 53 } },
+      "21": { "start": { "line": 126, "column": 15 }, "end": { "line": 171, "column": 2 } }
+    },
+    "fnMap": {
+      "0": {
+        "name": "SignUp",
+        "decl": { "start": { "line": 11, "column": 24 }, "end": { "line": 11, "column": 30 } },
+        "loc": { "start": { "line": 11, "column": 47 }, "end": { "line": 124, "column": 1 } },
+        "line": 11
+      },
+      "1": {
+        "name": "signUp",
+        "decl": { "start": { "line": 19, "column": 17 }, "end": { "line": 19, "column": 23 } },
+        "loc": { "start": { "line": 19, "column": 26 }, "end": { "line": 51, "column": 3 } },
+        "line": 19
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": { "start": { "line": 43, "column": 14 }, "end": { "line": 43, "column": 15 } },
+        "loc": { "start": { "line": 43, "column": 19 }, "end": { "line": 46, "column": 9 } },
+        "line": 43
+      },
+      "3": {
+        "name": "(anonymous_3)",
+        "decl": { "start": { "line": 47, "column": 15 }, "end": { "line": 47, "column": 16 } },
+        "loc": { "start": { "line": 47, "column": 22 }, "end": { "line": 49, "column": 9 } },
+        "line": 47
+      },
+      "4": {
+        "name": "(anonymous_4)",
+        "decl": { "start": { "line": 109, "column": 19 }, "end": { "line": 109, "column": 20 } },
+        "loc": { "start": { "line": 109, "column": 25 }, "end": { "line": 109, "column": 33 } },
+        "line": 109
+      },
+      "5": {
+        "name": "(anonymous_5)",
+        "decl": { "start": { "line": 115, "column": 19 }, "end": { "line": 115, "column": 20 } },
+        "loc": { "start": { "line": 115, "column": 25 }, "end": { "line": 115, "column": 53 } },
+        "line": 115
+      }
+    },
+    "branchMap": {
+      "0": {
+        "loc": { "start": { "line": 21, "column": 4 }, "end": { "line": 50, "column": 5 } },
+        "type": "if",
+        "locations": [
+          { "start": { "line": 21, "column": 4 }, "end": { "line": 50, "column": 5 } },
+          { "start": { "line": 30, "column": 11 }, "end": { "line": 50, "column": 5 } }
+        ],
+        "line": 21
+      },
+      "1": {
+        "loc": { "start": { "line": 22, "column": 6 }, "end": { "line": 27, "column": 18 } },
+        "type": "binary-expr",
+        "locations": [
+          { "start": { "line": 22, "column": 6 }, "end": { "line": 22, "column": 22 } },
+          { "start": { "line": 23, "column": 6 }, "end": { "line": 23, "column": 21 } },
+          { "start": { "line": 24, "column": 6 }, "end": { "line": 24, "column": 21 } },
+          { "start": { "line": 25, "column": 6 }, "end": { "line": 25, "column": 21 } },
+          { "start": { "line": 26, "column": 6 }, "end": { "line": 26, "column": 23 } },
+          { "start": { "line": 27, "column": 6 }, "end": { "line": 27, "column": 18 } }
+        ],
+        "line": 22
+      },
+      "2": {
+        "loc": { "start": { "line": 30, "column": 11 }, "end": { "line": 50, "column": 5 } },
+        "type": "if",
+        "locations": [
+          { "start": { "line": 30, "column": 11 }, "end": { "line": 50, "column": 5 } },
+          { "start": { "line": 32, "column": 11 }, "end": { "line": 50, "column": 5 } }
+        ],
+        "line": 30
+      },
+      "3": {
+        "loc": { "start": { "line": 61, "column": 9 }, "end": { "line": 61, "column": 87 } },
+        "type": "cond-expr",
+        "locations": [
+          { "start": { "line": 61, "column": 17 }, "end": { "line": 61, "column": 80 } },
+          { "start": { "line": 61, "column": 83 }, "end": { "line": 61, "column": 87 } }
+        ],
+        "line": 61
+      }
+    },
+    "s": {
+      "0": 8,
+      "1": 8,
+      "2": 8,
+      "3": 8,
+      "4": 8,
+      "5": 8,
+      "6": 8,
+      "7": 1,
+      "8": 1,
+      "9": 0,
+      "10": 1,
+      "11": 0,
+      "12": 1,
+      "13": 1,
+      "14": 1,
+      "15": 1,
+      "16": 1,
+      "17": 1,
+      "18": 8,
+      "19": 1,
+      "20": 0,
+      "21": 2
+    },
+    "f": { "0": 8, "1": 1, "2": 1, "3": 1, "4": 1, "5": 0 },
+    "b": { "0": [0, 1], "1": [1, 1, 1, 1, 1, 1], "2": [0, 1], "3": [0, 8] },
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "62bc36ea6d82fa54f8c012f095d8e3efe8349549"
+  },
+  "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Welcome.js": {
+    "path": "/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Welcome.js",
+    "statementMap": {
+      "0": { "start": { "line": 10, "column": 2 }, "end": { "line": 26, "column": 4 } },
+      "1": { "start": { "line": 18, "column": 85 }, "end": { "line": 18, "column": 113 } },
+      "2": { "start": { "line": 21, "column": 86 }, "end": { "line": 21, "column": 115 } },
+      "3": { "start": { "line": 29, "column": 15 }, "end": { "line": 64, "column": 2 } }
+    },
+    "fnMap": {
+      "0": {
+        "name": "Welcome",
+        "decl": { "start": { "line": 9, "column": 24 }, "end": { "line": 9, "column": 31 } },
+        "loc": { "start": { "line": 9, "column": 48 }, "end": { "line": 27, "column": 1 } },
+        "line": 9
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": { "start": { "line": 18, "column": 79 }, "end": { "line": 18, "column": 80 } },
+        "loc": { "start": { "line": 18, "column": 85 }, "end": { "line": 18, "column": 113 } },
+        "line": 18
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": { "start": { "line": 21, "column": 80 }, "end": { "line": 21, "column": 81 } },
+        "loc": { "start": { "line": 21, "column": 86 }, "end": { "line": 21, "column": 115 } },
+        "line": 21
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 3, "1": 1, "2": 1, "3": 2 },
+    "f": { "0": 3, "1": 1, "2": 1 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "096e0ee368e8aaef026872c6e878bc79782071de"
+  }
 }

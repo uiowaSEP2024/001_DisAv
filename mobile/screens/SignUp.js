@@ -151,8 +151,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   input: {
-    width: '100%',
+    width: '95%',
     marginBottom: 15,
+    borderRadius: 25, // Increase this value to make edges more rounded
     backgroundColor: 'rgba(255, 255, 255, 0.9)', // Slightly transparent white for the input background
   },
   button: {

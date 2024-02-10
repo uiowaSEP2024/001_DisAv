@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1707517015140" clover="3.2.0">
-  <project timestamp="1707517015140" name="All files">
-    <metrics statements="65" coveredstatements="56" conditionals="24" coveredconditionals="18" methods="25" coveredmethods="20" elements="114" coveredelements="94" complexity="0" loc="65" ncloc="65" packages="3" files="11" classes="11"/>
+<coverage generated="1707531890274" clover="3.2.0">
+  <project timestamp="1707531890274" name="All files">
+    <metrics statements="64" coveredstatements="58" conditionals="24" coveredconditionals="18" methods="25" coveredmethods="23" elements="113" coveredelements="99" complexity="0" loc="64" ncloc="64" packages="3" files="11" classes="11"/>
     <package name="mobile">
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="App.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/App.js">
@@ -26,12 +26,12 @@
       </file>
       <file name="DeviceDimensions.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/config/DeviceDimensions.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="3" count="3" type="stmt"/>
-        <line num="4" count="3" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
       </file>
     </package>
     <package name="mobile.screens">
-      <metrics statements="55" coveredstatements="46" conditionals="20" coveredconditionals="16" methods="23" coveredmethods="18"/>
+      <metrics statements="54" coveredstatements="48" conditionals="20" coveredconditionals="16" methods="23" coveredmethods="21"/>
       <file name="ForgotPassword.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/ForgotPassword.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="6" count="1" type="stmt"/>
@@ -62,8 +62,8 @@
         <line num="35" count="1" type="stmt"/>
         <line num="36" count="1" type="stmt"/>
         <line num="40" count="8" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="81" count="2" type="stmt"/>
+        <line num="74" count="0" type="stmt"/>
+        <line num="85" count="2" type="stmt"/>
       </file>
       <file name="Rewards.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Rewards.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
@@ -76,7 +76,7 @@
         <line num="9" count="1" type="stmt"/>
       </file>
       <file name="SignUp.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/SignUp.js">
-        <metrics statements="23" coveredstatements="20" conditionals="12" coveredconditionals="9" methods="6" coveredmethods="5"/>
+        <metrics statements="22" coveredstatements="19" conditionals="12" coveredconditionals="9" methods="6" coveredmethods="5"/>
         <line num="12" count="8" type="stmt"/>
         <line num="13" count="8" type="stmt"/>
         <line num="14" count="8" type="stmt"/>
@@ -95,18 +95,17 @@
         <line num="44" count="1" type="stmt"/>
         <line num="45" count="1" type="stmt"/>
         <line num="48" count="1" type="stmt"/>
-        <line num="52" count="8" type="stmt"/>
-        <line num="54" count="8" type="stmt"/>
-        <line num="110" count="1" type="stmt"/>
-        <line num="116" count="0" type="stmt"/>
-        <line num="127" count="2" type="stmt"/>
+        <line num="53" count="8" type="stmt"/>
+        <line num="109" count="1" type="stmt"/>
+        <line num="115" count="0" type="stmt"/>
+        <line num="126" count="2" type="stmt"/>
       </file>
       <file name="Welcome.js" path="/Users/bendesollar/School/SEP/001_DisAv/mobile/screens/Welcome.js">
-        <metrics statements="4" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="34" count="1" type="stmt"/>
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
       </file>
     </package>
   </project>
