@@ -41,6 +41,5 @@ describe('Signup', () => {
     fireEvent.submit(screen.getByTestId('signup-form'));
 
     await waitFor(() => expect(axios.post).toHaveBeenCalled());
-
   });
 });

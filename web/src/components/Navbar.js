@@ -11,7 +11,7 @@ const Navbar = () => {
           <button>Log In</button>
         </Link>
         <Link to="/signup">
-        <button>Sign Up</button>
+          <button>Sign Up</button>
         </Link>
       </div>
     </nav>

@@ -1,13 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import axios from 'axios';
 import Login from '../../screens/Login';
 
-// jest.mock('@react-navigation/native', () => ({
-//     ...jest.requireActual('@react-navigation/native'),
-//     useNavigation: () => ({
-//       navigate: jest.fn(),
-//     }),
-//   }));
+jest.mock('axios');
+
 jest.mock('@react-navigation/native', () => ({
   ...jest.requireActual('@react-navigation/native'),
   useNavigation: () => ({
@@ -15,29 +12,74 @@ jest.mock('@react-navigation/native', () => ({
   }),
 }));
 
+// Mock expo-constants
+jest.mock('expo-constants', () => ({
+  expoConfig: {
+    extra: {
+      dev: true, // Or false, depending on your testing needs
+    },
+    hostUri: 'http://192.168.0.113:3002',
+  },
+}));
+
 jest.mock('react-native/Libraries/Animated/src/Animated', () => 'Animated');
 
-beforeAll(() => {
-  jest.useFakeTimers();
-});
-
-afterAll(() => {
-  jest.useRealTimers();
-});
-
-afterEach(() => {
-  jest.clearAllMocks();
-  jest.useRealTimers(); // If you are using fake timers
-});
-
-describe('Login Screen', () => {
-  it('renders all expected elements', () => {
-    const { getByTestId, getByText } = render(<Login />);
-
-    // Assuming your Login screen has these elements
-    expect(getByTestId('email-input')).toBeTruthy();
-    expect(getByTestId('password-input')).toBeTruthy();
-    expect(getByText('Login')).toBeTruthy();
-    // Add more assertions as needed
+describe('Login', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+    axios.post.mockClear();
   });
+
+  afterEach(() => {
+    jest.useRealTimers();
+    jest.clearAllMocks();
+  });
+  it('renders the login form', () => {
+    const { getByTestId } = render(<Login />);
+
+    expect(getByTestId('userNameInput')).toBeTruthy();
+    expect(getByTestId('passwordInput')).toBeTruthy();
+    expect(getByTestId('loginButton')).toBeTruthy();
+  });
+
+  it('updates input fields and calls axios post on form submission', async () => {
+    const mockResponse = { data: { user: 'testUser' } };
+    axios.post.mockResolvedValue(mockResponse);
+
+    const { getByTestId } = render(<Login />);
+
+    // Simulate user typing
+    fireEvent.changeText(getByTestId('userNameInput'), 'John');
+    fireEvent.changeText(getByTestId('passwordInput'), '123456');
+
+    // Submit the form
+    fireEvent.press(getByTestId('loginButton'));
+
+    // Wait for the axios call to happen
+    await waitFor(() => expect(axios.post).toHaveBeenCalled());
+
+    // Check axios was called with correct arguments
+    expect(axios.post).toHaveBeenCalledWith('http://http:3002/auth/login', {
+      username: 'John',
+      password: '123456',
+    });
+
+    // Additional checks can be made here, for example:
+    // Verify navigation upon successful login
+
+    // - Check for error messages if login fails
+  });
+
+  it('displays an error message when login fails', async () => {
+    axios.post.mockRejectedValue(new Error('An error occurred during login.'));
+
+    const { getByTestId } = render(<Login />);
+
+    fireEvent.changeText(getByTestId('userNameInput'), 'John');
+    fireEvent.press(getByTestId('loginButton'));
+
+    await waitFor(() => expect(getByTestId('errorText')).toBeTruthy());
+  });
+
+  // You can add more tests here to cover other functionalities and edge cases
 });
