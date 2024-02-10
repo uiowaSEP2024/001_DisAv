@@ -5,10 +5,8 @@ import { useNavigate } from 'react-router-dom';
 // import 'react-toastify/dist/ReactToastify.css';
 import '../styles/signup.css';
 
-
-
 function Signup() {
-//   toast.configure();
+  //   toast.configure();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,29 +15,29 @@ function Signup() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3002/auth/register", {
-        firstname: firstname,
-        lastname: lastname,
-        username: username,
-        password: password,
-        email: email
-      })
-      .then(r => {
-        if (r.data.message === 'User already exists') {
+      await axios
+        .post('http://localhost:3002/auth/register', {
+          firstname: firstname,
+          lastname: lastname,
+          username: username,
+          password: password,
+          email: email,
+        })
+        .then(r => {
+          if (r.data.message === 'User already exists') {
             console.log('Username is already used');
-          // toast('Username is already used');
-
-        } else {
-          // toast('Account has been created successfully');
-          navigate('/'); // Redirect to home page
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+            // toast('Username is already used');
+          } else {
+            // toast('Account has been created successfully');
+            navigate('/'); // Redirect to home page
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     } catch (err) {
       console.error(err);
     }
@@ -48,11 +46,11 @@ function Signup() {
   return (
     <div className="signup">
       <form onSubmit={handleSubmit} data-testid="signup-form">
-        <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
-        <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-        <input type="text" placeholder="First Name" onChange={(e) => setFirstname(e.target.value)} />
-        <input type="text" placeholder="Last Name" onChange={(e) => setLastname(e.target.value)} />
+        <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)} />
+        <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
+        <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
+        <input type="text" placeholder="First Name" onChange={e => setFirstname(e.target.value)} />
+        <input type="text" placeholder="Last Name" onChange={e => setLastname(e.target.value)} />
         <button type="submit">Sign Up</button>
       </form>
     </div>

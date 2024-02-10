@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
-import { Text } from 'react-native-paper';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Image, StyleSheet } from 'react-native';
+import { Button, Text, TextInput } from 'react-native-paper';
+import logo from '../assets/logo.png'; // Make sure to use your actual logo path
+import { LinearGradient } from 'expo-linear-gradient';
 import { width, height } from '../config/DeviceDimensions';
-import TextField from '../components/TextField';
-import logo from '../assets/logo.png';
+// import TextField from '../components/TextField';
 import axios from 'axios';
 import { api } from '../config/Api';
-import LongBtn from '../components/LongBtn';
+// import LongBtn from '../components/LongBtn';
 export default function SignUp({ navigation }) {
-  const [firstname, setfirstname] = useState('');
-  const [lastname, setlastname] = useState('');
+  const [firstname, setFirstName] = useState('');
+  const [lastname, setLastName] = useState('');
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
@@ -49,90 +49,123 @@ export default function SignUp({ navigation }) {
         });
     }
   }
-  return (
-    <View style={styles.container}>
-      <ScrollView>
-        <View style={styles.row}>
-          <Image source={logo} style={styles.logo} />
-          <Text style={styles.title}>Sign Up</Text>
-        </View>
-        <Text style={styles.err}>{error}</Text>
-        <View style={styles.row2}>
-          <TextField title={'First name'} half={true} onChange={setfirstname} />
-          <TextField title={'Last name'} half={true} onChange={setlastname} />
-        </View>
-        <TextField title={'User name'} onChange={setUserName} />
-        <TextField testID="email-input" title={'Email'} onChange={setEmail} />
-        <TextField testID="password-input" title={'Password'} password={true} onChange={setPassword} />
-        <TextField title={'Re-Enter Password'} password={true} onChange={setRePassword} />
-        <LongBtn text={'Signh Up'} onClick={signUp} />
 
-        <TouchableOpacity style={styles.signup} onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.signupText}>Already have an account? Sign In!</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </View>
+  return (
+    <LinearGradient
+      colors={['#00008B', '#ADD8E6', '#008000']} // Dark blue, light blue, green
+      style={styles.gradient}
+    >
+      <View style={styles.container}>
+        <Image source={logo} style={styles.logo} />
+        <Text style={styles.title}>Create Account</Text>
+        {error ? <Text style={{ color: 'red', marginBottom: 10 }}>{error}</Text> : null}
+        <TextInput
+          testID="firstNameInput"
+          label="First Name"
+          style={styles.input}
+          mode="outlined"
+          onChangeText={setFirstName}
+        />
+        <TextInput
+          testID="lastNameInput"
+          label="Last Name"
+          style={styles.input}
+          mode="outlined"
+          onChangeText={setLastName}
+        />
+        <TextInput
+          testID="userNameInput"
+          label="User Name"
+          style={styles.input}
+          mode="outlined"
+          onChangeText={setUserName}
+        />
+        <TextInput
+          testID="emailInput"
+          label="Email"
+          style={styles.input}
+          mode="outlined"
+          onChangeText={setEmail}
+        />
+        <TextInput
+          testID="passwordInput"
+          label="Password"
+          secureTextEntry
+          style={styles.input}
+          mode="outlined"
+          onChangeText={setPassword}
+        />
+        <TextInput
+          testID="rePasswordInput"
+          label="Re-Enter Password"
+          secureTextEntry
+          style={styles.input}
+          mode="outlined"
+          onChangeText={setRePassword}
+        />
+        <Button
+          testID="signUpButton"
+          mode="contained"
+          onPress={() => signUp()}
+          style={styles.button}
+        >
+          Sign Up
+        </Button>
+        <Button
+          onPress={() => navigation.navigate('Login')}
+          style={styles.textButton}
+          labelStyle={styles.textButtonLabel}
+        >
+          Already have an account? Sign In!
+        </Button>
+      </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  gradient: {
     flex: 1,
-    backgroundColor: 'rgba(14,36,183,0.71)',
+  },
+  container: {
+    flexGrow: 1,
+    justifyContent: 'center',
     alignItems: 'center',
+    padding: 20,
   },
-  signupText: {
-    color: '#ffff',
-    fontStyle: 'italic',
-    marginTop: height * 0.02,
+  logoContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 40,
   },
-  signup: {
-    alignSelf: 'center',
-  },
-  row: {
-    flexDirection: 'row',
-    marginBottom: height * 0.05,
-  },
-  row2: {
-    flexDirection: 'row',
+  logo: {
+    width: width * 0.3, // 30% of screen width
+    height: height * 0.15, // 15% of screen height
+    resizeMode: 'contain',
   },
   title: {
-    fontSize: 40,
-    color: '#c2bdbd',
+    fontSize: 24,
     fontWeight: 'bold',
-    marginTop: height * 0.1,
-    alignSelf: 'center',
-    marginLeft: width * 0.01,
+    color: '#fff', // Assuming a light color will stand out on the gradient background
+    marginBottom: 20,
+    textAlign: 'center',
   },
-  btn: {
-    marginTop: height * 0.05,
-    height: height * 0.14,
-    width: width * 0.45,
-    alignSelf: 'center',
-    alignContent: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#061d4d',
+  input: {
+    width: '100%',
+    marginBottom: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Slightly transparent white for the input background
   },
-  label: {
-    fontSize: 28,
-    color: '#c2bdbd',
-    fontWeight: 'bold',
-    marginTop: -height * 0.1,
-    marginLeft: width * 0.01,
+  button: {
+    marginTop: 10,
+    width: '100%',
+    paddingVertical: 8,
+    backgroundColor: '#6200ee', // Or any color that suits your theme
   },
-
-  logo: {
-    height: height * 0.3,
-    width: width * 0.17,
-    marginTop: height * 0.1,
-    alignSelf: 'center',
+  textButton: {
+    marginTop: 15,
+    backgroundColor: 'transparent',
   },
-  err: {
-    color: 'rgba(239,12,12,0.88)',
-    fontSize: 20,
-    marginTop: -20,
-    alignSelf: 'center',
-    fontWeight: 'bold',
-    fontStyle: 'italic',
+  textButtonLabel: {
+    color: '#6200ee', // This should match your theme's primary color
   },
 });

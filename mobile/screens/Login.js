@@ -1,96 +1,131 @@
-import { View, StyleSheet, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
-import logo from '../assets/logo.png';
+import React, { useState } from 'react';
+import { ScrollView, Image, StyleSheet } from 'react-native';
+import { Button, Text, TextInput } from 'react-native-paper';
+import logo from '../assets/logo.png'; // Adjust the path as necessary
+import { LinearGradient } from 'expo-linear-gradient';
 import { width, height } from '../config/DeviceDimensions';
-import TextField from '../components/TextField';
-import LongBtn from '../components/LongBtn';
 import axios from 'axios';
-import { useState } from 'react';
 import { api } from '../config/Api';
-// import{useCookies} from "react-cookie"
 
 export default function Login({ navigation }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
-  // const [cookies,setCookie] = useCookies(["access-token","username"])
+
   async function signIn() {
+    if (userName === '' || password === '') {
+      setErr('All fields are required');
+      return;
+    }
     await axios
-      .post('http://' + api + `/auth/login`, {
+      .post(`http://${api}/auth/login`, {
         username: userName,
         password,
       })
       .then(r => {
-        const hasOwnProperty = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
-
-        if (hasOwnProperty(r.data, 'message')) {
+        if (r.data.message) {
           setErr(r.data.message);
         } else {
-          // setCookie("access-token",r.data.token)
-          // setCookie("username",r.data.username)
           console.log(r.data);
-          // window.localStorage.setItem("userId",r.data.userId)
           navigation.popToTop();
           navigation.replace('Home', { user: r.data.user });
         }
       })
-      .catch(err => {
-        console.log('Error', err);
+      .catch(error => {
+        console.log('Error', error);
+        setErr('An error occurred during login.');
       });
   }
+
   return (
-    <View style={styles.container}>
-      <ScrollView>
+    <LinearGradient
+      colors={['#00008B', '#ADD8E6', '#008000']} // Dark blue, light blue, green
+      style={styles.gradient}
+    >
+      <ScrollView contentContainerStyle={styles.container}>
         <Image source={logo} style={styles.logo} />
         <Text style={styles.title}>Sign In</Text>
-        <Text style={styles.err}>{err}</Text>
-        <TextField testID="username" title={'User Name'} onChange={setUserName} />
-        <TextField testID="password-input" title={'Password'} password={true} onChange={setPassword} />
-        <View style={styles.btn}>
-          <LongBtn text="Sign In" onClick={signIn} />
-        </View>
-        <TouchableOpacity style={styles.signup} onPress={() => navigation.navigate('SignUp')}>
-          <Text style={styles.signupText}>Dont have an account? Sign up!</Text>
-        </TouchableOpacity>
+        {err ? (
+          <Text testID="errorText" style={styles.error}>
+            {err}
+          </Text>
+        ) : null}
+        <TextInput
+          label="User Name"
+          testID="userNameInput"
+          value={userName}
+          onChangeText={setUserName}
+          style={styles.input}
+          mode="outlined"
+        />
+        <TextInput
+          label="Password"
+          testID="passwordInput"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          style={styles.input}
+          mode="outlined"
+        />
+        <Button testID="loginButton" mode="contained" onPress={signIn} style={styles.button}>
+          Login
+        </Button>
+        <Button
+          onPress={() => navigation.navigate('SignUp')}
+          style={styles.textButton}
+          labelStyle={styles.textButtonLabel}
+        >
+          Dont have an account? Sign up!
+        </Button>
       </ScrollView>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  gradient: {
     flex: 1,
-    backgroundColor: 'rgba(14,36,183,0.71)',
+  },
+  container: {
+    flexGrow: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-  },
-  err: {
-    color: 'rgba(245,237,237,0.81)',
-    fontSize: 20,
-    marginTop: -10,
-    alignSelf: 'center',
-  },
-  signupText: {
-    color: '#ffff',
-    fontStyle: 'italic',
-  },
-  title: {
-    fontSize: 30,
-    color: '#c6bce0',
-    fontWeight: 'bold',
-    marginTop: height * 0.05,
-    marginBottom: height * 0.05,
-    alignSelf: 'center',
-  },
-  signup: {
-    alignSelf: 'center',
-  },
-  btn: {
-    alignSelf: 'center',
-    marginTop: height * 0.1,
+    padding: 20,
   },
   logo: {
-    height: height * 0.55,
-    width: width * 0.35,
-    marginTop: height * 0.3,
-    alignSelf: 'center',
+    width: width * 0.3, // 30% of screen width
+    height: height * 0.15, // 15% of screen height
+    resizeMode: 'contain',
+    marginBottom: 40,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  input: {
+    width: '100%',
+    marginBottom: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  },
+  button: {
+    marginTop: 10,
+    width: '100%',
+    paddingVertical: 8,
+    backgroundColor: '#6200ee',
+  },
+  textButton: {
+    marginTop: 15,
+    backgroundColor: 'transparent',
+  },
+  textButtonLabel: {
+    color: '#6200ee',
+  },
+  error: {
+    color: 'red',
+    marginBottom: 10,
+    textAlign: 'center',
   },
 });

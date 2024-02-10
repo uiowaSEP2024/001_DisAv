@@ -12,12 +12,11 @@ jest.mock('@react-navigation/native', () => {
   };
 });
 
-afterEach(() => {
-  jest.clearAllMocks();
-  jest.useRealTimers(); // If you are using fake timers
-});
-
 describe('Settings Screen', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.useRealTimers(); // If you are using fake timers
+  });
   it('renders correctly', () => {
     const { getByText } = render(<Settings />);
     expect(getByText('Settings Screen')).toBeTruthy();

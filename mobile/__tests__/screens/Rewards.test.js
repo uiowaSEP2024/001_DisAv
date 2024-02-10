@@ -11,12 +11,11 @@ jest.mock('@react-navigation/native', () => {
   };
 });
 
-afterEach(() => {
-  jest.clearAllMocks();
-  jest.useRealTimers(); // If you are using fake timers
-});
-
 describe('Rewards Screen', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.useRealTimers(); // If you are using fake timers
+  });
   it('renders correctly and can navigate to Settings', () => {
     const mockNavigate = jest.fn();
     const { getByText } = render(<Rewards navigation={{ navigate: mockNavigate }} />);

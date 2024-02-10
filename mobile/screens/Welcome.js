@@ -1,42 +1,59 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
-import logo from '../assets/logo.png';
-import * as React from 'react';
-import LongBtn from '../components/LongBtn';
+import React from 'react';
+import { Image, StyleSheet, View, ScrollView } from 'react-native';
+import { Button, Text } from 'react-native-paper';
+
+import logo from '../assets/logo.png'; // Adjust the path as necessary
+import { LinearGradient } from 'expo-linear-gradient';
 import { width, height } from '../config/DeviceDimensions';
 
 export default function Welcome({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Infinite Focus</Text>
-      <Image source={logo} style={styles.logo} />
-      <View style={styles.btns}>
-        <LongBtn text={'Sign In'} onClick={() => navigation.navigate('Login')} />
-        <LongBtn text={'Create an account'} onClick={() => navigation.navigate('SignUp')} />
-      </View>
-    </View>
+    <LinearGradient
+      colors={['#00008B', '#ADD8E6', '#008000']} // Dark blue, light blue, green
+      style={styles.gradient}
+    >
+      <ScrollView contentContainerStyle={styles.container}>
+        <Image source={logo} style={styles.logo} />
+        <Text style={styles.title}>Infinite Focus</Text>
+        <View style={styles.btns}>
+          <Button text={'Sign In'} onClick={() => navigation.navigate('Login')} />
+          <Button text={'Create an account'} onClick={() => navigation.navigate('SignUp')} />
+        </View>
+      </ScrollView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  gradient: {
     flex: 1,
-    backgroundColor: 'rgba(14,36,183,0.71)',
-    alignItems: 'center',
+  },
+  container: {
+    flexGrow: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
   },
   logo: {
-    height: height * 0.8,
-    width: width * 0.5,
-    marginTop: height * 0.2,
-    marginBottom: height * 0.2,
+    width: width * 0.3, // Adjusted to match Login.js
+    height: height * 0.15, // Adjusted to match Login.js
+    resizeMode: 'contain',
+    marginBottom: 40,
   },
   title: {
-    fontSize: 30,
-    color: '#c6bce0',
+    fontSize: 24, // Adjusted to match Login.js
     fontWeight: 'bold',
-    marginBottom: -30,
+    color: '#fff',
+    marginBottom: 20,
+    textAlign: 'center',
   },
   btns: {
-    marginTop: -20,
+    width: '100%', // Ensure buttons are full width
+    alignItems: 'center', // Center buttons horizontally
+  },
+  gif: {
+    width: width * 0.8, // 80% of screen width
+    height: height * 0.3, // 30% of screen height
+    marginTop: 20,
   },
 });
