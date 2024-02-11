@@ -1,9 +1,10 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Button, Title } from 'react-native-paper';
+import { useSession } from '../context/SessionContext';
 
-export default function Home({ navigation, route }) {
-  const { user } = route.params;
+export default function Home({ navigation }) {
+  const { user } = useSession();
   console.log('user', user);
   return (
     <View style={{ flex: 1, justifyContent: 'center', padding: 16 }}>

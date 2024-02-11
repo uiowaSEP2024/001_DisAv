@@ -6,11 +6,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { width, height } from '../config/DeviceDimensions';
 import axios from 'axios';
 import { api } from '../config/Api';
+import { useSession } from '../context/SessionContext';
 
 export default function Login({ navigation }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
+  const { login } = useSession();
 
   async function signIn() {
     if (userName === '' || password === '') {
@@ -28,7 +30,8 @@ export default function Login({ navigation }) {
         } else {
           console.log(r.data);
           navigation.popToTop();
-          navigation.replace('Home', { user: r.data.user });
+          login(r.data.user);
+          navigation.navigate('Home');
         }
       })
       .catch(error => {
