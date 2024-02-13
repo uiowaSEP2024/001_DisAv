@@ -7,7 +7,7 @@ export default function Rewards({ navigation }) {
   const { user } = useSession();
   console.log('user', user);
   return (
-    <View style={{ flex: 1, justifyContent: 'center', padding: 16 }}>
+    <View style={{ flex: 1, justifyContent: 'center', padding: 16 }} testID="Rewards">
       <Title>Rewards Screen</Title>
       <Button mode="contained" onPress={() => navigation.navigate('Settings')}>
         Go to Settings

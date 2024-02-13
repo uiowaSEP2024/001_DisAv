@@ -12,6 +12,14 @@ jest.mock('@react-navigation/native', () => {
   };
 });
 
+// Mock the useSession hook before your describe block
+jest.mock('../../context/SessionContext', () => ({
+  useSession: () => ({
+    login: jest.fn().mockImplementation(() => Promise.resolve(true)), // Mock implementation of login
+    // Add other functions or values returned by useSession if necessary
+  }),
+}));
+
 describe('Settings Screen', () => {
   afterEach(() => {
     jest.clearAllMocks();

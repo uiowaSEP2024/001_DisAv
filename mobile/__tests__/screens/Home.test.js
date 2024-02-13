@@ -2,6 +2,25 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import Home from '../../screens/Home';
 
+jest.mock('@react-navigation/native', () => {
+  return {
+    ...jest.requireActual('@react-navigation/native'),
+    useNavigation: () => ({
+      navigate: jest.fn(),
+      // Add any other navigation functions that your tests rely on
+    }),
+    // Mock any other hooks or functions as needed
+  };
+});
+
+// Mock the useSession hook before your describe block
+jest.mock('../../context/SessionContext', () => ({
+  useSession: () => ({
+    login: jest.fn().mockImplementation(() => Promise.resolve(true)), // Mock implementation of login
+    // Add other functions or values returned by useSession if necessary
+  }),
+}));
+
 // Mock navigation and route props
 const mockNavigation = {
   navigate: jest.fn(),

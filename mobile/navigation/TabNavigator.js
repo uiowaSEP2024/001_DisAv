@@ -9,25 +9,30 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => (
   <Tab.Navigator
-    screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused, color, size }) => {
+    initialRouteName="Home"
+    screenOptions={{
+      tabBarIcon: ({ route, focused, color, size }) => {
         let iconName;
+        let testID;
 
         if (route.name === 'Home') {
           iconName = focused ? 'home' : 'home';
+          testID = 'homeIcon'; // Set testID for Home
         } else if (route.name === 'Rewards') {
           iconName = focused ? 'card-giftcard' : 'auto-awesome';
+          testID = 'card-giftcardIcon'; // Set testID for Rewards
         } else if (route.name === 'Settings') {
           iconName = focused ? 'settings' : 'settings-applications';
+          testID = 'settingsIcon'; // Set testID for Settings
         }
 
         // You can return any component that you like here!
-        return <MaterialIcons name={iconName} size={size} color={color} />;
+        // Include the testID prop when returning the MaterialIcons component
+        return <MaterialIcons name={iconName} size={size} color={color} testID={testID} />;
       },
-    })}
-    tabBarOptions={{
-      activeTintColor: 'tomato',
-      inactiveTintColor: 'gray',
+      tabBarActiveTintColor: 'tomato',
+      tabBarInactiveTintColor: 'gray',
+      tabBarStyle: [{ display: 'flex' }, null], // Moved from tabBarOptions
     }}
   >
     <Tab.Screen name="Home" component={Home} />

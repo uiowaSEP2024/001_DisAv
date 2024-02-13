@@ -7,7 +7,7 @@ export default function Settings({ navigation }) {
   const { user } = useSession();
   console.log('user', user);
   return (
-    <View style={{ flex: 1, justifyContent: 'center', padding: 16 }}>
+    <View style={{ flex: 1, justifyContent: 'center', padding: 16 }} testID="Settings">
       <Title>Settings Screen</Title>
       <Button mode="contained" onPress={() => navigation.navigate('Home')}>
         Go to Home

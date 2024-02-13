@@ -20,6 +20,14 @@ jest.mock('expo-constants', () => ({
   },
 }));
 
+// Mock the useSession hook before your describe block
+jest.mock('../../context/SessionContext', () => ({
+  useSession: () => ({
+    login: jest.fn().mockImplementation(() => Promise.resolve(true)), // Mock implementation of login
+    // Add other functions or values returned by useSession if necessary
+  }),
+}));
+
 jest.mock('react-native/Libraries/Animated/src/Animated', () => 'Animated');
 
 jest.mock('axios');

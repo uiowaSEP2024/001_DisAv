@@ -45,7 +45,7 @@ export default function Login({ navigation }) {
       colors={['#00008B', '#ADD8E6', '#008000']} // Dark blue, light blue, green
       style={styles.gradient}
     >
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView contentContainerStyle={styles.container} testID="Login">
         <Image source={logo} style={styles.logo} />
         <Text style={styles.title}>Sign In</Text>
         {err ? (
