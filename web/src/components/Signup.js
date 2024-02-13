@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-// import { toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/signup.css';
 
 
 
 function Signup() {
-//   toast.configure();
+  toast.configure();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,10 +30,10 @@ function Signup() {
       .then(r => {
         if (r.data.message === 'User already exists') {
             console.log('Username is already used');
-          // toast('Username is already used');
+          toast.error('Username is already used');
 
         } else {
-          // toast('Account has been created successfully');
+          toast.success('Account has been created successfully');
           navigate('/'); // Redirect to home page
         }
       })
