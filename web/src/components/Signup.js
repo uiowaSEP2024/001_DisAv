@@ -27,19 +27,19 @@ function Signup() {
         password: password,
         email: email
       })
-      .then(r => {
-        if (r.data.message === 'User already exists') {
+        .then(r => {
+          if (r.data.message === 'User already exists') {
             console.log('Username is already used');
-          toast.error('Username is already used');
+            toast.error('Username is already used');
 
-        } else {
-          toast.success('Account has been created successfully');
-          navigate('/'); // Redirect to home page
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+          } else {
+            toast.success('Account has been created successfully');
+            navigate('/dashboard'); // Redirect to home page
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     } catch (err) {
       console.error(err);
     }

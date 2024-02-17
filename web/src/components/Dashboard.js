@@ -15,6 +15,10 @@ const Dashboard = () => {
           <p>Username: {user.username}</p>
           <p>First name: {user.firstname}</p>
           <p>Last name: {user.lastname}</p>
+          <p>Email: {user.email}</p>
+          {user.preferredTasks && user.preferredTasks.map((task, index) => (
+            <p key={index}>{task}</p>
+          ))}
           {/* Add more user details as needed */}
         </div>
       )}

@@ -1,34 +1,43 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/login.css';
 
 const Login = () => {
+  toast.configure();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleSubmit = async event => {
     event.preventDefault();
-
-    axios
-      .post('http://localhost:3002/auth/login', {
+    try {
+      await axios.post('http://localhost:3002/auth/login', {
         username: username,
         password: password,
       })
-      .then(response => {
-        // Store the token in localStorage
-        localStorage.setItem('token', response.data.token);
-        // Store user information in session storage
-        sessionStorage.setItem('user', JSON.stringify(response.data.user));
-        // Redirect to the dashboard using navigate
-        navigate('/dashboard', { state: { user: response.data.user } });
-        console.log('login response:', response.data);
-      })
-      .catch(error => {
-        console.error('Login error:', error.response || error.message);
-        // Handle login error (e.g., show an error message to the user)
-      });
+        .then(response => {
+          if (response.data.message === 'Invalid username or password') {
+            toast.error('Invalid username or password');
+            return;
+          }
+          else {
+            toast.success('Login successful');
+            // Store the token in localStorage
+            localStorage.setItem('token', response.data.token);
+            // Store user information in session storage
+            sessionStorage.setItem('user', JSON.stringify(response.data.user));
+            navigate('/dashboard', { state: { user: response.data.user } });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
