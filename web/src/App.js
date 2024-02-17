@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
+import { AuthContext } from './components/AuthContext';
 import './App.css';
 import Homepage from './components/Homepage';
 import Login from './components/Login';
@@ -8,20 +9,12 @@ import Dashboard from './components/Dashboard';
 import Signup from './components/Signup';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Check if user is logged in when the component mounts
-    const user = sessionStorage.getItem('user');
-    setIsLoggedIn(!!user);
-  }, []);
-
   const handleLogout = () => {
-    // Clear user session
-    sessionStorage.removeItem('user');
-    setIsLoggedIn(false);
-    navigate('/'); // Redirect to home page after logout
+    logout();
+    navigate('/');
   };
 
   return (
