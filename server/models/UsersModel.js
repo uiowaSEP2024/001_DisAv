@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
   completionRate: { type: Number, default: 0 },
   accountabilityPartners: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
   phoneNumber: { type: String, required: false },
-  preferredTasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'tasks' }],
+  preferredTasks: { type: Map, of: String },
 });
 
 export const UserModel = mongoose.model('users', UserSchema);
