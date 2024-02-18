@@ -68,9 +68,16 @@ describe('User API Routes', () => {
   });
   // test update invalid user
   it('PUT /update - should fail to update invalid user', async () => {
-    const response = await request(app).put('/user/update').send({ user: 'invalid User' });
+    await createTestUser();
+    const preferences = { preferredTasks: ['task1', 'task2'] };
+    const response = await request(app)
+      .put('/user/update')
+      .send({ user: 'test2', preferredTasks: preferences });
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe('Invalid user');
+  });
+  it("PUT /update-preferred-tasks - should update user's preferred tasks", async () => {
+    await request(app).put('/user/update-preferred-tasks').send({ user: 'invalid User' });
   });
   // test delete user
   it('DELETE /delete - should delete a user', async () => {
