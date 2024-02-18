@@ -48,9 +48,9 @@ const Preference = () => {
                 {Object.keys(preferredTasks).map((preference) => (
                     <li key={preference}>
                         <div className="preference-item">
-                            <span>{preference.charAt(0).toUpperCase() + preference.slice(1)}</span>
-                            <label className="switch">
+                            <label htmlFor={preference}>{preference.charAt(0).toUpperCase() + preference.slice(1)}</label>                            <label className="switch">
                                 <input
+                                    id={preference}
                                     type="checkbox"
                                     checked={preferredTasks[preference]}
                                     onChange={() => handleToggle(preference)}
