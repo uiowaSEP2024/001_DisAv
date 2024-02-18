@@ -4,7 +4,7 @@ import { Button, Dialog, Portal, Checkbox } from 'react-native-paper';
 import axios from 'axios';
 import { api } from '../config/Api';
 
-export default function Home({ navigation, route }) {
+export default function Home({ route }) {
   const { user } = route.params;
   console.log('user', user);
   const [welcomeVisible, setWelcomeVisible] = useState(true);
@@ -32,8 +32,8 @@ export default function Home({ navigation, route }) {
         preferredTasks: checkedState,
       })
       .then(r => {
+        console.log(r.data.message);
         setTaskVisible(false);
-        console.log('HELLLOSEKFNKJSDNFLKDSNKLDSNFK');
       })
       .catch(error => {
         console.log('Error', error);
@@ -60,7 +60,9 @@ export default function Home({ navigation, route }) {
       <Dialog visible={taskVisible} onDismiss={() => setTaskVisible(false)}>
         <Dialog.Title>Task Type</Dialog.Title>
         <Dialog.Content>
-          <Text variant="bodyMedium">What type of task would you like to do?</Text>
+          <Text variant="bodyMedium" testID="task-question">
+            What type of task would you like to do?
+          </Text>
           {Object.entries(checkedState).map(([label, isChecked]) => (
             <Checkbox.Item
               key={label}
