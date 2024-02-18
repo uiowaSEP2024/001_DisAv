@@ -1,6 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import SignUpScreen from '../../screens/SignUp';
+import axios from 'axios';
 
 jest.mock('@react-navigation/native', () => ({
   ...jest.requireActual('@react-navigation/native'),
@@ -9,28 +10,53 @@ jest.mock('@react-navigation/native', () => ({
   }),
 }));
 
+// Mock expo-constants
+jest.mock('expo-constants', () => ({
+  expoConfig: {
+    extra: {
+      dev: true, // Or false, depending on your testing needs
+    },
+    hostUri: 'http://192.168.0.113:3002',
+  },
+}));
+
 jest.mock('react-native/Libraries/Animated/src/Animated', () => 'Animated');
 
-beforeAll(() => {
-  jest.useFakeTimers();
-});
-
-afterAll(() => {
-  jest.useRealTimers();
-});
-
-afterEach(() => {
-  jest.clearAllMocks();
-  jest.useRealTimers(); // If you are using fake timers
-});
+jest.mock('axios');
 
 describe('SignUp Screen', () => {
-  it('allows the user to sign up', () => {
-    const { getByText, getByTestId } = render(<SignUpScreen />);
-    // Correctly target the inputs by their testID and change their text
-    fireEvent.changeText(getByTestId('email-input'), 'john@example.com');
-    fireEvent.changeText(getByTestId('password-input'), 'password');
-    fireEvent.press(getByText('Sign Up'));
-    // Assert something about the sign-up process
+  beforeEach(() => {
+    jest.useFakeTimers();
+    axios.post.mockClear();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+    jest.clearAllMocks();
+  });
+
+  it('successfully signs up a user', async () => {
+    axios.post.mockResolvedValue({ data: { message: 'User successfully created' } });
+
+    const { getByTestId } = render(<SignUpScreen />);
+
+    fireEvent.changeText(getByTestId('firstNameInput'), 'John');
+    fireEvent.changeText(getByTestId('lastNameInput'), 'Doe');
+    fireEvent.changeText(getByTestId('userNameInput'), 'johndoe');
+    fireEvent.changeText(getByTestId('emailInput'), 'john@example.com');
+    fireEvent.changeText(getByTestId('passwordInput'), 'password');
+    fireEvent.changeText(getByTestId('rePasswordInput'), 'password');
+
+    fireEvent.press(getByTestId('signUpButton'));
+
+    await waitFor(() => {
+      expect(axios.post).toHaveBeenCalledWith('http://http:3002/auth/register', {
+        firstname: 'John',
+        lastname: 'Doe',
+        username: 'johndoe',
+        email: 'john@example.com',
+        password: 'password',
+      });
+    });
   });
 });

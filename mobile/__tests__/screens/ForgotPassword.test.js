@@ -10,12 +10,11 @@ jest.mock('@react-navigation/native', () => ({
   }),
 }));
 
-afterEach(() => {
-  jest.clearAllMocks();
-  jest.useRealTimers(); // If you are using fake timers
-});
-
 describe('ForgotPassword Screen', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.useRealTimers(); // If you are using fake timers
+  });
   it('renders correctly and can navigate to Login', () => {
     const mockNavigate = jest.fn();
     const { getByText } = render(<ForgotPassword navigation={{ navigate: mockNavigate }} />);

@@ -1,62 +1,131 @@
 import React, { useState } from 'react';
-import { ScrollView, TouchableOpacity, Text } from 'react-native';
-import { TextInput, Button, useTheme } from 'react-native-paper';
+import { ScrollView, Image, StyleSheet } from 'react-native';
+import { Button, Text, TextInput } from 'react-native-paper';
+import logo from '../assets/logo.png'; // Adjust the path as necessary
+import { LinearGradient } from 'expo-linear-gradient';
+import { width, height } from '../config/DeviceDimensions';
+import axios from 'axios';
+import { api } from '../config/Api';
 
 export default function Login({ navigation }) {
-  const theme = useTheme();
-  const styles = {
-    container: {
-      flexGrow: 1,
-      justifyContent: 'center',
-      padding: 16,
-      backgroundColor: theme.colors.background,
-    },
-    textInput: {
-      marginTop: 8,
-      backgroundColor: theme.colors.surface,
-    },
-    button: {
-      marginTop: 16,
-    },
-    signUpLink: {
-      marginTop: 16,
-      textAlign: 'center',
-      color: theme.colors.primary,
-    },
-  };
-
-  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [err, setErr] = useState('');
 
-  const handleLogin = () => {
-    // Implement your login logic here
-  };
+  async function signIn() {
+    if (userName === '' || password === '') {
+      setErr('All fields are required');
+      return;
+    }
+    await axios
+      .post(`http://${api}/auth/login`, {
+        username: userName,
+        password,
+      })
+      .then(r => {
+        if (r.data.message) {
+          setErr(r.data.message);
+        } else {
+          console.log(r.data);
+          navigation.popToTop();
+          navigation.replace('Home', { user: r.data.user });
+        }
+      })
+      .catch(error => {
+        console.log('Error', error);
+        setErr('An error occurred during login.');
+      });
+  }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <TextInput
-        label="Email"
-        testID="email-input"
-        value={email}
-        onChangeText={setEmail}
-        mode="outlined"
-        style={styles.textInput}
-      />
-      <TextInput
-        label="Password"
-        testID="password-input"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        mode="outlined"
-        style={styles.textInput}
-      />
-      <Button mode="contained" onPress={handleLogin} style={styles.button}>
-        Login
-      </Button>
-      <TouchableOpacity onPress={() => navigation.navigate('Login')} style={{ marginTop: 16 }}>
-        <Text style={styles.loginLink}>Already have an account? Login</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    <LinearGradient
+      colors={['#00008B', '#ADD8E6', '#008000']} // Dark blue, light blue, green
+      style={styles.gradient}
+    >
+      <ScrollView contentContainerStyle={styles.container}>
+        <Image source={logo} style={styles.logo} />
+        <Text style={styles.title}>Sign In</Text>
+        {err ? (
+          <Text testID="errorText" style={styles.error}>
+            {err}
+          </Text>
+        ) : null}
+        <TextInput
+          label="User Name"
+          testID="userNameInput"
+          value={userName}
+          onChangeText={setUserName}
+          style={styles.input}
+          mode="outlined"
+        />
+        <TextInput
+          label="Password"
+          testID="passwordInput"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          style={styles.input}
+          mode="outlined"
+        />
+        <Button testID="loginButton" mode="contained" onPress={signIn} style={styles.button}>
+          Login
+        </Button>
+        <Button
+          onPress={() => navigation.navigate('SignUp')}
+          style={styles.textButton}
+          labelStyle={styles.textButtonLabel}
+        >
+          Dont have an account? Sign up!
+        </Button>
+      </ScrollView>
+    </LinearGradient>
   );
 }
+
+const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
+  container: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  logo: {
+    width: width * 0.3, // 30% of screen width
+    height: height * 0.15, // 15% of screen height
+    resizeMode: 'contain',
+    marginBottom: 40,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  input: {
+    width: '100%',
+    marginBottom: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  },
+  button: {
+    marginTop: 10,
+    width: '100%',
+    paddingVertical: 8,
+    backgroundColor: '#6200ee',
+  },
+  textButton: {
+    marginTop: 15,
+    backgroundColor: 'transparent',
+  },
+  textButtonLabel: {
+    color: '#6200ee',
+  },
+  error: {
+    color: 'red',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+});

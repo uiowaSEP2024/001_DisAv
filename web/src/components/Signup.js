@@ -5,8 +5,6 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/signup.css';
 
-
-
 function Signup() {
   toast.configure();
   const [username, setUsername] = useState('');
@@ -17,7 +15,7 @@ function Signup() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     try {
       await axios.post("http://localhost:3002/auth/register", {
@@ -48,11 +46,11 @@ function Signup() {
   return (
     <div className="signup">
       <form onSubmit={handleSubmit} data-testid="signup-form">
-        <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
-        <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-        <input type="text" placeholder="First Name" onChange={(e) => setFirstname(e.target.value)} />
-        <input type="text" placeholder="Last Name" onChange={(e) => setLastname(e.target.value)} />
+        <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)} />
+        <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
+        <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
+        <input type="text" placeholder="First Name" onChange={e => setFirstname(e.target.value)} />
+        <input type="text" placeholder="Last Name" onChange={e => setLastname(e.target.value)} />
         <button type="submit">Sign Up</button>
       </form>
     </div>

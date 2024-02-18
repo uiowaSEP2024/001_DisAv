@@ -47,3 +47,7 @@ mobile/coverage
 SEPvenv/
 /server/.env
 /server/package-lock.json
+
+# misc
+*.log
+.python-version
