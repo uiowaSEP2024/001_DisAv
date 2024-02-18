@@ -75,7 +75,7 @@ router.delete('/delete', async (req, res) => {
 // update preferred tasks
 router.put('/update-preferred-tasks', async (req, res) => {
   const { username, preferredTasks } = req.body;
-  const user = await UserModel.findOne(username);
+  const user = await UserModel.findOne({ username });
   if (!user) {
     return res.json({ message: 'Invalid user' });
   }
