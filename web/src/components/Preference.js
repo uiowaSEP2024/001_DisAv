@@ -11,9 +11,6 @@ const Preference = () => {
         Break: false
     });
 
-    user.preferredTasks = preferredTasks;
-    console.log("this one: ", user);
-
     useEffect(() => {
         // Load the user's preferences when the component mounts
         if (user && user.preferredTasks) {
@@ -28,7 +25,7 @@ const Preference = () => {
         setPreferences(updatedPreferences);
         // Update preferences in the database
 
-        axios.put('http://localhost:3002/update-preferred-tasks', {
+        axios.put('http://localhost:3002/user/update-preferred-tasks', {
             username: user.username,
             preferredTasks: updatedPreferences
 
