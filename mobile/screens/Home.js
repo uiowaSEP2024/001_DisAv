@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { Button, Dialog, Portal, Checkbox } from 'react-native-paper';
 import axios from 'axios';
 import { api } from '../config/Api';
-
+import Alert from '../components/Alert';
+import { height } from '../config/DeviceDimensions';
 export default function Home({ route }) {
   const { user } = route.params;
   console.log('user', user);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertText, setAlertText] = useState('');
   const [welcomeVisible, setWelcomeVisible] = useState(true);
   const [taskVisible, setTaskVisible] = useState(false);
   const [checkedState, setCheckedState] = useState({
@@ -25,18 +28,31 @@ export default function Home({ route }) {
     setTaskVisible(true);
     setWelcomeVisible(false);
   }
+  function timeout(delay) {
+    return new Promise(resolve => setTimeout(resolve, delay));
+  }
   async function putInitialTaks() {
     await axios
       .put(`http://${api}/user/update-preferred-tasks`, {
         username: user.username,
         preferredTasks: checkedState,
       })
-      .then(r => {
+      .then(async r => {
         console.log(r.data.message);
+        setAlertText(r.data.message);
         setTaskVisible(false);
+
+        setAlertVisible(true);
+        await timeout(2000);
+        setAlertVisible(false);
       })
-      .catch(error => {
+      .catch(async error => {
         console.log('Error', error);
+        setTaskVisible(false);
+        setAlertText('Error updating preferences');
+        setAlertVisible(true);
+        await timeout(1000);
+        setAlertVisible(false);
       });
   }
   function welcome() {
@@ -78,11 +94,25 @@ export default function Home({ route }) {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Portal>
         {welcome()}
         {taskType()}
+        <View style={styles.alert}>
+          <Alert visible={alertVisible} text={alertText} />
+        </View>
       </Portal>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  alert: {
+    marginTop: height * 1.9,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
