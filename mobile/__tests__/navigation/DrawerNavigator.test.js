@@ -3,9 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { render } from '@testing-library/react-native';
 import DrawerNavigator from '../../navigation/DrawerNavigator';
-import TabNavigator from '../../navigation/TabNavigator';
-import Settings from '../../screens/Settings';
-import SignOut from '../../components/SignOut';
 
 jest.mock('@react-navigation/native', () => ({
   ...jest.requireActual('@react-navigation/native'),
@@ -43,11 +40,7 @@ describe('DrawerNavigator', () => {
   it('renders the TabNavigator, Settings, and SignOut screens', () => {
     const { getByTestId } = render(
       <NavigationContainer>
-        <DrawerNavigator>
-          <TabNavigator />
-          <Settings />
-          <SignOut />
-        </DrawerNavigator>
+        <DrawerNavigator />
       </NavigationContainer>
     );
 

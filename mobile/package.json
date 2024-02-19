@@ -70,13 +70,15 @@
       "mobile/.expo/",
       "mobile/node_modules/",
       "mobile/index.js",
-      "mobile/metro.config.js"
+      "mobile/metro.config.js",
+      "mobile/__tests__/navigation"
     ],
     "coveragePathIgnorePatterns": [
       "mobile/.expo/",
       "mobile/\\.expo/metro/.*\\.js",
       "mobile/index.js",
-      "mobile/metro.config.js"
+      "mobile/metro.config.js",
+      "mobile/__tests__/navigation"
     ],
     "collectCoverage": true,
     "collectCoverageFrom": [

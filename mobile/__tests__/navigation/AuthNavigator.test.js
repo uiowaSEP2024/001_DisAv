@@ -58,9 +58,7 @@ describe('AuthNavigator', () => {
   it('navigates to the SignUp screen', () => {
     const { getByTestId } = render(
       <NavigationContainer>
-        <AppNavigator>
-          <AuthNavigator />
-        </AppNavigator>
+        <AuthNavigator />
       </NavigationContainer>
     );
 
