@@ -21,6 +21,11 @@ const Login = () => {
         localStorage.setItem('token', response.data.token);
         // Store user information in session storage
         sessionStorage.setItem('user', JSON.stringify(response.data.user));
+        window.postMessage({
+          type: "LOGIN_SUCCESS",
+          token: localStorage.getItem('token'),
+          user: sessionStorage.getItem('user')
+        }, "*");
         // Redirect to the dashboard using navigate
         navigate('/dashboard', { state: { user: response.data.user } });
         console.log('login response:', response.data);

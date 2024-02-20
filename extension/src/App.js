@@ -1,8 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import { ExternalLink } from 'react-external-link';
 
 function App() {
   const [currentUrl, setCurrentUrl] = useState('');
+  const [userInfo, setUserInfo] = useState({});
+  const [loggedIn, setLoggedIn] = useState(false);
+  const fetchUserInfo = () => {
+    console.log('fetchUserInfo called');
+    chrome.storage.local.get(['user', 'token'], function (result) {
+      console.log('HERE');
+      if (result.user) {
+        console.log('There');
+        setUserInfo(result.user); // Assuming 'user' is stored as a JSON string
+        setLoggedIn(true);
+      }
+    });
+  };
+  const clearStorage = () => {
+    chrome.storage.local.clear(function () {
+      let error = chrome.runtime.lastError;
+      if (error) {
+        console.error(error);
+      } else {
+        setLoggedIn(false);
+        setUserInfo({});
+        console.log('Storage cleared successfully.');
+      }
+    });
+  };
+  console.log('First');
+  // Use useEffect to fetch user info when the component mounts
+  useEffect(() => {
+    console.log('testing');
+    fetchUserInfo();
+  }, []); // Empty dependency array means this effect runs once on mount
 
   // Function to get the current tab URL
   const getCurrentTabUrl = () => {
@@ -14,11 +46,21 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Chrome Extension with React</h1>
-        <button onClick={getCurrentTabUrl}>Get Current URL</button>
-        <p>Current URL: {currentUrl}</p>
-      </header>
+      <h1>Infinite focus</h1>
+      {/*<button onClick={clearStorage}>good Current URL</button>*/}
+      {loggedIn ? (
+        userInfo && (
+          <div>
+            <p>User Name: {userInfo.username}</p>
+            <p>User Email: {userInfo.email}</p>
+            <button onClick={clearStorage}>Log out</button>
+          </div>
+        )
+      ) : (
+        <ExternalLink href={'http://localhost:3000/login'}>
+          <button>Log in</button>
+        </ExternalLink>
+      )}
     </div>
   );
 }
