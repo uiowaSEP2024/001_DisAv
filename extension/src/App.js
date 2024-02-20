@@ -37,12 +37,12 @@ function App() {
   }, []); // Empty dependency array means this effect runs once on mount
 
   // Function to get the current tab URL
-  const getCurrentTabUrl = () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      const tab = tabs[0];
-      setCurrentUrl(tab.url);
-    });
-  };
+  // const getCurrentTabUrl = () => {
+  //   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  //     const tab = tabs[0];
+  //     setCurrentUrl(tab.url);
+  //   });
+  // };
 
   return (
     <div className="App">
