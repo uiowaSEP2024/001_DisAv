@@ -1,4 +1,5 @@
 extension/
+web/
 mobile/android
 mobile/ios
 mobile/node_modules
@@ -6,4 +7,6 @@ web/node_modules
 web/src/components/Login.js
 web/src/components/Dashboard.js
 web/src/components/Preference.js
+web/src/components/Signup.js
+web/src/components/App.js
 web/src/components/__tests__/dashboard.test.js

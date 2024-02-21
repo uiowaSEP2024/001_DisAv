@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 import { AuthContext } from './AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/signup.css';
+import Modal from 'react-modal';
+import Preference from './Preference'; // Assuming the Preference component is in a separate file
 
 function Signup() {
   toast.configure();
@@ -15,6 +17,23 @@ function Signup() {
   const [lastname, setLastname] = useState('');
   const navigate = useNavigate();
   const { login } = useContext(AuthContext); // Use the login function from AuthContext
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  const [initialPreferredTasks, setInitialPreferredTasks] = useState({
+    "Work": false,
+    "Reading": false,
+    "Break": false,
+    "Exercise": false,
+  });
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    navigate('/dashboard');
+    setIsOpen(false);
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -33,7 +52,7 @@ function Signup() {
         toast.success('Account has been created successfully');
         // Log in the user after successful signup
         login({ username, password, firstname, lastname, email }); // Adjust the object to match what your login function expects
-        navigate('/dashboard'); // Redirect to dashboard
+        openModal(); // Open the modal for preference selection
       }
     } catch (err) {
       if (err.response) {
@@ -48,7 +67,7 @@ function Signup() {
   };
 
   return (
-    <div className="signup">
+    <div className='signup'>
       <form onSubmit={handleSubmit} data-testid="signup-form">
         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)} />
         <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
@@ -57,6 +76,14 @@ function Signup() {
         <input type="text" placeholder="Last Name" onChange={e => setLastname(e.target.value)} />
         <button type="submit">Sign Up</button>
       </form>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Select Preferences"
+      >
+        <Preference initialPreferredTasks={initialPreferredTasks} onClose={closeModal} />
+        {/* <button onClick={() => { closeModal(); navigate('/dashboard'); }}>Submit and Go to Dashboard</button> */}
+      </Modal>
     </div>
   );
 }
