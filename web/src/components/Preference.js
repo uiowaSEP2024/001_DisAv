@@ -3,7 +3,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/preference.css';
 
-const Preference = ({initialPreferredTasks, onClose }) => {
+
+const defaultTasks = {
+  "Work": "false",
+  "Reading": "false",
+  "Exercise": "false",
+  "Break": "false"
+};
+
+const Preference = ({ initialPreferredTasks = defaultTasks, onClose }) => {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const [preferredTasks, setPreferences] = useState(initialPreferredTasks); // Initialize as empty object
 
@@ -11,6 +19,8 @@ const Preference = ({initialPreferredTasks, onClose }) => {
     // Load the user's preferences when the component mounts
     if (user && user.preferredTasks) {
       setPreferences(user.preferredTasks);
+    } else if (user && !user.preferredTasks) {
+      setPreferences(defaultTasks);
     } else {
       // Fetch preferredTasks from the database for new user
       axios
@@ -20,6 +30,7 @@ const Preference = ({initialPreferredTasks, onClose }) => {
         })
         .catch(error => {
           console.error('Failed to fetch preferences', error);
+
         });
     }
   }, [user]);
@@ -27,7 +38,7 @@ const Preference = ({initialPreferredTasks, onClose }) => {
   const handleToggle = preference => {
     const updatedPreferences = {
       ...preferredTasks,
-      [preference]: !preferredTasks[preference], // Toggle the value
+      [preference]: preferredTasks[preference] === "true" ? "false" : "true", // Toggle the value
     };
     setPreferences(updatedPreferences);
   };
@@ -42,7 +53,7 @@ const Preference = ({initialPreferredTasks, onClose }) => {
         // Update user data in sessionStorage with new preferences
         sessionStorage.setItem('user', JSON.stringify({ ...user, preferredTasks: preferredTasks }));
         setUser({ ...user, preferredTasks: preferredTasks });
-        onClose(); // Close the pop-up after submitting preferences
+        // onClose(); // Close the pop-up after submitting preferences
       })
       .catch(error => {
         console.error('Failed to update preferences', error);
@@ -63,7 +74,7 @@ const Preference = ({initialPreferredTasks, onClose }) => {
                 <input
                   id={preference}
                   type="checkbox"
-                  checked={preferredTasks[preference]}
+                  checked={preferredTasks[preference] === "true"}
                   onChange={() => handleToggle(preference)}
                 />
                 <span className="slider round"></span>
