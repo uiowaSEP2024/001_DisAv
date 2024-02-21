@@ -1,4 +1,5 @@
 {
+  "extends": ["react-app", "./node_modules/eslint-config-react-app/base.js"],
   "globals": {
     "chrome": "readonly"
   }

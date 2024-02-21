@@ -6,10 +6,10 @@ function openWebsite() {
   chrome.tabs.create({ url: website });
 }
 
-chrome.runtime.onInstalled.addListener(() => {
-  console.log('Extension installed, setting timeout...'); // This will log when the extension is installed
-  setTimeout(() => {
-    console.log('Timeout completed, opening website...'); // This will log right before opening the website
-    openWebsite();
-  }, 6000);
-});
+// chrome.runtime.onInstalled.addListener(() => {
+//   console.log('Extension installed, setting timeout...'); // This will log when the extension is installed
+//   setTimeout(() => {
+//     console.log('Timeout completed, opening website...'); // This will log right before opening the website
+//     openWebsite();
+//   }, 6000);
+// });
