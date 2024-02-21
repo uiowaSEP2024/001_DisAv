@@ -31,7 +31,7 @@ export default function Login({ navigation }) {
           console.log(r.data);
           navigation.popToTop();
           login(r.data.user);
-          navigation.navigate('Home');
+          navigation.navigate('Settings');
         }
       })
       .catch(error => {

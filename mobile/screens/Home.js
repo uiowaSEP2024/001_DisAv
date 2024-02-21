@@ -1,20 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Button, Title } from 'react-native-paper';
+import { View, Button, Text } from 'react-native';
 import { useSession } from '../context/SessionContext';
 
 export default function Home({ navigation }) {
   const { user } = useSession();
-  console.log('user', user);
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', padding: 16 }} testID="Home">
-      <Title>Home Screen</Title>
-      <Button mode="contained" onPress={() => navigation.navigate('Rewards')}>
-        Go to Bens House
-      </Button>
-      <Button mode="contained" onPress={() => navigation.navigate('Rewards')}>
-        Go to Rewards
-      </Button>
+      <Text>Home Screen</Text>
+      {user && user.preferredTasks.length === 0 && (
+        <Button title="Go to Preferences" onPress={() => navigation.navigate('Preferences')} />
+      )}
     </View>
   );
 }
