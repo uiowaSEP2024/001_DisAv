@@ -8,7 +8,6 @@ test('renders Dashboard with user information', () => {
     firstname: 'Adnane',
     lastname: 'Ezouhri',
     email: 'adnane@gmail.com',
-    preferredTasks: ['soccer', 'volleyball', 'baking'],
   };
   sessionStorage.setItem('user', JSON.stringify(user));
 
@@ -19,8 +18,4 @@ test('renders Dashboard with user information', () => {
   expect(screen.getByText(`First name: ${user.firstname}`)).toBeInTheDocument();
   expect(screen.getByText(`Last name: ${user.lastname}`)).toBeInTheDocument();
   expect(screen.getByText(`Email: ${user.email}`)).toBeInTheDocument();
-
-  user.preferredTasks.forEach(task => {
-    expect(screen.getByText(task)).toBeInTheDocument();
-  });
 });

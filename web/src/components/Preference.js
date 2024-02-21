@@ -12,7 +12,8 @@ const Preference = () => {
       setPreferences(user.preferredTasks);
     } else {
       // Fetch preferredTasks from the database for new user
-      axios.get(`http://localhost:3002/user/preferred-tasks/${user.username}`)
+      axios
+        .get(`http://localhost:3002/user/preferred-tasks/${user.username}`)
         .then(response => {
           setPreferences(response.data.preferredTasks);
         })
@@ -56,10 +57,7 @@ const Preference = () => {
       })
       .then(response => {
         // Update user data in sessionStorage with new preferences
-        sessionStorage.setItem(
-          'user',
-          JSON.stringify({ ...user, preferredTasks: preferredTasks })
-        );
+        sessionStorage.setItem('user', JSON.stringify({ ...user, preferredTasks: preferredTasks }));
         setUser({ ...user, preferredTasks: preferredTasks });
       })
       .catch(error => {
@@ -81,7 +79,13 @@ const Preference = () => {
                 <input
                   id={preference}
                   type="checkbox"
-                  checked={preferredTasks[preference] === 'true' ? true : preferredTasks[preference] === 'false' ? false : undefined} // Use the preferredTasks value directly
+                  checked={
+                    preferredTasks[preference] === 'true'
+                      ? true
+                      : preferredTasks[preference] === 'false'
+                        ? false
+                        : undefined
+                  } // Use the preferredTasks value directly
                   onChange={() => handleToggle(preference)}
                 />
                 <span className="slider round"></span>

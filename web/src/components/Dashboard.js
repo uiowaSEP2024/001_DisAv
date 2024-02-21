@@ -4,8 +4,6 @@ import Preference from './Preference';
 const Dashboard = () => {
   // Retrieve user information from session storage
   const user = JSON.parse(sessionStorage.getItem('user'));
-  console.log(user);
-  console.log(typeof (user.preferredTasks));
   return (
     <div className="dashboard">
       <h1>Welcome to Your Dashboard</h1>
@@ -17,7 +15,6 @@ const Dashboard = () => {
           <p>First name: {user.firstname}</p>
           <p>Last name: {user.lastname}</p>
           <p>Email: {user.email}</p>
-
 
           {/* Add more user details as needed */}
         </div>
