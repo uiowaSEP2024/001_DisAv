@@ -10,7 +10,6 @@ import Signup from './components/Signup';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 function App() {
   toast.configure();
   const { isLoggedIn, logout } = useContext(AuthContext);

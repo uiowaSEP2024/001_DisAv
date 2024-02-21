@@ -3,7 +3,13 @@ import { render, screen } from '@testing-library/react';
 import Dashboard from '../Dashboard';
 
 test('renders Dashboard with user information', () => {
-  const user = { username: 'adnane', firstname: 'Adnane', lastname: 'Ezouhri', email: 'adnane@gmail.com', preferredTasks: ['soccer', 'volleyball', 'baking'] };
+  const user = {
+    username: 'adnane',
+    firstname: 'Adnane',
+    lastname: 'Ezouhri',
+    email: 'adnane@gmail.com',
+    preferredTasks: ['soccer', 'volleyball', 'baking'],
+  };
   sessionStorage.setItem('user', JSON.stringify(user));
 
   render(<Dashboard />);

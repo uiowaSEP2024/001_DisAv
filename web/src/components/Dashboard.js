@@ -17,11 +17,12 @@ const Dashboard = () => {
           <p>Last name: {user.lastname}</p>
           <p>Email: {user.email}</p>
           <div className="task-cards">
-            {user.preferredTasks && user.preferredTasks.map((task, index) => (
-              <div key={index} className="task-card">
-                {task}
-              </div>
-            ))}
+            {user.preferredTasks &&
+              user.preferredTasks.map((task, index) => (
+                <div key={index} className="task-card">
+                  {task}
+                </div>
+              ))}
           </div>
           {/* Add more user details as needed */}
         </div>
