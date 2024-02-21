@@ -4,33 +4,37 @@ import '../styles/preference.css';
 
 const Preference = () => {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
-  const [preferredTasks, setPreferences] = useState({
-    Work: false,
-    Reading: false,
-    Exercise: false,
-    Break: false,
-  });
+  const [preferredTasks, setPreferences] = useState({}); // Initialize as empty object
 
   useEffect(() => {
     // Load the user's preferences when the component mounts
     if (user && user.preferredTasks) {
       setPreferences(user.preferredTasks);
+    } else {
+      // Fetch preferredTasks from the database for new user
+      axios.get(`http://localhost:3002/user/preferred-tasks/${user.username}`)
+        .then(response => {
+          setPreferences(response.data.preferredTasks);
+        })
+        .catch(error => {
+          console.error('Failed to fetch preferences', error);
+        });
     }
   }, [user]);
+
   const handleToggle = preference => {
     const updatedPreferences = {
       ...preferredTasks,
-      [preference]: !preferredTasks[preference],
+      [preference]: !preferredTasks[preference], // Toggle the value
     };
     setPreferences(updatedPreferences);
-    // Update preferences in the database
 
+    // Send the updated preference to the database
     axios
       .put('http://localhost:3002/user/update-preferred-tasks', {
         username: user.username,
         preferredTasks: updatedPreferences,
       })
-
       .then(response => {
         // Update user data in sessionStorage with new preferences
         sessionStorage.setItem(
@@ -38,6 +42,25 @@ const Preference = () => {
           JSON.stringify({ ...user, preferredTasks: updatedPreferences })
         );
         setUser({ ...user, preferredTasks: updatedPreferences });
+      })
+      .catch(error => {
+        console.error('Failed to update preferences', error);
+      });
+  };
+
+  const handleSubmit = () => {
+    axios
+      .put('http://localhost:3002/user/update-preferred-tasks', {
+        username: user.username,
+        preferredTasks: preferredTasks,
+      })
+      .then(response => {
+        // Update user data in sessionStorage with new preferences
+        sessionStorage.setItem(
+          'user',
+          JSON.stringify({ ...user, preferredTasks: preferredTasks })
+        );
+        setUser({ ...user, preferredTasks: preferredTasks });
       })
       .catch(error => {
         console.error('Failed to update preferences', error);
@@ -58,7 +81,7 @@ const Preference = () => {
                 <input
                   id={preference}
                   type="checkbox"
-                  checked={preferredTasks[preference]}
+                  checked={preferredTasks[preference] === 'true' ? true : preferredTasks[preference] === 'false' ? false : undefined} // Use the preferredTasks value directly
                   onChange={() => handleToggle(preference)}
                 />
                 <span className="slider round"></span>
@@ -67,6 +90,7 @@ const Preference = () => {
           </li>
         ))}
       </ul>
+      <button onClick={handleSubmit}>Submit</button> {/* Added submit button */}
     </div>
   );
 };

@@ -4,7 +4,8 @@ import Preference from './Preference';
 const Dashboard = () => {
   // Retrieve user information from session storage
   const user = JSON.parse(sessionStorage.getItem('user'));
-
+  console.log(user);
+  console.log(typeof (user.preferredTasks));
   return (
     <div className="dashboard">
       <h1>Welcome to Your Dashboard</h1>
@@ -16,14 +17,8 @@ const Dashboard = () => {
           <p>First name: {user.firstname}</p>
           <p>Last name: {user.lastname}</p>
           <p>Email: {user.email}</p>
-          <div className="task-cards">
-            {user.preferredTasks &&
-              user.preferredTasks.map((task, index) => (
-                <div key={index} className="task-card">
-                  {task}
-                </div>
-              ))}
-          </div>
+
+
           {/* Add more user details as needed */}
         </div>
       )}
