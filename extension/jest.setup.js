@@ -24,7 +24,7 @@ global.chrome = {
           callback();
         }
       }),
-      clear: jest.fn((callback) => {
+      clear: jest.fn(callback => {
         // Implement this if needed for your tests
         global.chrome.storage.local.data = {};
         if (typeof callback === 'function') {
@@ -33,5 +33,4 @@ global.chrome = {
       }),
     },
   },
-
 };

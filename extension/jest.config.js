@@ -8,12 +8,8 @@ module.exports = {
     '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.js',
   },
   testEnvironment: 'jsdom', // Use jsdom to simulate browser environment
-  testMatch: [
-    "**/__tests__/**/*.[jt]s?(x)",
-    "**/?(*.)+(spec|test).[tj]s?(x)"
-  ],
+  testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'],
   moduleNameMapper: {
-    "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    '\\.(css|less)$': '<rootDir>/__mocks__/styleMock.js',
   },
-
 };
