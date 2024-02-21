@@ -53,7 +53,7 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose }) => {
         // Update user data in sessionStorage with new preferences
         sessionStorage.setItem('user', JSON.stringify({ ...user, preferredTasks: preferredTasks }));
         setUser({ ...user, preferredTasks: preferredTasks });
-        // onClose(); // Close the pop-up after submitting preferences
+        onClose(); // Close the pop-up after submitting preferences
       })
       .catch(error => {
         console.error('Failed to update preferences', error);
