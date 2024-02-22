@@ -52,7 +52,7 @@
     "ios": "expo run:ios",
     "start": "expo start --dev-client",
     "web": "expo start --web",
-    "test": "jest",
+    "test": "jest --coverage",
     "testDebug": "jest -o --watch --coverage=false",
     "testFinal": "jest",
     "updateSnapshots": "jest -u --coverage=false",
