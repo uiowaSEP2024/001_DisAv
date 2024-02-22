@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
-import { Button, Text, TouchableRipple } from 'react-native-paper';
+import { ScrollView, StyleSheet } from 'react-native';
+import { Checkbox, Button } from 'react-native-paper';
+import CustomAlert from '../components/CustomAlert';
+import { useSession } from '../context/SessionContext';
+import { LinearGradient } from 'expo-linear-gradient';
+import { width } from '../config/DeviceDimensions';
 import axios from 'axios';
 import { api } from '../config/Api';
-import { useSession } from '../context/SessionContext';
 
 export default function Preferences({ navigation }) {
   const { user, saveUser } = useSession();
-  const [preferredTasks, setPreferredTasks] = useState({
-    work: user.preferredTasks?.work || false,
-    read: user.preferredTasks?.read || false,
-    exercise: user.preferredTasks?.exercise || false,
-    rest: user.preferredTasks?.rest || false,
-  });
+
+  const [preferredTasks, setPreferredTasks] = useState(
+    user.preferredTasks || {
+      exercise: false,
+      reading: false,
+      meditation: false,
+      socializing: false,
+    }
+  );
+
+  const [errorVisible, setErrorVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSelectTask = task => {
     setPreferredTasks(prevTasks => ({
@@ -31,31 +40,38 @@ export default function Preferences({ navigation }) {
         await saveUser({ ...user, preferredTasks }); // Update user state with new preferredTasks
       }
     } catch (error) {
-      console.error('Error updating preferred tasks:', error);
+      setErrorMessage(error.message);
+      setErrorVisible(true);
+      return;
     }
     navigation.goBack(); // Go back to Home screen after setting preferences
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>What kind of tasks do you want to do?</Text>
-      {['work', 'read', 'exercise', 'rest'].map(task => (
-        <TouchableRipple
-          key={task}
-          onPress={() => handleSelectTask(task)}
-          style={[
-            styles.taskButton,
-            preferredTasks[task] ? { backgroundColor: 'green', color: 'white' } : {},
-          ]}
-          rippleColor="rgba(255, 255, 255, .32)"
-        >
-          <Text style={styles.taskText}>{task}</Text>
-        </TouchableRipple>
-      ))}
-      <Button mode="contained" onPress={handleSubmit} style={styles.submitButton}>
-        Submit
-      </Button>
-    </ScrollView>
+    <LinearGradient
+      colors={['#00008B', '#ADD8E6', '#008000']} // Dark blue, light blue, green
+      style={styles.gradient}
+    >
+      <ScrollView contentContainerStyle={styles.container}>
+        {Object.keys(preferredTasks).map(task => (
+          <Checkbox.Item
+            key={task}
+            style={styles.checkBoxItem}
+            label={task.charAt(0).toUpperCase() + task.slice(1)}
+            status={preferredTasks[task] ? 'checked' : 'unchecked'}
+            onPress={() => handleSelectTask(task)}
+          />
+        ))}
+        <Button mode="contained" onPress={handleSubmit} style={styles.submitButton}>
+          Submit
+        </Button>
+      </ScrollView>
+      <CustomAlert
+        visible={errorVisible}
+        message={errorMessage}
+        onClose={() => setErrorVisible(false)}
+      />
+    </LinearGradient>
   );
 }
 
@@ -66,28 +82,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  taskButton: {
-    marginVertical: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: 'lightgrey',
-    width: '100%',
-  },
-  taskText: {
-    fontSize: 16,
-  },
   submitButton: {
     marginTop: 20,
-    width: '100%',
+  },
+  gradient: {
+    flex: 1,
+  },
+  checkBoxItem: {
+    margin: 10,
+    backgroundColor: 'white',
+    borderRadius: 15,
+    width: width * 0.2,
   },
 });

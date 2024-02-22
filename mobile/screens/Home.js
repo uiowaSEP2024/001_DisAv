@@ -1,13 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Image } from 'react-native';
-import { Button, Text, useTheme } from 'react-native-paper';
+import { Button, Text, useTheme, Dialog, Portal } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSession } from '../context/SessionContext';
 import logo from '../assets/logo.png'; // Ensure the path to your logo is correct
 
 export default function Home({ navigation }) {
   const { user } = useSession();
+
+  console.log('user', user);
   const { colors } = useTheme();
+  const [welcomeVisible, setWelcomeVisible] = useState(true);
+
+  function welcome() {
+    return (
+      <Dialog visible={welcomeVisible}>
+        <Dialog.Title>Welcome</Dialog.Title>
+        <Dialog.Content>
+          <Text variant="bodyMedium">
+            Welcome to infinite focus, an app that will enable you to avoid doom scrolling and enjoy
+            the more important things in life
+          </Text>
+        </Dialog.Content>
+        <Dialog.Actions>
+          <Button
+            mode="outlined"
+            onPress={() => {
+              setWelcomeVisible(false);
+              navigation.navigate('Preferences');
+            }}
+            style={styles.button}
+          >
+            Next
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+    );
+  }
 
   useEffect(() => {
     if (!user) {
@@ -22,26 +51,12 @@ export default function Home({ navigation }) {
     >
       <ScrollView contentContainerStyle={styles.container}>
         <Image source={logo} style={styles.logo} />
-        <Text style={styles.title}>Welcome Home</Text>
         <Text style={{ color: colors.onSurface, margin: 10 }}>
           {user && `Hello, ${user.firstname}!`}
         </Text>
-        {user && user.preferredTasks.length === 0 && (
-          <Button
-            mode="contained"
-            onPress={() => navigation.navigate('Preferences')}
-            style={styles.button}
-          >
-            Go to Preferences
-          </Button>
-        )}
-        <Button
-          mode="outlined"
-          onPress={() => navigation.navigate('Settings')}
-          style={styles.button}
-        >
-          Settings
-        </Button>
+        <Portal>
+          {user && user.preferredTasks && user.preferredTasks.length === 0 && welcome()}
+        </Portal>
       </ScrollView>
     </LinearGradient>
   );
