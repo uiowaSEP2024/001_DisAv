@@ -116,7 +116,9 @@ test('successful login renders the dashboard', async () => {
   render(
     <AuthContext.Provider value={mockAuthContextValue}>
       <MemoryRouter>
-        <Login />
+        <AuthProvider>
+          <Login />
+        </AuthProvider>
       </MemoryRouter>
     </AuthContext.Provider>
   );

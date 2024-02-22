@@ -1,12 +1,14 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+//import { toast } from 'react-toastify';
 import { AuthContext } from './AuthContext';
 import '../styles/signup.css';
 import Modal from 'react-modal';
 import Preference from './Preference'; // Assuming the Preference component is in a separate file
 
 function Signup() {
+  //toast.configure();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,8 +46,10 @@ function Signup() {
       });
 
       if (response.data.message === 'User already exists') {
+        //toast.error('Username is already used');
         console.log('Username is already used');
       } else {
+        //toast.success('Account has been created successfully');
         console.log('Account has been created successfully');
         // Log in the user after successful signup
         login({ username, password, firstname, lastname, email }); // Adjust the object to match what your login function expects
@@ -54,9 +58,11 @@ function Signup() {
     } catch (err) {
       if (err.response) {
         // Handle HTTP errors here
+        //toast.error(err.response.data.message);
         console.error(err.response.data.message);
       } else {
         // Handle other errors here
+        //toast.error('Signup failed. Please try again later.');
         console.error('Signup failed. Please try again later.');
       }
       console.error(err);
