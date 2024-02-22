@@ -35,8 +35,8 @@ test('allows the user to toggle preferences', async () => {
   await waitFor(() =>expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
     username: mockUser.username,
     preferredTasks: {
-      Work: true,
-      Reading: true,
+      Work: "true",
+      Reading: "true",
       Exercise: false,
       Break: false,
     },
