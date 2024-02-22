@@ -2,9 +2,9 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
-import App from '../../App';
 import Login from '../Login';
 import { AuthContext } from '../AuthContext';
+
 
 jest.mock('axios');
 
@@ -116,9 +116,7 @@ test('successful login renders the dashboard', async () => {
   render(
     <AuthContext.Provider value={mockAuthContextValue}>
       <MemoryRouter>
-        <AuthProvider>
           <Login />
-        </AuthProvider>
       </MemoryRouter>
     </AuthContext.Provider>
   );
