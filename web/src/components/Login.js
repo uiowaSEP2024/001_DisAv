@@ -23,8 +23,10 @@ const Login = () => {
 
       if (response.data.message === 'Invalid username or password') {
         // toast.error('Invalid username or password');
+        console.log('Invalid username or password');
       } else {
         //toast.success('Login successful');
+        console.log('Login successful');
         // Store the token in localStorage
         localStorage.setItem('token', response.data.token);
         // Store user information in session storage
@@ -41,10 +43,10 @@ const Login = () => {
     } catch (err) {
       if (err.response) {
         // Handle HTTP errors here
-        toast.error(err.response.data.message);
+        console.error(err.response.data.message);
       } else {
         // Handle other errors here
-        toast.error('Login failed. Please try again later.');
+        console.error('Login failed. Please try again later.');
       }
       console.error(err);
     }
@@ -74,7 +76,7 @@ const Login = () => {
             onChange={e => setPassword(e.target.value)}
           />
         </div>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Submit" data-testid="submit-button" />
       </form>
     </div>
   );

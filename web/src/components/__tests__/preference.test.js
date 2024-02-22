@@ -2,7 +2,8 @@ import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import Preference from '../Preference';
-
+import { AuthContext } from '../AuthContext';
+import { MemoryRouter } from 'react-router-dom';
 jest.mock('axios');
 
 test('allows the user to toggle preferences', async () => {
@@ -35,8 +36,8 @@ test('allows the user to toggle preferences', async () => {
   await waitFor(() => expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
     username: mockUser.username,
     preferredTasks: {
-      Work: true,
-      Reading: true,
+      Work: "true",
+      Reading: "true",
       Exercise: false,
       Break: false,
     },
@@ -72,8 +73,8 @@ test('updates preferences on submit', async () => {
     expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
       username: mockUser.username,
       preferredTasks: {
-        Work: true,
-        Reading: true,
+        Work: "true",
+        Reading: "true",
         Exercise: false,
         Break: false,
       },
@@ -125,26 +126,3 @@ test('loads default preferences for new user with no stored preferences', async 
     expect(screen.getByLabelText(/Break/i).checked).toBe(false);
   });
 });
-
-// test('loads user preferences from sessionStorage', async () => {
-//   const mockUser = {
-//     username: 'testuser',
-//     preferredTasks: {
-//       Work: true,
-//       Reading: false,
-//       Exercise: true,
-//       Break: false,
-//     },
-//   };
-//   sessionStorage.setItem('user', JSON.stringify(mockUser));
-
-//   render(<Preference />);
-
-//   await waitFor(() => {
-//     expect(screen.getByLabelText(/Work/i).checked).toBe(true);
-//     expect(screen.getByLabelText(/Reading/i).checked).toBe(false);
-//     expect(screen.getByLabelText(/Exercise/i).checked).toBe(true);
-//     expect(screen.getByLabelText(/Break/i).checked).toBe(false);
-//   });
-// }
-// );

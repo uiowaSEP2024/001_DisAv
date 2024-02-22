@@ -11,7 +11,7 @@ const defaultTasks = {
   "Break": false
 };
 
-const Preference = ({ initialPreferredTasks = defaultTasks, onClose }) => {
+const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }) => {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const [preferredTasks, setPreferences] = useState(initialPreferredTasks); // Initialize as empty object
 
@@ -20,26 +20,16 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose }) => {
     if (user && user.preferredTasks) {
       setPreferences(user.preferredTasks);
       // Fetch preferredTasks from the database for new user
-    } else if (user && !user.preferredTasks) {
+    }
+    if (user && !user.preferredTasks) {
       setPreferences(defaultTasks);
-    } else {
-      // Fetch preferredTasks from the database for existing user
-      axios
-        .get(`http://localhost:3002/user/preferred-tasks/${user.username}`)
-        .then(response => {
-          setPreferences(response.data.preferredTasks);
-        })
-        .catch(error => {
-          console.error('Failed to fetch preferences', error);
-
-        });
     }
   }, [user]);
 
   const handleToggle = preference => {
     const updatedPreferences = {
       ...preferredTasks,
-      [preference]: preferredTasks[preference] === true ? false : true, // Toggle the value
+      [preference]: preferredTasks[preference] === "true" ? "false" : "true", // Toggle the value
     };
     setPreferences(updatedPreferences);
   };
@@ -75,7 +65,7 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose }) => {
                 <input
                   id={preference}
                   type="checkbox"
-                  checked={preferredTasks[preference] === true}
+                  checked={preferredTasks[preference] === "true"}
                   onChange={() => handleToggle(preference)}
                 />
                 <span className="slider round"></span>
