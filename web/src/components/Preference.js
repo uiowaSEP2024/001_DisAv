@@ -31,6 +31,13 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
       ...preferredTasks,
       [preference]: preferredTasks[preference] === "true" ? "false" : "true", // Toggle the value
     };
+
+    if (updatedPreferences[preference] === "true") {
+      updatedPreferences[`${preference}Frequency`] = ''; // Initialize frequency as empty string
+    } else {
+      delete updatedPreferences[`${preference}Frequency`]; // Remove frequency field when switch is disabled
+    }
+
     setPreferences(updatedPreferences);
   };
 
@@ -70,6 +77,27 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
                 />
                 <span className="slider round"></span>
               </label>
+              {preferredTasks[preference] === "true" && ( // Conditionally render frequency input
+                <input
+                type="text" // Change input type to text
+                data-testid={`${preference}Frequency`} // Add data-testid attribute
+                placeholder="HH:mm" // Specify the expected format
+                value={preferredTasks[`${preference}Frequency`] || ':'}
+                pattern="[0-9]{2}:[0-9]{2}" // Restrict input to numbers and :
+                onChange={e => {
+                  const frequency = e.target.value;
+                  if (/^[0-9:]*$/.test(frequency)) { // Validate input against the pattern
+                    const [hours, minutes] = frequency.split(':').map(Number);
+                    if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
+                      setPreferences(prevState => ({
+                        ...prevState,
+                        [`${preference}Frequency`]: frequency,
+                      }));
+                    }
+                  }
+                }}
+              />
+              )}
             </div>
           </li>
         ))}
