@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import App from '../../App';
+import { AuthProvider } from '../AuthContext';
 
 // Helper function to render the App component within a Router
 const renderWithRouter = (ui, { route = '/' } = {}) => {
@@ -10,19 +11,25 @@ const renderWithRouter = (ui, { route = '/' } = {}) => {
 
 describe('App Routing', () => {
   test('renders the Navbar component', () => {
-    renderWithRouter(<App />);
+    renderWithRouter(<AuthProvider>
+                      <App />
+                    </AuthProvider>);
     const navbar = screen.getByRole('navigation');
     expect(navbar).toBeInTheDocument();
   });
 
   test('renders the Homepage component on the root route', () => {
-    renderWithRouter(<App />, { route: '/' });
+    renderWithRouter((<AuthProvider>
+      <App />
+    </AuthProvider>), { route: '/' });
     const homepage = screen.getByTestId('homepage');
     expect(homepage).toBeInTheDocument();
   });
 
   test('renders the Login component on the /login route', () => {
-    renderWithRouter(<App />, { route: '/login' });
+    renderWithRouter((<AuthProvider>
+      <App />
+    </AuthProvider>), { route: '/login' });
     const loginForm = screen.getByTestId('login-form');
     expect(loginForm).toBeInTheDocument();
   });
