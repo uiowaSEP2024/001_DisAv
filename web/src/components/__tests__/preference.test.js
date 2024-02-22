@@ -9,10 +9,10 @@ test('allows the user to toggle preferences', async () => {
   const mockUser = {
     username: 'testuser',
     preferredTasks: {
-      Work: false,
-      Reading: false,
-      Exercise: false,
-      Break: false,
+      "Work": false,
+      "Reading": false,
+      "Exercise": false,
+      "Break": false
     },
   };
   sessionStorage.setItem('user', JSON.stringify(mockUser));
@@ -27,17 +27,20 @@ test('allows the user to toggle preferences', async () => {
   const readingCheckbox = screen.getByLabelText(/Reading/i);
   fireEvent.click(readingCheckbox);
 
-  await waitFor(() => {
-    expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
-      username: mockUser.username,
-      preferredTasks: {
-        Work: true,
-        Reading: true,
-        Exercise: false,
-        Break: false,
-      },
-    });
-  });
+  // Add a small delay to ensure axios.put has been called
+  // await new Promise(resolve => setTimeout(resolve, 1000));
+  const submitButton = screen.getByText('Submit');
+  fireEvent.click(submitButton);
+
+  await waitFor(() =>expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
+    username: mockUser.username,
+    preferredTasks: {
+      Work: true,
+      Reading: true,
+      Exercise: false,
+      Break: false,
+    },
+  }));
 });
 
 // test('updates preferences on submit', async () => {

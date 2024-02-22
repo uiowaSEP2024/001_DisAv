@@ -38,7 +38,7 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose }) => {
   const handleToggle = preference => {
     const updatedPreferences = {
       ...preferredTasks,
-      [preference]: preferredTasks[preference] === "true" ? "false" : "true", // Toggle the value
+      [preference]: preferredTasks[preference] === "true" ? "false" : true, // Toggle the value
     };
     setPreferences(updatedPreferences);
   };
