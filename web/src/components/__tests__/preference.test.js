@@ -72,8 +72,8 @@ test('updates preferences on submit', async () => {
     expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
       username: mockUser.username,
       preferredTasks: {
-        Work: "true",
-        Reading: "true",
+        Work: true,
+        Reading: true,
         Exercise: false,
         Break: false,
       },
