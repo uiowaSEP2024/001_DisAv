@@ -1,6 +1,8 @@
 import express from 'express';
 import { UserModel } from '../models/UsersModel.js';
+import bcrypt from 'bcrypt';
 const router = express.Router();
+
 // Get all users api
 router.get('/get-all', async (req, res) => {
   const users = await UserModel.find({});
@@ -29,7 +31,7 @@ router.get('/get-by-email', async (req, res) => {
 // Update user api
 router.put('/update', async (req, res) => {
   const { user } = req.body;
-  const {
+  let {
     username,
     password,
     email,
@@ -43,6 +45,13 @@ router.put('/update', async (req, res) => {
   const foundUser = await UserModel.findOne({ username });
   if (!foundUser) {
     return res.json({ message: 'Invalid user' });
+  }
+  // Check if password is being updated and encrypt it if so
+
+  if (password && !(await bcrypt.compare(password, foundUser.password))) {
+    password = await bcrypt.hash(password, 10);
+  } else {
+    password = foundUser.password;
   }
   await UserModel.findOneAndUpdate(
     { username },

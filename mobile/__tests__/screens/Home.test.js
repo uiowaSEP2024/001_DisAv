@@ -35,21 +35,13 @@ const mockRoute = {
 describe('Home', () => {
   it('renders correctly', () => {
     const { getByText } = render(<Home navigation={mockNavigation} route={mockRoute} />);
-    expect(getByText('Home Screen')).toBeTruthy();
-    expect(getByText('Go to Rewards')).toBeTruthy();
-    expect(getByText('Go to Bens House')).toBeTruthy();
+    expect(getByText('Welcome Home')).toBeTruthy();
+    expect(getByText('Settings')).toBeTruthy();
   });
 
   it('navigates to Rewards when "Go to Rewards" is pressed', () => {
     const { getByText } = render(<Home navigation={mockNavigation} route={mockRoute} />);
-    fireEvent.press(getByText('Go to Rewards'));
-    expect(mockNavigation.navigate).toHaveBeenCalledWith('Rewards');
-  });
-
-  it('navigates to Bens House when "Go to Bens House" is pressed', () => {
-    const { getByText } = render(<Home navigation={mockNavigation} route={mockRoute} />);
-    fireEvent.press(getByText('Go to Bens House'));
-    // If "Go to Bens House" should navigate to a different screen, update the argument accordingly.
-    expect(mockNavigation.navigate).toHaveBeenCalledWith('Rewards');
+    fireEvent.press(getByText('Settings'));
+    expect(mockNavigation.navigate).toHaveBeenCalledWith('Settings');
   });
 });

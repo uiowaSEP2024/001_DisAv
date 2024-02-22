@@ -30,7 +30,14 @@ export const SessionProvider = ({ children }) => {
     await AsyncStorage.removeItem('user');
   };
 
+  const saveUser = async userData => {
+    setUser(userData);
+    await AsyncStorage.setItem('user', JSON.stringify(userData));
+  };
+
   return (
-    <SessionContext.Provider value={{ user, login, logout }}>{children}</SessionContext.Provider>
+    <SessionContext.Provider value={{ user, login, logout, saveUser }}>
+      {children}
+    </SessionContext.Provider>
   );
 };

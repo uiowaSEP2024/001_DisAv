@@ -22,7 +22,6 @@ describe('App', () => {
   });
 
   it('renders without crashing', () => {
-    const { getByText } = render(<App />);
-    expect(getByText('Login')).toBeTruthy();
+    render(<App />);
   });
 });

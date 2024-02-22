@@ -9,7 +9,12 @@ const UserSchema = new mongoose.Schema({
   completionRate: { type: Number, default: 0 },
   accountabilityPartners: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
   phoneNumber: { type: String, required: false },
-  preferredTasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'tasks' }],
+  preferredTasks: {
+    work: { type: Boolean, default: false },
+    read: { type: Boolean, default: false },
+    exercise: { type: Boolean, default: false },
+    rest: { type: Boolean, default: false },
+  },
 });
 
 export const UserModel = mongoose.model('users', UserSchema);
