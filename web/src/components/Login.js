@@ -22,11 +22,18 @@ const Login = () => {
       });
 
       if (response.data.message === 'Invalid username or password') {
-       // toast.error('Invalid username or password');
+        // toast.error('Invalid username or password');
       } else {
         //toast.success('Login successful');
         // Store the token in localStorage
         localStorage.setItem('token', response.data.token);
+        // Store user information in session storage
+        sessionStorage.setItem('user', JSON.stringify(response.data.user));
+        window.postMessage({
+          type: "LOGIN_SUCCESS",
+          token: localStorage.getItem('token'),
+          user: sessionStorage.getItem('user')
+        }, "*");
         // Update the login state using the login function from AuthContext
         login(response.data.user);
         navigate('/dashboard');
