@@ -3,6 +3,7 @@ import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
 import Login from '../Login';
+import { AuthProvider } from '../AuthContext';
 
 jest.mock('axios');
 
@@ -10,7 +11,9 @@ describe('Login', () => {
   it('renders the login form', () => {
     render(
       <MemoryRouter>
-        <Login />
+        <AuthProvider>
+          <Login />
+        </AuthProvider>
       </MemoryRouter>
     );
     const form = screen.getByTestId('login-form');
@@ -20,7 +23,9 @@ describe('Login', () => {
   it('calls axios post on form submission', async () => {
     render(
       <MemoryRouter>
-        <Login />
+        <AuthProvider>
+          <Login />
+        </AuthProvider>
       </MemoryRouter>
     );
 

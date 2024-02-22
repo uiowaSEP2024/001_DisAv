@@ -3,14 +3,16 @@ import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
 import Signup from '../Signup';
-
+import { AuthProvider } from '../AuthContext';
 jest.mock('axios');
 
 describe('Signup', () => {
   it('renders the signup form', () => {
     render(
       <MemoryRouter>
-        <Signup />
+        <AuthProvider>
+          <Signup />
+        </AuthProvider>
       </MemoryRouter>
     );
     const form = screen.getByTestId('signup-form');
@@ -20,7 +22,9 @@ describe('Signup', () => {
   it('calls axios post on form submission', async () => {
     render(
       <MemoryRouter>
-        <Signup />
+        <AuthProvider>
+          <Signup/>
+        </AuthProvider>
       </MemoryRouter>
     );
 
