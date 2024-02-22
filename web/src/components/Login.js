@@ -1,13 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import { AuthContext } from './AuthContext'; // Import AuthContext
-import 'react-toastify/dist/ReactToastify.css';
 import '../styles/login.css';
 
 const Login = () => {
-  toast.configure();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -22,9 +20,9 @@ const Login = () => {
       });
 
       if (response.data.message === 'Invalid username or password') {
-        toast.error('Invalid username or password');
+        console.log('Invalid username or password');
       } else {
-        toast.success('Login successful');
+        console.log('Login successful');
         // Store the token in localStorage
         localStorage.setItem('token', response.data.token);
         // Update the login state using the login function from AuthContext
@@ -34,10 +32,10 @@ const Login = () => {
     } catch (err) {
       if (err.response) {
         // Handle HTTP errors here
-        toast.error(err.response.data.message);
+        console.error(err.response.data.message);
       } else {
         // Handle other errors here
-        toast.error('Login failed. Please try again later.');
+        console.error('Login failed. Please try again later.');
       }
       console.error(err);
     }

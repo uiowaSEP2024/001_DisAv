@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = ({ isLoggedIn, onLogout }) => {
   return (
-    <nav className="navbar">
+    <nav className="navbar" data-testid="navbar">
       <div className="logo">Logo</div>
       <div className="buttons">
         {isLoggedIn ? (

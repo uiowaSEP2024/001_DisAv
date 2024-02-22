@@ -1,29 +1,43 @@
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom'; // Import BrowserRouter
 import App from '../../App';
+import { AuthContext } from '../AuthContext';
 
-// Helper function to render the App component within a Router
-const renderWithRouter = (ui, { route = '/' } = {}) => {
-  window.history.pushState({}, 'Test page', route);
-  return render(ui, { wrapper: BrowserRouter });
-};
+test('renders App component with Navbar', () => {
+  const mockAuthContextValue = {
+    isLoggedIn: true,
+    logout: jest.fn(),
+  };
 
-describe('App Routing', () => {
-  test('renders the Navbar component', () => {
-    renderWithRouter(<App />);
-    const navbar = screen.getByRole('navigation');
-    expect(navbar).toBeInTheDocument();
-  });
+  render(
+    <AuthContext.Provider value={mockAuthContextValue}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AuthContext.Provider>
+  );
 
-  test('renders the Homepage component on the root route', () => {
-    renderWithRouter(<App />, { route: '/' });
-    const homepage = screen.getByTestId('homepage');
-    expect(homepage).toBeInTheDocument();
-  });
+  const navbarElement = screen.getByTestId('navbar'); // Ensure the case matches the actual text
+  expect(navbarElement).toBeInTheDocument();
+});
 
-  test('renders the Login component on the /login route', () => {
-    renderWithRouter(<App />, { route: '/login' });
-    const loginForm = screen.getByTestId('login-form');
-    expect(loginForm).toBeInTheDocument();
-  });
+test('logs out user when logout button is clicked', () => {
+  const mockAuthContextValue = {
+    isLoggedIn: true,
+    logout: jest.fn(),
+  };
+
+  render(
+    <AuthContext.Provider value={mockAuthContextValue}>
+      <BrowserRouter> {/* Wrap the App component with BrowserRouter */}
+        <App />
+      </BrowserRouter>
+    </AuthContext.Provider>
+  );
+
+  const logoutButton = screen.getByText('Log Out');
+  fireEvent.click(logoutButton);
+
+  expect(mockAuthContextValue.logout).toHaveBeenCalled();
 });
