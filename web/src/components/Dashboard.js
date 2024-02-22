@@ -19,7 +19,7 @@ const Dashboard = () => {
           {/* Add more user details as needed */}
         </div>
       )}
-      <Preference />
+      {/* <Preference /> */}
     </div>
   );
 };

@@ -1,17 +1,29 @@
+// Preference.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/preference.css';
 
-const Preference = () => {
+
+const defaultTasks = {
+  "Work": false,
+  "Reading": false,
+  "Exercise": false,
+  "Break": false
+};
+
+const Preference = ({ initialPreferredTasks = defaultTasks, onClose }) => {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
-  const [preferredTasks, setPreferences] = useState({}); // Initialize as empty object
+  const [preferredTasks, setPreferences] = useState(initialPreferredTasks); // Initialize as empty object
 
   useEffect(() => {
     // Load the user's preferences when the component mounts
     if (user && user.preferredTasks) {
       setPreferences(user.preferredTasks);
-    } else {
       // Fetch preferredTasks from the database for new user
+    } else if (user && !user.preferredTasks) {
+      setPreferences(defaultTasks);
+    } else {
+      // Fetch preferredTasks from the database for existing user
       axios
         .get(`http://localhost:3002/user/preferred-tasks/${user.username}`)
         .then(response => {
@@ -19,6 +31,7 @@ const Preference = () => {
         })
         .catch(error => {
           console.error('Failed to fetch preferences', error);
+
         });
     }
   }, [user]);
@@ -26,27 +39,9 @@ const Preference = () => {
   const handleToggle = preference => {
     const updatedPreferences = {
       ...preferredTasks,
-      [preference]: !preferredTasks[preference], // Toggle the value
+      [preference]: preferredTasks[preference] === true ? false : true, // Toggle the value
     };
     setPreferences(updatedPreferences);
-
-    // Send the updated preference to the database
-    axios
-      .put('http://localhost:3002/user/update-preferred-tasks', {
-        username: user.username,
-        preferredTasks: updatedPreferences,
-      })
-      .then(response => {
-        // Update user data in sessionStorage with new preferences
-        sessionStorage.setItem(
-          'user',
-          JSON.stringify({ ...user, preferredTasks: updatedPreferences })
-        );
-        setUser({ ...user, preferredTasks: updatedPreferences });
-      })
-      .catch(error => {
-        console.error('Failed to update preferences', error);
-      });
   };
 
   const handleSubmit = () => {
@@ -59,6 +54,7 @@ const Preference = () => {
         // Update user data in sessionStorage with new preferences
         sessionStorage.setItem('user', JSON.stringify({ ...user, preferredTasks: preferredTasks }));
         setUser({ ...user, preferredTasks: preferredTasks });
+        onClose(); // Close the pop-up after submitting preferences
       })
       .catch(error => {
         console.error('Failed to update preferences', error);
@@ -79,13 +75,7 @@ const Preference = () => {
                 <input
                   id={preference}
                   type="checkbox"
-                  checked={
-                    preferredTasks[preference] === 'true'
-                      ? true
-                      : preferredTasks[preference] === 'false'
-                        ? false
-                        : undefined
-                  } // Use the preferredTasks value directly
+                  checked={preferredTasks[preference] === true}
                   onChange={() => handleToggle(preference)}
                 />
                 <span className="slider round"></span>
@@ -94,7 +84,7 @@ const Preference = () => {
           </li>
         ))}
       </ul>
-      <button onClick={handleSubmit}>Submit</button> {/* Added submit button */}
+      <button onClick={handleSubmit}>Submit</button>
     </div>
   );
 };
