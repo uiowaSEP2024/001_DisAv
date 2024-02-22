@@ -64,26 +64,30 @@ test('allows the user to set task frequency when a task is enabled', async () =>
   fireEvent.click(workCheckbox);
 
   // Check that the frequency input field is rendered
-  const workFrequencyInput = screen.getByTestId('WorkFrequency');
-  expect(workFrequencyInput).toBeInTheDocument();
+  const taskFrequencyInput = screen.getByLabelText(/Task Frequency/i);
+  expect(taskFrequencyInput).toBeInTheDocument();
 
   // Set the frequency
-  fireEvent.change(workFrequencyInput, { target: { value: '01:30' } });
-  expect(workFrequencyInput.value).toBe('01:30');
+  fireEvent.change(taskFrequencyInput, { target: { value: '01:30' } });
+  expect(taskFrequencyInput.value).toBe('01:30');
 
-  // const submitButton = screen.getByText('Submit');
-  // fireEvent.click(submitButton);
+  const submitButton = screen.getByText('Submit');
+  fireEvent.click(submitButton);
 
-  // await waitFor(() => expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
-  //   username: mockUser.username,
-  //   preferredTasks: {
-  //     Work: "true",
-  //     WorkFrequency: '01:30',
-  //     Reading: false,
-  //     Exercise: false,
-  //     Break: false,
-  //   },
-  // }));
+  await waitFor(() => expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
+    username: mockUser.username,
+    preferredTasks: {
+      Work: "true",
+      Reading: false,
+      Exercise: false,
+      Break: false,
+    },
+  }));
+
+  await waitFor(() => expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-task-frequency', {
+    username: mockUser.username,
+    taskFrequency: 5400000, // 01:30 in milliseconds
+  }));
 });
 
 test('updates preferences on submit', async () => {

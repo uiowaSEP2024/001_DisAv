@@ -3,18 +3,17 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/preference.css';
 
-
 const defaultTasks = {
-  "Work": false,
-  "Reading": false,
-  "Exercise": false,
-  "Break": false
+  Work: false,
+  Reading: false,
+  Exercise: false,
+  Break: false,
 };
 
 const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }) => {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const [preferredTasks, setPreferences] = useState(initialPreferredTasks); // Initialize as empty object
-
+  const [taskFrequency, setTaskFrequency] = useState(':'); // Initialize task frequency
   useEffect(() => {
     // Load the user's preferences when the component mounts
     if (user && user.preferredTasks) {
@@ -24,24 +23,26 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
     if (user && !user.preferredTasks) {
       setPreferences(defaultTasks);
     }
+    if (user && user.taskFrequency) {
+      const hours = Math.floor(user.taskFrequency / 3600000);
+      const minutes = Math.floor((user.taskFrequency % 3600000) / 60000);
+      const formattedFrequency = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+
+      setTaskFrequency(formattedFrequency); // Set task frequency from user data
+    }
   }, [user]);
 
   const handleToggle = preference => {
     const updatedPreferences = {
       ...preferredTasks,
-      [preference]: preferredTasks[preference] === "true" ? "false" : "true", // Toggle the value
+      [preference]: preferredTasks[preference] === 'true' ? 'false' : 'true', // Toggle the value
     };
-
-    if (updatedPreferences[preference] === "true") {
-      updatedPreferences[`${preference}Frequency`] = ''; // Initialize frequency as empty string
-    } else {
-      delete updatedPreferences[`${preference}Frequency`]; // Remove frequency field when switch is disabled
-    }
 
     setPreferences(updatedPreferences);
   };
 
   const handleSubmit = () => {
+    // Update the user's prefferred tasks in the database
     axios
       .put('http://localhost:3002/user/update-preferred-tasks', {
         username: user.username,
@@ -49,8 +50,30 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
       })
       .then(response => {
         // Update user data in sessionStorage with new preferences
-        sessionStorage.setItem('user', JSON.stringify({ ...user, preferredTasks: preferredTasks }));
-        setUser({ ...user, preferredTasks: preferredTasks });
+        sessionStorage.setItem(
+          'user',
+          JSON.stringify({ ...user, preferredTasks: preferredTasks, taskFrequency: taskFrequency })
+        );
+        setUser({ ...user, preferredTasks: preferredTasks, taskFrequency: taskFrequency });
+        onClose(); // Close the pop-up after submitting preferences
+      })
+      .catch(error => {
+        console.error('Failed to update preferences', error);
+      });
+    // Convert HH:mm to milliseconds
+    const [hours, minutes] = taskFrequency.split(':').map(Number);
+    const milliseconds = (hours * 60 * 60 + minutes * 60) * 1000;
+
+    //Update the user's task frequency in the database
+    axios
+      .put('http://localhost:3002/user/update-task-frequency', {
+        username: user.username,
+        taskFrequency: milliseconds,
+      })
+      .then(response => {
+        // Update user data in sessionStorage with new preferences
+        sessionStorage.setItem('user', JSON.stringify({ ...user, taskFrequency: milliseconds }));
+        setUser({ ...user, taskFrequency: milliseconds });
         onClose(); // Close the pop-up after submitting preferences
       })
       .catch(error => {
@@ -72,35 +95,33 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
                 <input
                   id={preference}
                   type="checkbox"
-                  checked={preferredTasks[preference] === "true"}
+                  checked={preferredTasks[preference] === 'true'}
                   onChange={() => handleToggle(preference)}
                 />
                 <span className="slider round"></span>
               </label>
-              {preferredTasks[preference] === "true" && ( // Conditionally render frequency input
-                <input
-                type="text" // Change input type to text
-                data-testid={`${preference}Frequency`} // Add data-testid attribute
-                placeholder="HH:mm" // Specify the expected format
-                value={preferredTasks[`${preference}Frequency`] || ':'}
-                pattern="[0-9]{2}:[0-9]{2}" // Restrict input to numbers and :
-                onChange={e => {
-                  const frequency = e.target.value;
-                  if (/^[0-9:]*$/.test(frequency)) { // Validate input against the pattern
-                    const [hours, minutes] = frequency.split(':').map(Number);
-                    if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
-                      setPreferences(prevState => ({
-                        ...prevState,
-                        [`${preference}Frequency`]: frequency,
-                      }));
-                    }
-                  }
-                }}
-              />
-              )}
             </div>
           </li>
         ))}
+        <li>
+          <label htmlFor="taskFrequency">Task Frequency</label>
+          <input
+            id="taskFrequency"
+            type="text"
+            placeholder="HH:mm"
+            value={taskFrequency}
+            pattern="[0-9]{2}:[0-9]{2}"
+            onChange={e => {
+              const frequency = e.target.value;
+              if (/^[0-9:]*$/.test(frequency)) {
+                const [hours, minutes] = frequency.split(':').map(Number);
+                if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
+                  setTaskFrequency(frequency);
+                }
+              }
+            }}
+          />
+        </li>
       </ul>
       <button onClick={handleSubmit}>Submit</button>
     </div>
