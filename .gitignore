@@ -51,3 +51,21 @@ SEPvenv/
 # misc
 *.log
 .python-version
+mobile/coverage/clover.xml
+mobile/coverage/coverage-final.json
+mobile/coverage/lcov.info
+mobile/coverage/lcov-report/base.css
+mobile/coverage/lcov-report/block-navigation.js
+mobile/coverage/lcov-report/index.html
+mobile/coverage/lcov-report/prettify.css
+mobile/coverage/lcov-report/prettify.js
+mobile/coverage/lcov-report/sorter.js
+mobile/coverage/lcov-report/mobile/App.js.html
+mobile/coverage/lcov-report/mobile/index.html
+mobile/coverage/lcov-report/mobile/screens/ForgotPassword.js.html
+mobile/coverage/lcov-report/mobile/screens/Home.js.html
+mobile/coverage/lcov-report/mobile/screens/index.html
+mobile/coverage/lcov-report/mobile/screens/Login.js.html
+mobile/coverage/lcov-report/mobile/screens/Rewards.js.html
+mobile/coverage/lcov-report/mobile/screens/Settings.js.html
+mobile/coverage/lcov-report/mobile/screens/SignUp.js.html

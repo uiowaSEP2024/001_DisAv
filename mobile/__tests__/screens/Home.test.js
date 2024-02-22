@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import { Provider as PaperProvider } from 'react-native-paper';
 import Home from '../../screens/Home';
 
 jest.mock('@react-navigation/native', () => {
@@ -18,6 +19,12 @@ jest.mock('../../context/SessionContext', () => ({
   useSession: () => ({
     login: jest.fn().mockImplementation(() => Promise.resolve(true)), // Mock implementation of login
     // Add other functions or values returned by useSession if necessary
+    user: {
+      username: 'testuser',
+      email: 'test@gmail.com',
+      password: 'testpassword',
+      preferredTasks: [],
+    },
   }),
 }));
 
@@ -34,14 +41,37 @@ const mockRoute = {
 
 describe('Home', () => {
   it('renders correctly', () => {
-    const { getByText } = render(<Home navigation={mockNavigation} route={mockRoute} />);
-    expect(getByText('Welcome Home')).toBeTruthy();
-    expect(getByText('Settings')).toBeTruthy();
+    const { getByText } = render(
+      <PaperProvider>
+        <Home navigation={mockNavigation} route={mockRoute} />
+      </PaperProvider>
+    );
+    expect(
+      getByText(
+        'Welcome to infinite focus, an app that will enable you to avoid doom scrolling and enjoy the more important things in life'
+      )
+    ).toBeTruthy();
   });
+  it('navigates opens the dialog on first render when preferredTasks is empty', async () => {
+    const { getByText, queryByText } = render(
+      <PaperProvider>
+        <Home navigation={mockNavigation} route={mockRoute} />
+      </PaperProvider>
+    );
 
-  it('navigates to Rewards when "Go to Rewards" is pressed', () => {
-    const { getByText } = render(<Home navigation={mockNavigation} route={mockRoute} />);
-    fireEvent.press(getByText('Settings'));
-    expect(mockNavigation.navigate).toHaveBeenCalledWith('Settings');
+    // Check if the dialog is visible on the screen
+    expect(getByText('Welcome')).toBeTruthy();
+
+    // Check if the Next button is visible and clickable
+    const nextButton = getByText('Next');
+    fireEvent.press(nextButton);
+
+    // Wait for the dialog to be dismissed
+    await waitFor(() => {
+      expect(queryByText('Welcome')).toBeNull();
+    });
+
+    // Ensure navigation to 'Preferences' screen is triggered after pressing 'Next'
+    expect(mockNavigation.navigate).toHaveBeenCalledWith('Preferences');
   });
 });

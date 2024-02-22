@@ -37,13 +37,6 @@ jest.mock('../../context/SessionContext', () => ({
 }));
 
 describe('Settings Screen', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-    jest.useRealTimers(); // If you are using fake timers
-  });
-  beforeAll(() => {
-    jest.useFakeTimers();
-  });
   it('renders correctly', () => {
     const { getByText } = render(<Settings navigation={mockNavigation} />);
     expect(getByText('Settings')).toBeTruthy();

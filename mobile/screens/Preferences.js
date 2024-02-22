@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { Checkbox, Button } from 'react-native-paper';
+import { Checkbox, Button, Text } from 'react-native-paper';
 import CustomAlert from '../components/CustomAlert';
 import { useSession } from '../context/SessionContext';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -53,6 +53,7 @@ export default function Preferences({ navigation }) {
       style={styles.gradient}
     >
       <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>What are your preferred tasks?</Text>
         {Object.keys(preferredTasks).map(task => (
           <Checkbox.Item
             key={task}
@@ -60,6 +61,7 @@ export default function Preferences({ navigation }) {
             label={task.charAt(0).toUpperCase() + task.slice(1)}
             status={preferredTasks[task] ? 'checked' : 'unchecked'}
             onPress={() => handleSelectTask(task)}
+            testID={task + '-checkbox'}
           />
         ))}
         <Button mode="contained" onPress={handleSubmit} style={styles.submitButton}>
@@ -93,5 +95,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 15,
     width: width * 0.2,
+  },
+  title: {
+    fontSize: 24,
+    color: 'white',
+    marginBottom: 20,
   },
 });

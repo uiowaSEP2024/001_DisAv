@@ -2,6 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import Preferences from '../../screens/Preferences';
 import axios from 'axios';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 // Mock axios
 jest.mock('axios', () => ({
@@ -41,17 +42,25 @@ jest.mock('../../config/Api', () => ({
 
 describe('Preferences', () => {
   it('renders correctly with initial user preferences', () => {
-    const { getByText } = render(<Preferences navigation={mockNavigation} />);
-    expect(getByText('What kind of tasks do you want to do?')).toBeTruthy();
+    const { getByText, getByTestId } = render(
+      <PaperProvider>
+        <Preferences navigation={mockNavigation} />
+      </PaperProvider>
+    );
+    expect(getByText('What are your preferred tasks?')).toBeTruthy();
     // Check for task buttons based on the mocked user's preferred tasks
-    expect(getByText('work')).toBeTruthy();
-    expect(getByText('read')).toBeTruthy();
-    expect(getByText('exercise')).toBeTruthy();
-    expect(getByText('rest')).toBeTruthy();
+    expect(getByTestId('work-checkbox')).toBeTruthy();
+    expect(getByTestId('read-checkbox')).toBeTruthy();
+    expect(getByTestId('exercise-checkbox')).toBeTruthy();
+    expect(getByTestId('rest-checkbox')).toBeTruthy();
   });
 
   it('updates user preferences on submit', async () => {
-    const { getByText } = render(<Preferences navigation={mockNavigation} />);
+    const { getByText } = render(
+      <PaperProvider>
+        <Preferences navigation={mockNavigation} />
+      </PaperProvider>
+    );
     fireEvent.press(getByText('Submit'));
 
     // Mock axios call
