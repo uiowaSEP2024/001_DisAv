@@ -17,3 +17,9 @@
 .signup form button {
   cursor: pointer;
 }
+.ReactModal__Content {
+  width: 50%;
+  height: 50%;
+  margin: auto;
+  overflow: auto;
+}
