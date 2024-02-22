@@ -80,4 +80,16 @@ router.delete('/delete', async (req, res) => {
   await UserModel.findOneAndDelete({ username });
   return res.json({ message: 'User deleted' });
 });
+
+// update preferred tasks
+router.put('/update-preferred-tasks', async (req, res) => {
+  const { username, preferredTasks } = req.body;
+  const user = await UserModel.findOne({ username });
+  if (!user) {
+    return res.json({ message: 'Invalid user' });
+  }
+  await UserModel.findOneAndUpdate({ username }, { preferredTasks });
+  return res.json({ message: 'User updated with preferred tasks' });
+});
+
 export { router as UserRouter };

@@ -43,3 +43,15 @@ jobs:
           MONGO_UNAME: ${{ secrets.MONGO_UNAME }}
           MONGO_PWD: ${{ secrets.MONGO_PWD }}
         run: cd server && npm test
+  test-extension:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - name: Install dependencies (Mobile)
+        run: cd extension && npm install
+      - name: Run tests (extension)
+        run: cd extension && npm test

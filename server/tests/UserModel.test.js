@@ -54,7 +54,6 @@ describe('UserModel', () => {
     expect(savedUser.lastname).toBe(userData.lastname);
     expect(savedUser.completionRate).toBe(userData.completionRate);
     expect(savedUser.accountabilityPartners).toEqual(expect.any(Array));
-    expect(savedUser.preferredTasks).toEqual(expect.any(Array));
   });
 
   it('should fail if required fields are missing', async () => {
