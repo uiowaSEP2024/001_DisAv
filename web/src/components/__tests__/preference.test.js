@@ -44,6 +44,52 @@ test('allows the user to toggle preferences', async () => {
   }));
 });
 
+test('allows the user to set task frequency when a task is enabled', async () => {
+  const mockUser = {
+    username: 'testuser',
+    preferredTasks: {
+      "Work": false,
+      "Reading": false,
+      "Exercise": false,
+      "Break": false
+    },
+  };
+  sessionStorage.setItem('user', JSON.stringify(mockUser));
+
+  axios.put.mockResolvedValue({ data: { message: 'User updated with preferred tasks' } });
+
+  render(<Preference />);
+
+  const workCheckbox = screen.getByLabelText(/Work/i);
+  fireEvent.click(workCheckbox);
+
+  // Check that the frequency input field is rendered
+  const taskFrequencyInput = screen.getByLabelText(/Task Frequency/i);
+  expect(taskFrequencyInput).toBeInTheDocument();
+
+  // Set the frequency
+  fireEvent.change(taskFrequencyInput, { target: { value: '01:30' } });
+  expect(taskFrequencyInput.value).toBe('01:30');
+
+  const submitButton = screen.getByText('Submit');
+  fireEvent.click(submitButton);
+
+  await waitFor(() => expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
+    username: mockUser.username,
+    preferredTasks: {
+      Work: "true",
+      Reading: false,
+      Exercise: false,
+      Break: false,
+    },
+  }));
+
+  await waitFor(() => expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-task-frequency', {
+    username: mockUser.username,
+    taskFrequency: 5400000, // 01:30 in milliseconds
+  }));
+});
+
 test('updates preferences on submit', async () => {
   const mockUser = {
     username: 'testuser',
