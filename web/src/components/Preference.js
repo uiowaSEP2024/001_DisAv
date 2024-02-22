@@ -19,10 +19,11 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose }) => {
     // Load the user's preferences when the component mounts
     if (user && user.preferredTasks) {
       setPreferences(user.preferredTasks);
+      // Fetch preferredTasks from the database for new user
     } else if (user && !user.preferredTasks) {
       setPreferences(defaultTasks);
     } else {
-      // Fetch preferredTasks from the database for new user
+      // Fetch preferredTasks from the database for existing user
       axios
         .get(`http://localhost:3002/user/preferred-tasks/${user.username}`)
         .then(response => {

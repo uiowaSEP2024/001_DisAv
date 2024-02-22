@@ -32,7 +32,7 @@ test('allows the user to toggle preferences', async () => {
   const submitButton = screen.getByText('Submit');
   fireEvent.click(submitButton);
 
-  await waitFor(() =>expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
+  await waitFor(() => expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
     username: mockUser.username,
     preferredTasks: {
       Work: "true",
@@ -81,48 +81,33 @@ test('updates preferences on submit', async () => {
   });
 });
 
-// test('fetches preferredTasks from the database for new user', async () => {
-//   const mockUser = {
-//     username: 'newuser',
-//     preferredTasks: null,
-//   };
-//   sessionStorage.setItem('user', JSON.stringify(mockUser));
+test('closes the modal after submitting preferences', async () => {
 
-//   const mockResponse = {
-//     data: {
-//       preferredTasks: {
-//         Work: true,
-//         Reading: false,
-//         Exercise: true,
-//         Break: false,
-//       },
-//     },
-//   };
+  const mockUser = {
+    username: 'testuser',
+    preferredTasks: {
+      Work: false,
+      Reading: false,
+      Exercise: false,
+      Break: false,
+    },
+  };
+  sessionStorage.setItem('user', JSON.stringify(mockUser));
 
-//   axios.get.mockResolvedValue(mockResponse);
+  axios.put.mockResolvedValue({ data: { message: 'User updated with preferred tasks' } });
 
-//   render(<Preference />);
+  const onClose = jest.fn();
 
-//   await waitFor(() => {
-//     expect(axios.get).toHaveBeenCalledWith('http://localhost:3002/user/preferred-tasks/newuser');
-//   });
+  render(<Preference onClose={onClose} />);
+  const submitButton = screen.getByText('Submit');
+  fireEvent.click(submitButton);
 
-//   await waitFor(() => {
-//     expect(screen.getByLabelText(/Work/i).checked).toBe(true);
-//   });
+  await waitFor(() => {
+    expect(onClose).toHaveBeenCalled();
+  });
+});
 
-//   await waitFor(() => {
-//     expect(screen.getByLabelText(/Reading/i).checked).toBe(false);
-//   });
 
-//   await waitFor(() => {
-//     expect(screen.getByLabelText(/Exercise/i).checked).toBe(true);
-//   });
-
-//   await waitFor(() => {
-//     expect(screen.getByLabelText(/Break/i).checked).toBe(false);
-//   });
-// });
 
 test('loads default preferences for new user with no stored preferences', async () => {
   const mockUser = {
@@ -141,24 +126,25 @@ test('loads default preferences for new user with no stored preferences', async 
   });
 });
 
-// test('loads user preferences when available', async () => {
-//   const mockUser = {
-//     username: 'existinguser',
-//     preferredTasks: {
-//       Work: true,
-//       Reading: false,
-//       Exercise: true,
-//       Break: false,
-//     },
-//   };
-//   sessionStorage.setItem('user', JSON.stringify(mockUser));
+test('loads user preferences from sessionStorage', async () => {
+  const mockUser = {
+    username: 'testuser',
+    preferredTasks: {
+      Work: true,
+      Reading: false,
+      Exercise: true,
+      Break: false,
+    },
+  };
+  sessionStorage.setItem('user', JSON.stringify(mockUser));
 
-//   render(<Preference />);
+  render(<Preference />);
 
-//   await waitFor(() => {
-//     expect(screen.getByLabelText(/Work/i).checked).toBe(true);
-//     expect(screen.getByLabelText(/Reading/i).checked).toBe(false);
-//     expect(screen.getByLabelText(/Exercise/i).checked).toBe(true);
-//     expect(screen.getByLabelText(/Break/i).checked).toBe(false);
-//   });
-// });
+  await waitFor(() => {
+    expect(screen.getByLabelText(/Work/i).checked).toBe(true);
+    expect(screen.getByLabelText(/Reading/i).checked).toBe(false);
+    expect(screen.getByLabelText(/Exercise/i).checked).toBe(true);
+    expect(screen.getByLabelText(/Break/i).checked).toBe(false);
+  });
+}
+);
