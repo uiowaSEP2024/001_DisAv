@@ -76,8 +76,23 @@ describe('User API Routes', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe('Invalid user');
   });
+  // Test update preferred tasks
   it("PUT /update-preferred-tasks - should update user's preferred tasks", async () => {
-    await request(app).put('/user/update-preferred-tasks').send({ user: 'invalid User' });
+    const preferredTasks = { work: true, reading: true };
+    const response = await request(app)
+      .put('/user/update-preferred-tasks')
+      .send({ username: 'test2', preferredTasks });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('User updated with preferred tasks');
+  });
+  // test update invalid user preferred tasks
+  it("PUT /update-preferred-tasks - should fail to update invalid user's preferred tasks", async () => {
+    const preferredTasks = { work: true, reading: true };
+    const response = await request(app)
+      .put('/user/update-preferred-tasks')
+      .send({ username: 'invalid user', preferredTasks });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('Invalid user');
   });
   // Test update task frequency
   it("PUT /update-task-frequency - should update a user's task frequency", async () => {
@@ -88,6 +103,16 @@ describe('User API Routes', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe('User updated with task frequency');
   });
+
+  // test update invalid user task frequency
+  it("PUT /update-task-frequency - should fail to update invalid user's task frequency", async () => {
+    const taskFrequency = 1000;
+    const response = await request(app)
+      .put('/user/update-task-frequency')
+      .send({ username: 'invalid user', taskFrequency });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('Invalid user');
+  });
   // Test update work preferences
   it("PUT /update-work-preferences - should update a user's work preferences", async () => {
     const workPreferences = 'I work on things related to software development';
@@ -97,6 +122,15 @@ describe('User API Routes', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe('User updated with work preferences');
   });
+  // test update invalid user work preferences
+  it("PUT /update-work-preferences - should fail to update invalid user's work preferences", async () => {
+    const workPreferences = 'I work on things related to software development';
+    const response = await request(app)
+      .put('/user/update-work-preferences')
+      .send({ username: 'invalid user', workPreferences });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('Invalid user');
+  });
   // Test update reading preferences
   it("PUT /update-reading-preferences - should update a user's reading preferences", async () => {
     const readingPreferences = 'I read books related to software development';
@@ -105,6 +139,15 @@ describe('User API Routes', () => {
       .send({ username: 'test2', readingPreferences });
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe('User updated with reading preferences');
+  });
+  // test update invalid user reading preferences
+  it("PUT /update-reading-preferences - should fail to update invalid user's reading preferences", async () => {
+    const readingPreferences = 'I read books related to software development';
+    const response = await request(app)
+      .put('/user/update-reading-preferences')
+      .send({ username: 'invalid user', readingPreferences });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('Invalid user');
   });
   // Test update all preferences
   it('PUT /update-all-preferences - should update all user preferences', async () => {
@@ -119,6 +162,20 @@ describe('User API Routes', () => {
       .send({ username: 'test2', ...preferences });
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe('User updated with all preferences');
+  });
+  // test update invalid user all preferences
+  it('PUT /update-all-preferences - should fail to update invalid user all preferences', async () => {
+    const preferences = {
+      preferredTasks: { work: false, reading: true },
+      taskFrequency: '3000',
+      workPreferences: 'I work on things related to software development',
+      readingPreferences: 'I read books related to software development',
+    };
+    const response = await request(app)
+      .put('/user/update-all-preferences')
+      .send({ username: 'invalid user', ...preferences });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('Invalid user');
   });
   // test delete user
   it('DELETE /delete - should delete a user', async () => {
