@@ -82,5 +82,50 @@ router.put('/update-preferred-tasks', async (req, res) => {
   await UserModel.findOneAndUpdate({ username }, { preferredTasks });
   return res.json({ message: 'User updated with preferred tasks' });
 });
+// update task frequency
+router.put('/update-task-frequency', async (req, res) => {
+  const { username, taskFrequency } = req.body;
+  const user = await UserModel.findOne({ username });
+  if (!user) {
+    return res.json({ message: 'Invalid user' });
+  }
+  await UserModel.findOneAndUpdate({ username }, { taskFrequency });
+  return res.json({ message: 'User updated with task frequency' });
+});
 
+// update work preferences
+router.put('/update-work-preferences', async (req, res) => {
+  const { username, workPreferences } = req.body;
+  const user = await UserModel.findOne({ username });
+  if (!user) {
+    return res.json({ message: 'Invalid user' });
+  }
+  await UserModel.findOneAndUpdate({ username }, { workPreferences });
+  return res.json({ message: 'User updated with work preferences' });
+});
+
+// update reading preferences
+router.put('/update-reading-preferences', async (req, res) => {
+  const { username, readingPreferences } = req.body;
+  const user = await UserModel.findOne({ username });
+  if (!user) {
+    return res.json({ message: 'Invalid user' });
+  }
+  await UserModel.findOneAndUpdate({ username }, { readingPreferences });
+  return res.json({ message: 'User updated with reading preferences' });
+});
+
+// update all preferences
+router.put('/update-all-preferences', async (req, res) => {
+  const { username, preferredTasks, taskFrequency, workPreferences, readingPreferences } = req.body;
+  const user = await UserModel.findOne({ username });
+  if (!user) {
+    return res.json({ message: 'Invalid user' });
+  }
+  await UserModel.findOneAndUpdate(
+    { username },
+    { preferredTasks, taskFrequency, workPreferences, readingPreferences }
+  );
+  return res.json({ message: 'User updated with all preferences' });
+});
 export { router as UserRouter };
