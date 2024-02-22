@@ -1,44 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-// import { toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+//import { toast } from 'react-toastify';
+import { AuthContext } from './AuthContext';
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/signup.css';
 
 function Signup() {
-  //   toast.configure();
+  //toast.configure();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
-
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // Use the login function from AuthContext
 
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await axios
-        .post('http://localhost:3002/auth/register', {
-          firstname: firstname,
-          lastname: lastname,
-          username: username,
-          password: password,
-          email: email,
-        })
-        .then(r => {
-          if (r.data.message === 'User already exists') {
-            console.log('Username is already used');
-            // toast('Username is already used');
-          } else {
-            // toast('Account has been created successfully');
-            navigate('/'); // Redirect to home page
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      const response = await axios.post('http://localhost:3002/auth/register', {
+        firstname: firstname,
+        lastname: lastname,
+        username: username,
+        password: password,
+        email: email,
+      });
+
+      if (response.data.message === 'User already exists') {
+        //toast.error('Username is already used');
+      } else {
+        //toast.success('Account has been created successfully');
+        // Log in the user after successful signup
+        login({ username, password, firstname, lastname, email }); // Adjust the object to match what your login function expects
+        navigate('/dashboard'); // Redirect to dashboard
+      }
     } catch (err) {
+      if (err.response) {
+        // Handle HTTP errors here
+        //toast.error(err.response.data.message);
+      } else {
+        // Handle other errors here
+        //toast.error('Signup failed. Please try again later.');
+      }
       console.error(err);
     }
   };

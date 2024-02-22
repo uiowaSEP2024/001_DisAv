@@ -1,10 +1,9 @@
 import React from 'react';
 import '../styles/dashboard.css';
-
+import Preference from './Preference';
 const Dashboard = () => {
   // Retrieve user information from session storage
   const user = JSON.parse(sessionStorage.getItem('user'));
-
   return (
     <div className="dashboard">
       <h1>Welcome to Your Dashboard</h1>
@@ -15,9 +14,12 @@ const Dashboard = () => {
           <p>Username: {user.username}</p>
           <p>First name: {user.firstname}</p>
           <p>Last name: {user.lastname}</p>
+          <p>Email: {user.email}</p>
+
           {/* Add more user details as needed */}
         </div>
       )}
+      <Preference />
     </div>
   );
 };

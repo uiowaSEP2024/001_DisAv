@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+//import { toast } from 'react-toastify';
+import { AuthContext } from './AuthContext'; // Import AuthContext
+//import 'react-toastify/dist/ReactToastify.css';
 import '../styles/login.css';
 
 const Login = () => {
+  //toast.configure();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // Use the login function from AuthContext
 
   const handleSubmit = async event => {
     event.preventDefault();
-
-    axios
-      .post('http://localhost:3002/auth/login', {
+    try {
+      const response = await axios.post('http://localhost:3002/auth/login', {
         username: username,
         password: password,
-      })
-      .then(response => {
+      });
+
+      if (response.data.message === 'Invalid username or password') {
+        // toast.error('Invalid username or password');
+      } else {
+        //toast.success('Login successful');
         // Store the token in localStorage
         localStorage.setItem('token', response.data.token);
         // Store user information in session storage
@@ -26,14 +34,20 @@ const Login = () => {
           token: localStorage.getItem('token'),
           user: sessionStorage.getItem('user')
         }, "*");
-        // Redirect to the dashboard using navigate
-        navigate('/dashboard', { state: { user: response.data.user } });
-        console.log('login response:', response.data);
-      })
-      .catch(error => {
-        console.error('Login error:', error.response || error.message);
-        // Handle login error (e.g., show an error message to the user)
-      });
+        // Update the login state using the login function from AuthContext
+        login(response.data.user);
+        navigate('/dashboard');
+      }
+    } catch (err) {
+      if (err.response) {
+        // Handle HTTP errors here
+        toast.error(err.response.data.message);
+      } else {
+        // Handle other errors here
+        toast.error('Login failed. Please try again later.');
+      }
+      console.error(err);
+    }
   };
 
   return (

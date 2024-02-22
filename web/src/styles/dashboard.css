@@ -19,3 +19,32 @@
   width: 80%;
   max-width: 600px;
 }
+
+.task-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Spacing between cards */
+  justify-content: center; /* Center cards in the container */
+}
+
+.task-card {
+  background-color: #e9e9e9;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  width: calc(33.333% - 10px); /* Three cards per row with gap */
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .task-card {
+    width: calc(50% - 10px); /* Two cards per row on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .task-card {
+    width: 100%; /* One card per row on very small screens */
+  }
+}

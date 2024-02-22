@@ -19,30 +19,35 @@ describe('App Component', () => {
 
   test('displays user info when logged in', async () => {
     // Preload storage with user info
-    chrome.storage.local.set({
-      user: { username: 'testuser', email: 'test@example.com' },
-      token: '123456',
-    }, () => {
-      render(<App />);
-
-    });
+    chrome.storage.local.set(
+      {
+        user: { username: 'testuser', email: 'test@example.com' },
+        token: '123456',
+      },
+      () => {
+        render(<App />);
+      }
+    );
     await waitFor(() => screen.getByText('Log out'));
 
     expect(screen.getByText('User Name: testuser')).toBeInTheDocument();
     expect(screen.getByText('User Email: test@example.com')).toBeInTheDocument();
-   expect(screen.getByText('Log out')).toBeInTheDocument();
+    expect(screen.getByText('Log out')).toBeInTheDocument();
   });
 
   test('clears storage and user info on logout', async () => {
     // Mock logged in state
-    chrome.storage.local.set({
-      user: { username: 'testuser', email: 'test@example.com' },
-      token: '123456',
-    }, () => {
-      const { getByText } = render(<App />);
-      const logoutButton = getByText('Log out');
-      fireEvent.click(logoutButton);
-    });
+    chrome.storage.local.set(
+      {
+        user: { username: 'testuser', email: 'test@example.com' },
+        token: '123456',
+      },
+      () => {
+        const { getByText } = render(<App />);
+        const logoutButton = getByText('Log out');
+        fireEvent.click(logoutButton);
+      }
+    );
 
     // Wait for async useEffect to resolve
     await waitFor(() => screen.getByText('Log in'));
