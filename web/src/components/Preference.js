@@ -11,14 +11,13 @@ const defaultTasks = {
   "Break": false
 };
 
-const Preference = ({ initialPreferredTasks = defaultTasks, onClose }) => {
+const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }) => {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const [preferredTasks, setPreferences] = useState(initialPreferredTasks); // Initialize as empty object
 
   useEffect(() => {
     // Load the user's preferences when the component mounts
     if (user && user.preferredTasks) {
-      console.log('User preferences from sessionStorage', user.preferredTasks);
       setPreferences(user.preferredTasks);
       // Fetch preferredTasks from the database for new user
     }
