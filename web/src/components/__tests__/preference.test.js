@@ -43,43 +43,43 @@ test('allows the user to toggle preferences', async () => {
   }));
 });
 
-// test('updates preferences on submit', async () => {
-//   const mockUser = {
-//     username: 'testuser',
-//     preferredTasks: {
-//       Work: false,
-//       Reading: false,
-//       Exercise: false,
-//       Break: false,
-//     },
-//   };
-//   sessionStorage.setItem('user', JSON.stringify(mockUser));
+test('updates preferences on submit', async () => {
+  const mockUser = {
+    username: 'testuser',
+    preferredTasks: {
+      Work: false,
+      Reading: false,
+      Exercise: false,
+      Break: false,
+    },
+  };
+  sessionStorage.setItem('user', JSON.stringify(mockUser));
 
-//   axios.put.mockResolvedValue({ data: { message: 'User updated with preferred tasks' } });
+  axios.put.mockResolvedValue({ data: { message: 'User updated with preferred tasks' } });
 
-//   render(<Preference />);
+  render(<Preference />);
 
-//   const workCheckbox = screen.getByLabelText(/Work/i);
-//   fireEvent.click(workCheckbox);
+  const workCheckbox = screen.getByLabelText(/Work/i);
+  fireEvent.click(workCheckbox);
 
-//   const readingCheckbox = screen.getByLabelText(/Reading/i);
-//   fireEvent.click(readingCheckbox);
+  const readingCheckbox = screen.getByLabelText(/Reading/i);
+  fireEvent.click(readingCheckbox);
 
-//   const submitButton = screen.getByText('Submit');
-//   fireEvent.click(submitButton);
+  const submitButton = screen.getByText('Submit');
+  fireEvent.click(submitButton);
 
-//   await waitFor(() => {
-//     expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
-//       username: mockUser.username,
-//       preferredTasks: {
-//         Work: true,
-//         Reading: true,
-//         Exercise: false,
-//         Break: false,
-//       },
-//     });
-//   });
-// });
+  await waitFor(() => {
+    expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
+      username: mockUser.username,
+      preferredTasks: {
+        Work: "true",
+        Reading: "true",
+        Exercise: false,
+        Break: false,
+      },
+    });
+  });
+});
 
 // test('fetches preferredTasks from the database for new user', async () => {
 //   const mockUser = {
