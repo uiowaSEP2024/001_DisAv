@@ -52,7 +52,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
-    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!@web)/\" --env=jsdom",
+    "test": "react-scripts test --watchAll=false --transformIgnorePatterns \"node_modules/(?!@web)/\" --env=jsdom",
     "test:coverage": "jest --coverage"
   },
   "version": "0.1.0"
