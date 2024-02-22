@@ -5,10 +5,10 @@ import '../styles/preference.css';
 
 
 const defaultTasks = {
-  "Work": "false",
-  "Reading": "false",
-  "Exercise": "false",
-  "Break": "false"
+  "Work": false,
+  "Reading": false,
+  "Exercise": false,
+  "Break": false
 };
 
 const Preference = ({ initialPreferredTasks = defaultTasks, onClose }) => {
@@ -39,7 +39,7 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose }) => {
   const handleToggle = preference => {
     const updatedPreferences = {
       ...preferredTasks,
-      [preference]: preferredTasks[preference] === "true" ? "false" : "true", // Toggle the value
+      [preference]: preferredTasks[preference] === true ? false : true, // Toggle the value
     };
     setPreferences(updatedPreferences);
   };
@@ -75,7 +75,7 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose }) => {
                 <input
                   id={preference}
                   type="checkbox"
-                  checked={preferredTasks[preference] === "true"}
+                  checked={preferredTasks[preference] === true}
                   onChange={() => handleToggle(preference)}
                 />
                 <span className="slider round"></span>

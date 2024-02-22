@@ -20,10 +20,10 @@ function Signup() {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const [initialPreferredTasks, setInitialPreferredTasks] = useState({
-    "Work": "false",
-    "Reading": "false",
-    "Break": "false",
-    "Exercise": "false",
+    "Work": false,
+    "Reading": false,
+    "Break": false,
+    "Exercise": false,
   });
 
   const openModal = () => {
