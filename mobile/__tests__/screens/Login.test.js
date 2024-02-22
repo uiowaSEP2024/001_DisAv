@@ -43,8 +43,8 @@ describe('Login', () => {
     jest.clearAllMocks();
   });
   it('renders the login form', () => {
-    const { getByTestId } = render(<Login />);
-
+    const { getByTestId, debug } = render(<Login />);
+    debug();
     expect(getByTestId('userNameInput')).toBeTruthy();
     expect(getByTestId('passwordInput')).toBeTruthy();
     expect(getByTestId('loginButton')).toBeTruthy();
