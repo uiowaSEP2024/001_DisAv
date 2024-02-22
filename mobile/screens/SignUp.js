@@ -55,7 +55,7 @@ export default function SignUp({ navigation }) {
       colors={['#00008B', '#ADD8E6', '#008000']} // Dark blue, light blue, green
       style={styles.gradient}
     >
-      <View style={styles.container}>
+      <View style={styles.container} testID="SignUp">
         <Image source={logo} style={styles.logo} />
         <Text style={styles.title}>Create Account</Text>
         {error ? <Text style={{ color: 'red', marginBottom: 10 }}>{error}</Text> : null}

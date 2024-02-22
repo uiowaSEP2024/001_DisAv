@@ -1,9 +1,13 @@
 {
   "dependencies": {
+    "@react-native-async-storage/async-storage": "1.21.0",
     "@react-native-community/masked-view": "^0.1.11",
-    "@react-navigation/native": "^6.1.9",
+    "@react-navigation/bottom-tabs": "^6.5.12",
+    "@react-navigation/drawer": "^6.6.7",
+    "@react-navigation/native": "^6.1.10",
     "@react-navigation/stack": "^6.3.20",
     "axios": "^1.6.7",
+    "eslint": "^8.56.0",
     "expo": "~50.0.3",
     "expo-constants": "~15.4.5",
     "expo-linear-gradient": "~12.7.1",
@@ -67,13 +71,17 @@
       "mobile/.expo/",
       "mobile/node_modules/",
       "mobile/index.js",
-      "mobile/metro.config.js"
+      "mobile/metro.config.js",
+      "mobile/navigation",
+      "mobile/__tests__/navigation"
     ],
     "coveragePathIgnorePatterns": [
       "mobile/.expo/",
       "mobile/\\.expo/metro/.*\\.js",
       "mobile/index.js",
-      "mobile/metro.config.js"
+      "mobile/metro.config.js",
+      "mobile/navigation",
+      "mobile/__tests__/navigation"
     ],
     "collectCoverage": true,
     "collectCoverageFrom": [

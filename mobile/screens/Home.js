@@ -1,63 +1,20 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { Button, Dialog, Portal, Checkbox } from 'react-native-paper';
-import axios from 'axios';
-import { api } from '../config/Api';
-import Alert from '../components/Alert';
-import { height } from '../config/DeviceDimensions';
-export default function Home({ route }) {
-  const { user } = route.params;
-  console.log('user', user);
-  const [alertVisible, setAlertVisible] = useState(false);
-  const [alertText, setAlertText] = useState('');
-  const [welcomeVisible, setWelcomeVisible] = useState(true);
-  const [taskVisible, setTaskVisible] = useState(false);
-  const [checkedState, setCheckedState] = useState({
-    Work: false,
-    Reading: false,
-    Exercise: false,
-    Break: false,
-  });
-  const handleCheckboxClick = checkboxLabel => {
-    setCheckedState(prevState => ({
-      ...prevState,
-      [checkboxLabel]: !prevState[checkboxLabel],
-    }));
-  };
-  function welcomeToTaskDialog() {
-    setTaskVisible(true);
-    setWelcomeVisible(false);
-  }
-  function timeout(delay) {
-    return new Promise(resolve => setTimeout(resolve, delay));
-  }
-  async function putInitialTaks() {
-    await axios
-      .put(`http://${api}/user/update-preferred-tasks`, {
-        username: user.username,
-        preferredTasks: checkedState,
-      })
-      .then(async r => {
-        console.log(r.data.message);
-        setAlertText(r.data.message);
-        setTaskVisible(false);
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Image } from 'react-native';
+import { Button, Text, useTheme, Dialog, Portal } from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useSession } from '../context/SessionContext';
+import logo from '../assets/logo.png'; // Ensure the path to your logo is correct
 
-        setAlertVisible(true);
-        await timeout(2000);
-        setAlertVisible(false);
-      })
-      .catch(async error => {
-        console.log('Error', error);
-        setTaskVisible(false);
-        setAlertText('Error updating preferences');
-        setAlertVisible(true);
-        await timeout(1000);
-        setAlertVisible(false);
-      });
-  }
+export default function Home({ navigation }) {
+  const { user } = useSession();
+
+  console.log('user', user);
+  const { colors } = useTheme();
+  const [welcomeVisible, setWelcomeVisible] = useState(true);
+
   function welcome() {
     return (
-      <Dialog visible={welcomeVisible} onDismiss={() => welcomeToTaskDialog()}>
+      <Dialog visible={welcomeVisible}>
         <Dialog.Title>Welcome</Dialog.Title>
         <Dialog.Content>
           <Text variant="bodyMedium">
@@ -66,53 +23,71 @@ export default function Home({ route }) {
           </Text>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={() => welcomeToTaskDialog()}>Next</Button>
+          <Button
+            mode="outlined"
+            onPress={() => {
+              setWelcomeVisible(false);
+              navigation.navigate('Preferences');
+            }}
+            style={styles.button}
+          >
+            Next
+          </Button>
         </Dialog.Actions>
       </Dialog>
     );
   }
-  function taskType() {
-    return (
-      <Dialog visible={taskVisible} onDismiss={() => setTaskVisible(false)}>
-        <Dialog.Title>Task Type</Dialog.Title>
-        <Dialog.Content>
-          <Text variant="bodyMedium" testID="task-question">
-            What type of task would you like to do?
-          </Text>
-          {Object.entries(checkedState).map(([label, isChecked]) => (
-            <Checkbox.Item
-              key={label}
-              label={label}
-              status={isChecked ? 'checked' : 'unchecked'}
-              onPress={() => handleCheckboxClick(label)}
-            />
-          ))}
-          <Button onPress={() => putInitialTaks()}>Submit</Button>
-        </Dialog.Content>
-      </Dialog>
-    );
-  }
+
+  useEffect(() => {
+    if (!user) {
+      navigation.navigate('Login');
+    }
+  }, [user, navigation]);
 
   return (
-    <View style={styles.container}>
-      <Portal>
-        {welcome()}
-        {taskType()}
-        <View style={styles.alert}>
-          <Alert visible={alertVisible} text={alertText} />
-        </View>
-      </Portal>
-    </View>
+    <LinearGradient
+      colors={['#00008B', '#ADD8E6', '#008000']} // Dark blue, light blue, green
+      style={styles.gradient}
+    >
+      <ScrollView contentContainerStyle={styles.container}>
+        <Image source={logo} style={styles.logo} />
+        <Text style={{ color: colors.onSurface, margin: 10 }}>
+          {user && `Hello, ${user.firstname}!`}
+        </Text>
+        <Portal>
+          {user && user.preferredTasks && user.preferredTasks.length === 0 && welcome()}
+        </Portal>
+      </ScrollView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  alert: {
-    marginTop: height * 1.9,
+  gradient: {
+    flex: 1,
   },
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 20,
+  },
+  logo: {
+    width: 200, // Adjust based on your logo's aspect ratio
+    height: 100, // Adjust based on your logo's aspect ratio
+    resizeMode: 'contain',
+    marginBottom: 40,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  button: {
+    marginTop: 10,
+    width: '80%',
+    paddingVertical: 8,
   },
 });

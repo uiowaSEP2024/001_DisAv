@@ -1,7 +1,8 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
-import AppNavigator from './AppNavigator';
+import AppNavigator from './navigation/AppNavigator';
+import { SessionProvider } from './context/SessionContext';
 
 const theme = {
   ...DefaultTheme,
@@ -19,9 +20,11 @@ const theme = {
 export default function App() {
   return (
     <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <AppNavigator />
-      </NavigationContainer>
+      <SessionProvider>
+        <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer>
+      </SessionProvider>
     </PaperProvider>
   );
 }

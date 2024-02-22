@@ -1,164 +1,49 @@
 import React from 'react';
-import { act, render, fireEvent, waitFor } from '@testing-library/react-native';
-import axios from 'axios';
-import Home from '../../screens/Home'; // Update this path
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
+import Home from '../../screens/Home';
 
-jest.mock('axios');
+jest.mock('@react-navigation/native', () => {
+  return {
+    ...jest.requireActual('@react-navigation/native'),
+    useNavigation: () => ({
+      navigate: jest.fn(),
+      // Add any other navigation functions that your tests rely on
+    }),
+    // Mock any other hooks or functions as needed
+  };
+});
+
+// Mock the useSession hook before your describe block
+jest.mock('../../context/SessionContext', () => ({
+  useSession: () => ({
+    login: jest.fn().mockImplementation(() => Promise.resolve(true)), // Mock implementation of login
+    // Add other functions or values returned by useSession if necessary
+    user: {
+      username: 'testuser',
+      email: 'test@gmail.com',
+      password: 'testpassword',
+      preferredTasks: [],
+    },
+  }),
+}));
+
+// Mock navigation and route props
+const mockNavigation = {
+  navigate: jest.fn(),
+};
 
 const mockRoute = {
   params: {
-    user: { username: 'testUser' },
+    user: { id: '1', name: 'John Doe' }, // Adjust based on what your component expects
   },
 };
-jest.mock('expo-constants', () => ({
-  expoConfig: {
-    extra: {
-      dev: true, // Or false, depending on your testing needs
-    },
-    hostUri: 'http://192.168.0.113:3002',
-  },
-}));
-jest.mock('@react-navigation/native', () => ({
-  ...jest.requireActual('@react-navigation/native'),
-  useNavigation: () => ({
-    navigate: jest.fn(),
-  }),
-}));
-jest.mock('react-native/Libraries/Animated/src/Animated', () => 'Animated');
 
-describe('Home Screen', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('renders the welcome dialog initially', () => {
+describe('Home', () => {
+  it('renders correctly', () => {
     const { getByText } = render(
       <PaperProvider>
-        <Home route={mockRoute} />
-      </PaperProvider>
-    );
-    expect(getByText(/welcome to infinite focus/i)).toBeTruthy();
-  });
-
-  it('allows navigating from welcome to task selection', async () => {
-    const { getByText, queryByText, debug } = render(
-      <PaperProvider>
-        <Home route={mockRoute} />
-      </PaperProvider>
-    );
-    fireEvent.press(getByText(/Next/));
-    expect(queryByText(/welcome to infinite focus/i)).toBeNull();
-    debug();
-    await waitFor(() => expect(getByText(/What type of task would you like to do?/i)).toBeTruthy());
-  });
-
-  it('displays an alert with the ERROR message after a successful API call', async () => {
-    axios.put.mockRejectedValue(new Error('An error occurred')); // Mock axios call to reject
-
-    const { getByText } = render(
-      <PaperProvider>
-        <Home route={mockRoute} />
-      </PaperProvider>
-    );
-
-    fireEvent.press(getByText(/Next/)); // Transition to task dialog
-
-    await waitFor(() => {
-      fireEvent.press(getByText(/Submit/));
-    });
-
-    await waitFor(() => expect(axios.put).toHaveBeenCalled());
-
-    await waitFor(() => {
-      expect(getByText('Error updating preferences')).toBeTruthy();
-    });
-  });
-
-  it('displays an alert with the correct message after a successful API call', async () => {
-    // Mock the API call
-    const mockApiMessage = 'User updated with preferred tasks';
-    axios.put.mockResolvedValue({ data: { message: mockApiMessage } });
-    const { getByText } = render(
-      <PaperProvider>
-        <Home route={mockRoute} />
-      </PaperProvider>
-    );
-    fireEvent.press(getByText(/Next/)); // Transition to task dialog
-
-    await waitFor(() => {
-      fireEvent.press(getByText(/Submit/));
-    });
-
-    await waitFor(() => expect(axios.put).toHaveBeenCalled());
-
-    await waitFor(() => expect(getByText(mockApiMessage)).toBeTruthy());
-  });
-
-  it('hides the alert after a successful API call and timeout', async () => {
-    jest.useFakeTimers();
-    axios.put.mockResolvedValue({ data: { message: 'User updated with preferred tasks' } });
-
-    const { getByText, queryByText } = render(
-      <PaperProvider>
-        <Home route={mockRoute} />
-      </PaperProvider>
-    );
-    fireEvent.press(getByText(/Next/)); // Transition to task dialog
-
-    // Assume 'Submit Button' triggers the API call
-    await waitFor(() => {
-      fireEvent.press(getByText(/Submit/));
-    });
-
-    // Fast-forward until all timers have been executed
-    act(() => {
-      jest.runAllTimers();
-    });
-
-    // Assertions here
-    await waitFor(() => {
-      expect(queryByText('User updated with preferred tasks')).toBeNull(); // Adjust based on how you show alerts
-    });
-
-    jest.useRealTimers();
-  });
-
-  it('hides the alert after a Failed API call and timeout', async () => {
-    jest.useFakeTimers();
-    axios.put.mockRejectedValue(new Error('Error updating preferences'));
-
-    const { getByText, queryByText } = render(
-      <PaperProvider>
-        <Home route={mockRoute} />
-      </PaperProvider>
-    );
-
-    fireEvent.press(getByText(/Next/)); // Transition to task dialog
-
-    // Assume 'Submit Button' triggers the API call
-    await waitFor(() => {
-      fireEvent.press(getByText(/Submit/));
-    });
-    // Fast-forward until all timers have been executed
-    act(() => {
-      jest.runAllTimers();
-    });
-
-    // Assertions here
-    await waitFor(() => {
-      expect(queryByText('Error updating preferences')).toBeNull(); // Adjust based on how you show alerts
-    });
-
-    jest.useRealTimers();
-  });
-});
-
-describe('Home Screen Dialogs', () => {
-  it('should initially display the welcome dialog', () => {
-    const { getByText } = render(
-      <PaperProvider>
-        <Home route={mockRoute} />
+        <Home navigation={mockNavigation} route={mockRoute} />
       </PaperProvider>
     );
     expect(
@@ -167,25 +52,26 @@ describe('Home Screen Dialogs', () => {
       )
     ).toBeTruthy();
   });
-
-  it('should hide the welcome dialog and show the task type dialog after pressing Next', async () => {
-    const { getByText, queryByText, debug } = render(
+  it('navigates opens the dialog on first render when preferredTasks is empty', async () => {
+    const { getByText, queryByText } = render(
       <PaperProvider>
-        <Home route={mockRoute} />
+        <Home navigation={mockNavigation} route={mockRoute} />
       </PaperProvider>
     );
-    fireEvent.press(getByText('Next'));
-    await waitFor(() =>
-      expect(
-        queryByText(
-          'Welcome to infinite focus, an app that will enable you to avoid doom scrolling and enjoy the more important things in life'
-        )
-      ).toBeNull()
-    );
-    await waitFor(() => expect(getByText('What type of task would you like to do?')).toBeTruthy());
+
+    // Check if the dialog is visible on the screen
+    expect(getByText('Welcome')).toBeTruthy();
+
+    // Check if the Next button is visible and clickable
+    const nextButton = getByText('Next');
+    fireEvent.press(nextButton);
+
+    // Wait for the dialog to be dismissed
     await waitFor(() => {
-      fireEvent.press(getByText(/Submit/));
+      expect(queryByText('Welcome')).toBeNull();
     });
-    debug();
+
+    // Ensure navigation to 'Preferences' screen is triggered after pressing 'Next'
+    expect(mockNavigation.navigate).toHaveBeenCalledWith('Preferences');
   });
 });
