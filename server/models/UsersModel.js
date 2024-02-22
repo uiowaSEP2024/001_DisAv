@@ -10,6 +10,9 @@ const UserSchema = new mongoose.Schema({
   accountabilityPartners: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
   phoneNumber: { type: String, required: false },
   preferredTasks: { type: Map, of: String },
+  taskFrequency: { type: Number, required: false },
+  workPreferences: { type: String, required: false },
+  readingPreferences: { type: String, required: false },
 });
 
 export const UserModel = mongoose.model('users', UserSchema);

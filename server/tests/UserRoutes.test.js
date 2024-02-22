@@ -79,6 +79,47 @@ describe('User API Routes', () => {
   it("PUT /update-preferred-tasks - should update user's preferred tasks", async () => {
     await request(app).put('/user/update-preferred-tasks').send({ user: 'invalid User' });
   });
+  // Test update task frequency
+  it("PUT /update-task-frequency - should update a user's task frequency", async () => {
+    const taskFrequency = 1000;
+    const response = await request(app)
+      .put('/user/update-task-frequency')
+      .send({ username: 'test2', taskFrequency });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('User updated with task frequency');
+  });
+  // Test update work preferences
+  it("PUT /update-work-preferences - should update a user's work preferences", async () => {
+    const workPreferences = 'I work on things related to software development';
+    const response = await request(app)
+      .put('/user/update-work-preferences')
+      .send({ username: 'test2', workPreferences });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('User updated with work preferences');
+  });
+  // Test update reading preferences
+  it("PUT /update-reading-preferences - should update a user's reading preferences", async () => {
+    const readingPreferences = 'I read books related to software development';
+    const response = await request(app)
+      .put('/user/update-reading-preferences')
+      .send({ username: 'test2', readingPreferences });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('User updated with reading preferences');
+  });
+  // Test update all preferences
+  it('PUT /update-all-preferences - should update all user preferences', async () => {
+    const preferences = {
+      preferredTasks: { work: false, reading: true },
+      taskFrequency: '3000',
+      workPreferences: 'I work on things related to software development',
+      readingPreferences: 'I read books related to software development',
+    };
+    const response = await request(app)
+      .put('/user/update-all-preferences')
+      .send({ username: 'test2', ...preferences });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('User updated with all preferences');
+  });
   // test delete user
   it('DELETE /delete - should delete a user', async () => {
     await createTestUser();
