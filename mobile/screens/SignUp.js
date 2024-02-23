@@ -16,6 +16,12 @@ export default function SignUp({ navigation }) {
   const [rePassword, setRePassword] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [passwordVisibility, setPasswordVisibility] = useState(true);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisibility(!passwordVisibility);
+  };
+
   async function signUp() {
     console.log('HELLO');
     if (
@@ -90,15 +96,22 @@ export default function SignUp({ navigation }) {
         <TextInput
           testID="passwordInput"
           label="Password"
-          secureTextEntry
+          secureTextEntry={passwordVisibility}
           style={styles.input}
           mode="outlined"
           onChangeText={setPassword}
+          right={
+            <TextInput.Icon
+              icon={passwordVisibility ? 'eye-off' : 'eye'}
+              onPress={togglePasswordVisibility}
+              style={{ marginTop: 10, zIndex: 1 }}
+            />
+          }
         />
         <TextInput
           testID="rePasswordInput"
           label="Re-Enter Password"
-          secureTextEntry
+          secureTextEntry={passwordVisibility}
           style={styles.input}
           mode="outlined"
           onChangeText={setRePassword}

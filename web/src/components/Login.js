@@ -31,11 +31,14 @@ const Login = () => {
         localStorage.setItem('token', response.data.token);
         // Store user information in session storage
         sessionStorage.setItem('user', JSON.stringify(response.data.user));
-        window.postMessage({
-          type: "LOGIN_SUCCESS",
-          token: localStorage.getItem('token'),
-          user: sessionStorage.getItem('user')
-        }, "*");
+        window.postMessage(
+          {
+            type: 'LOGIN_SUCCESS',
+            token: localStorage.getItem('token'),
+            user: sessionStorage.getItem('user'),
+          },
+          '*'
+        );
         // Update the login state using the login function from AuthContext
         login(response.data.user);
         navigate('/dashboard');

@@ -7,10 +7,14 @@ import { useSession } from '../context/SessionContext';
 
 export default function Settings({ navigation }) {
   const { user, saveUser } = useSession();
+  if (!user) {
+    return null;
+  }
+
   const [formData, setFormData] = useState({
     username: user.username || '',
     email: user.email || '',
-    password: '', // Password is not prefilled for security reasons
+    password: '' || '',
   });
 
   const handleInputChange = (name, value) => {
@@ -82,6 +86,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: 'white',
   },
   title: {
     fontSize: 24,

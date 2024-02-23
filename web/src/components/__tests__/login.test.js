@@ -5,7 +5,6 @@ import axios from 'axios';
 import Login from '../Login';
 import { AuthContext } from '../AuthContext';
 
-
 jest.mock('axios');
 
 const mockNavigate = jest.fn();
@@ -22,9 +21,9 @@ test('renders login form', () => {
 
   render(
     <AuthContext.Provider value={mockAuthContextValue}>
-    <MemoryRouter>
-      <Login />
-    </MemoryRouter>
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
     </AuthContext.Provider>
   );
 
@@ -39,9 +38,9 @@ test('allows the user to enter username and password', () => {
   };
   render(
     <AuthContext.Provider value={mockAuthContextValue}>
-    <MemoryRouter>
-      <Login />
-    </MemoryRouter>
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
     </AuthContext.Provider>
   );
 
@@ -53,7 +52,6 @@ test('allows the user to enter username and password', () => {
 
   expect(usernameInput.value).toBe('testuser');
   expect(passwordInput.value).toBe('password');
-
 });
 
 test('login button triggers API call with entered username and password', async () => {
@@ -74,9 +72,9 @@ test('login button triggers API call with entered username and password', async 
 
   render(
     <AuthContext.Provider value={mockAuthContextValue}>
-    <MemoryRouter>
-      <Login />
-    </MemoryRouter>
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
     </AuthContext.Provider>
   );
 
@@ -95,7 +93,6 @@ test('login button triggers API call with entered username and password', async 
     });
   });
 });
-
 
 test('successful login renders the dashboard', async () => {
   const mockAuthContextValue = {
@@ -116,7 +113,7 @@ test('successful login renders the dashboard', async () => {
   render(
     <AuthContext.Provider value={mockAuthContextValue}>
       <MemoryRouter>
-          <Login />
+        <Login />
       </MemoryRouter>
     </AuthContext.Provider>
   );

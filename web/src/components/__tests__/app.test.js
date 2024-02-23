@@ -30,7 +30,9 @@ test('logs out user when logout button is clicked', () => {
 
   render(
     <AuthContext.Provider value={mockAuthContextValue}>
-      <BrowserRouter> {/* Wrap the App component with BrowserRouter */}
+      <BrowserRouter>
+        {' '}
+        {/* Wrap the App component with BrowserRouter */}
         <App />
       </BrowserRouter>
     </AuthContext.Provider>

@@ -10,10 +10,10 @@ test('allows the user to toggle preferences', async () => {
   const mockUser = {
     username: 'testuser',
     preferredTasks: {
-      "Work": false,
-      "Reading": false,
-      "Exercise": false,
-      "Break": false
+      Work: false,
+      Reading: false,
+      Exercise: false,
+      Break: false,
     },
   };
   sessionStorage.setItem('user', JSON.stringify(mockUser));
@@ -33,25 +33,27 @@ test('allows the user to toggle preferences', async () => {
   const submitButton = screen.getByText('Submit');
   fireEvent.click(submitButton);
 
-  await waitFor(() => expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
-    username: mockUser.username,
-    preferredTasks: {
-      Work: "true",
-      Reading: "true",
-      Exercise: false,
-      Break: false,
-    },
-  }));
+  await waitFor(() =>
+    expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
+      username: mockUser.username,
+      preferredTasks: {
+        Work: 'true',
+        Reading: 'true',
+        Exercise: false,
+        Break: false,
+      },
+    })
+  );
 });
 
 test('allows the user to set task frequency when a task is enabled', async () => {
   const mockUser = {
     username: 'testuser',
     preferredTasks: {
-      "Work": false,
-      "Reading": false,
-      "Exercise": false,
-      "Break": false
+      Work: false,
+      Reading: false,
+      Exercise: false,
+      Break: false,
     },
   };
   sessionStorage.setItem('user', JSON.stringify(mockUser));
@@ -74,20 +76,24 @@ test('allows the user to set task frequency when a task is enabled', async () =>
   const submitButton = screen.getByText('Submit');
   fireEvent.click(submitButton);
 
-  await waitFor(() => expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
-    username: mockUser.username,
-    preferredTasks: {
-      Work: "true",
-      Reading: false,
-      Exercise: false,
-      Break: false,
-    },
-  }));
+  await waitFor(() =>
+    expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
+      username: mockUser.username,
+      preferredTasks: {
+        Work: 'true',
+        Reading: false,
+        Exercise: false,
+        Break: false,
+      },
+    })
+  );
 
-  await waitFor(() => expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-task-frequency', {
-    username: mockUser.username,
-    taskFrequency: 5400000, // 01:30 in milliseconds
-  }));
+  await waitFor(() =>
+    expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-task-frequency', {
+      username: mockUser.username,
+      taskFrequency: 5400000, // 01:30 in milliseconds
+    })
+  );
 });
 
 test('updates preferences on submit', async () => {
@@ -119,8 +125,8 @@ test('updates preferences on submit', async () => {
     expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
       username: mockUser.username,
       preferredTasks: {
-        Work: "true",
-        Reading: "true",
+        Work: 'true',
+        Reading: 'true',
         Exercise: false,
         Break: false,
       },
@@ -129,7 +135,6 @@ test('updates preferences on submit', async () => {
 });
 
 test('closes the modal after submitting preferences', async () => {
-
   const mockUser = {
     username: 'testuser',
     preferredTasks: {
@@ -153,8 +158,6 @@ test('closes the modal after submitting preferences', async () => {
     expect(onClose).toHaveBeenCalled();
   });
 });
-
-
 
 test('loads default preferences for new user with no stored preferences', async () => {
   const mockUser = {

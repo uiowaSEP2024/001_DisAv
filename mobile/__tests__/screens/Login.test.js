@@ -5,13 +5,6 @@ import Login from '../../screens/Login';
 
 jest.mock('axios');
 
-jest.mock('@react-navigation/native', () => ({
-  ...jest.requireActual('@react-navigation/native'),
-  useNavigation: () => ({
-    navigate: jest.fn(),
-  }),
-}));
-
 // Mock expo-constants
 jest.mock('expo-constants', () => ({
   expoConfig: {
@@ -32,6 +25,11 @@ jest.mock('../../context/SessionContext', () => ({
 
 jest.mock('react-native/Libraries/Animated/src/Animated', () => 'Animated');
 
+const mockNavigation = {
+  popToTop: jest.fn(),
+  navigate: jest.fn(),
+};
+
 describe('Login', () => {
   beforeEach(() => {
     jest.useFakeTimers();
@@ -43,8 +41,7 @@ describe('Login', () => {
     jest.clearAllMocks();
   });
   it('renders the login form', () => {
-    const { getByTestId, debug } = render(<Login />);
-    debug();
+    const { getByTestId } = render(<Login navigation={mockNavigation} />);
     expect(getByTestId('userNameInput')).toBeTruthy();
     expect(getByTestId('passwordInput')).toBeTruthy();
     expect(getByTestId('loginButton')).toBeTruthy();
@@ -54,7 +51,7 @@ describe('Login', () => {
     const mockResponse = { data: { user: 'testUser' } };
     axios.post.mockResolvedValue(mockResponse);
 
-    const { getByTestId } = render(<Login />);
+    const { getByTestId } = render(<Login navigation={mockNavigation} />);
 
     // Simulate user typing
     fireEvent.changeText(getByTestId('userNameInput'), 'John');
@@ -81,7 +78,7 @@ describe('Login', () => {
   it('displays an error message when login fails', async () => {
     axios.post.mockRejectedValue(new Error('An error occurred during login.'));
 
-    const { getByTestId } = render(<Login />);
+    const { getByTestId } = render(<Login navigation={mockNavigation} />);
 
     fireEvent.changeText(getByTestId('userNameInput'), 'John');
     fireEvent.press(getByTestId('loginButton'));
