@@ -28,7 +28,10 @@ const mockNavigation = {
 const mockResponseData = {
   data: {
     user: {
-      preferredTasks: { work: true, read: false, exercise: true, rest: false },
+      Work: false,
+      Reading: false,
+      Exercise: false,
+      Break: false,
     },
   },
 };
@@ -85,6 +88,31 @@ describe('Preferences', () => {
     });
   });
 
+  it('renders read description input when "Reading" is selected', async () => {
+    const { getByTestId, queryByText } = render(
+      <PaperProvider>
+        <Preferences navigation={mockNavigation} />
+      </PaperProvider>
+    );
+
+    // Click the "Reading" checkbox
+    fireEvent.press(getByTestId('read-checkbox'));
+
+    // Ensure the state has had time to update
+    await waitFor(() => expect(getByTestId('next-button')).toBeTruthy());
+
+    // Now press the "Next" button
+    fireEvent.press(getByTestId('next-button'));
+
+    // Then wait for the work description input to appear
+    await waitFor(() => {
+      expect(
+        queryByText('What kind of reading do you enjoy? (be as descriptive as possible)')
+      ).toBeTruthy();
+      expect(getByTestId('reading-description-input')).toBeTruthy();
+    });
+  });
+
   it('shows task frequency selection after clicking "Next"', async () => {
     const { getByText, queryByText, getByTestId } = render(
       <PaperProvider>
@@ -101,13 +129,11 @@ describe('Preferences', () => {
 
     await waitFor(() => {
       // Now we expect the work description input to be in the document
-      expect(
-        queryByText('What kind of work do you do? (be as descriptive as possible)')
-      ).toBeTruthy();
+      expect(queryByText('How often do you want a task to be triggered?')).toBeTruthy();
     });
   });
 
-  it('submits user preferences with work description and task frequency', async () => {
+  it('submits user preferences with work description, reading description and task frequency', async () => {
     const { getByText, getByTestId } = render(
       <PaperProvider>
         <Preferences navigation={mockNavigation} />
@@ -122,6 +148,8 @@ describe('Preferences', () => {
       expect(getByTestId('work-checkbox').props.accessibilityState.checked).toBe(true);
     });
 
+    fireEvent.press(getByTestId('read-checkbox'));
+
     // Ensure the state has had time to update
     await waitFor(() => expect(getByTestId('next-button')).toBeTruthy());
 
@@ -131,6 +159,10 @@ describe('Preferences', () => {
     // Fill in the work description
     const workDescriptionInput = getByTestId('work-description-input'); // Ensure you add testID='work-description-input' to your TextInput for work description
     fireEvent.changeText(workDescriptionInput, 'Software Development');
+
+    // Fill in the reading description
+    const readingDescriptionInput = getByTestId('reading-description-input'); // Ensure you add testID='reading-description-input' to your TextInput for reading description
+    fireEvent.changeText(readingDescriptionInput, 'Science fiction, fantasy and self-help books');
 
     // Assuming you have testIDs for your Picker components for hours and minutes
     const hoursPicker = getByTestId('hours-picker');
@@ -147,7 +179,8 @@ describe('Preferences', () => {
         user: expect.objectContaining({
           preferredTasks: expect.any(Object),
           taskFrequency: expect.any(Number), // You might need to adjust this based on how you calculate taskFrequency
-          // workDescription: 'Software Development',
+          workPreferences: 'Software Development',
+          readingPreferences: 'Science fiction, fantasy and self-help books',
         }),
       });
     });

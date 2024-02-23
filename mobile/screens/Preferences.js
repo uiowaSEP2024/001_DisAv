@@ -26,9 +26,6 @@ export default function Preferences({ navigation }) {
 
   const [errorVisible, setErrorVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [workDescriptionShown, setWorkDescriptionShown] = useState(
-    user.preferredTasks.Work || false
-  );
 
   const [showTaskFrequency, setShowTaskFrequency] = useState(false);
   const initialTaskFrequencyHours = user.taskFrequency
@@ -39,28 +36,35 @@ export default function Preferences({ navigation }) {
     : 0;
   const [taskFrequencyHours, setTaskFrequencyHours] = useState(initialTaskFrequencyHours);
   const [taskFrequencyMinutes, setTaskFrequencyMinutes] = useState(initialTaskFrequencyMinutes);
-  const [workDescription, setWorkDescription] = useState(user.workPreferences || '');
 
-  console.log('showTaskFrequency', showTaskFrequency);
+  const [workDescription, setWorkDescription] = useState(user.workPreferences || '');
+  const [workDescriptionShown, setWorkDescriptionShown] = useState(
+    user.preferredTasks.Work || false
+  );
+
+  const [readingDescription, setReadingDescription] = useState(user.readingPreferences || '');
+  const [readingDescriptionShown, setReadingDescriptionShown] = useState(
+    user.preferredTasks.Reading || false
+  );
 
   const handleSelectTask = task => {
-    console.log('task', task);
     setPreferredTasks(prevTasks => ({
       ...prevTasks,
       [task]: !prevTasks[task],
     }));
+    console.log('task', task);
     // Show work description input if work is selected (use both lower and upper case due to testing requirements)
     if (task === 'Work' || task === 'work') {
-      console.log('workDescriptionShown jn work', workDescriptionShown);
       setWorkDescriptionShown(!workDescriptionShown);
+    }
+    if (task === 'Read' || task === 'read') {
+      setReadingDescriptionShown(!readingDescriptionShown);
+      console.log('reading shown', !readingDescriptionShown);
     }
   };
 
-  console.log('workDescriptionShown', workDescriptionShown);
-
   const handleShowingTaskFrequency = () => {
     // check if any task is selected
-    console.log('preferredTasks', preferredTasks);
     if (Object.values(preferredTasks).some(value => value)) {
       setShowTaskFrequency(true);
     } else {
@@ -87,6 +91,7 @@ export default function Preferences({ navigation }) {
           preferredTasks,
           taskFrequency: taskFrequencyInMs,
           workPreferences: workDescription,
+          readingPreferences: readingDescription,
         },
       });
       console.log('response', response);
@@ -96,6 +101,7 @@ export default function Preferences({ navigation }) {
           preferredTasks,
           taskFrequency: taskFrequencyInMs,
           workPreferences: workDescription,
+          readingPreferences: readingDescription,
         });
       }
     } catch (error) {
@@ -140,6 +146,20 @@ export default function Preferences({ navigation }) {
               onChangeText={setWorkDescription}
               value={workDescription}
               placeholder="Describe your work"
+              multiline
+              numberOfLines={3} // Adjust based on your preference
+            />
+          </View>
+        )}
+        {showTaskFrequency && readingDescriptionShown && (
+          <View>
+            <Text>What kind of reading do you enjoy? (be as descriptive as possible)</Text>
+            <TextInput
+              testID="reading-description-input"
+              style={styles.input}
+              onChangeText={setReadingDescription}
+              value={readingDescription}
+              placeholder="Describe your reading preferences"
               multiline
               numberOfLines={3} // Adjust based on your preference
             />
@@ -201,6 +221,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: height * 0.1,
+    width: width * 0.4,
     margin: 12,
     borderWidth: 1,
     padding: 10,
