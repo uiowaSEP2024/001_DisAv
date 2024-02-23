@@ -26,12 +26,20 @@ export default function Preferences({ navigation }) {
 
   const [errorVisible, setErrorVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [workDescriptionShown, setWorkDescriptionShown] = useState(false);
+  const [workDescriptionShown, setWorkDescriptionShown] = useState(
+    user.preferredTasks.Work || false
+  );
 
   const [showTaskFrequency, setShowTaskFrequency] = useState(false);
-  const [taskFrequencyHours, setTaskFrequencyHours] = useState(0);
-  const [taskFrequencyMinutes, setTaskFrequencyMinutes] = useState(0);
-  const [workDescription, setWorkDescription] = useState('');
+  const initialTaskFrequencyHours = user.taskFrequency
+    ? Math.floor(user.taskFrequency / (60 * 60 * 1000))
+    : 0;
+  const initialTaskFrequencyMinutes = user.taskFrequency
+    ? Math.floor((user.taskFrequency % (60 * 60 * 1000)) / (60 * 1000))
+    : 0;
+  const [taskFrequencyHours, setTaskFrequencyHours] = useState(initialTaskFrequencyHours);
+  const [taskFrequencyMinutes, setTaskFrequencyMinutes] = useState(initialTaskFrequencyMinutes);
+  const [workDescription, setWorkDescription] = useState(user.workPreferences || '');
 
   console.log('showTaskFrequency', showTaskFrequency);
 
@@ -41,10 +49,14 @@ export default function Preferences({ navigation }) {
       ...prevTasks,
       [task]: !prevTasks[task],
     }));
-    if (task === 'work') {
+    // Show work description input if work is selected (use both lower and upper case due to testing requirements)
+    if (task === 'Work' || task === 'work') {
+      console.log('workDescriptionShown jn work', workDescriptionShown);
       setWorkDescriptionShown(!workDescriptionShown);
     }
   };
+
+  console.log('workDescriptionShown', workDescriptionShown);
 
   const handleShowingTaskFrequency = () => {
     // check if any task is selected
@@ -70,11 +82,21 @@ export default function Preferences({ navigation }) {
     }
     try {
       const response = await axios.put(`http://${api}/user/update`, {
-        user: { ...user, preferredTasks, taskFrequency: taskFrequencyInMs },
+        user: {
+          ...user,
+          preferredTasks,
+          taskFrequency: taskFrequencyInMs,
+          workPreferences: workDescription,
+        },
       });
       console.log('response', response);
       if (response.data) {
-        await saveUser({ ...user, preferredTasks, taskFrequency: taskFrequencyInMs });
+        await saveUser({
+          ...user,
+          preferredTasks,
+          taskFrequency: taskFrequencyInMs,
+          workPreferences: workDescription,
+        });
       }
     } catch (error) {
       setErrorMessage(error.message);
