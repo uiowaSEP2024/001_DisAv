@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: height / 4, // Adjust as needed to center the modal vertically
-    width: width * 0.8, // Adjust the width as needed
+    width: width * 0.3, // Adjust the width as needed
     borderRadius: 10,
     alignItems: 'center',
     elevation: 4, // Add elevation for shadow on Android (optional)
