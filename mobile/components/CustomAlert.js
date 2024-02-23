@@ -3,14 +3,17 @@ import { Modal, Text, Button, Portal } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import { width, height } from '../config/DeviceDimensions';
 
-const CustomAlert = ({ visible, message, onClose }) => {
+const CustomAlert = ({ visible, title, message, buttons = [], onClose }) => {
   return (
     <Portal>
       <Modal visible={visible} onDismiss={onClose} contentContainerStyle={styles.container}>
-        <Text style={styles.message}>Alert: {message}</Text>
-        <Button mode="contained" onPress={onClose} style={styles.button}>
-          Close
-        </Button>
+        {title && <Text style={styles.title}>{title}</Text>}
+        <Text style={styles.message}>{message}</Text>
+        {buttons.map((button, index) => (
+          <Button key={index} mode="contained" onPress={button.onPress} style={styles.button}>
+            {button.text}
+          </Button>
+        ))}
       </Modal>
     </Portal>
   );
@@ -20,28 +23,28 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     padding: 20,
-    // Use a fixed margin or percentage to center the modal
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: height / 4, // Adjust as needed to center the modal vertically
-    width: width * 0.3, // Adjust the width as needed
+    marginTop: height / 4,
+    width: width * 0.4, // Adjusted for potential wider content
+    minHeight: height / 4,
     borderRadius: 10,
     alignItems: 'center',
-    elevation: 4, // Add elevation for shadow on Android (optional)
-    shadowColor: '#000', // Shadow for iOS (optional)
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    elevation: 4,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
   message: {
     marginBottom: 20,
     textAlign: 'center',
-    color: 'red',
+    color: 'black', // Changed to black for general use, adjust as needed
   },
   button: {
-    // Adjust button size as needed
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    marginTop: 10,
+    width: '80%', // Ensure buttons are not too wide
   },
 });
 
