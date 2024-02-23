@@ -200,6 +200,7 @@ export default function Preferences({ navigation }) {
           visible={errorVisible}
           onClose={() => setErrorVisible(false)}
           message={errorMessage}
+          buttons={[{ text: 'OK', onPress: () => setErrorVisible(false) }]}
         />
       </ScrollView>
     </View>
