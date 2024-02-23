@@ -19,10 +19,10 @@ function Signup() {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const [initialPreferredTasks, setInitialPreferredTasks] = useState({
-    "Work": false,
-    "Reading": false,
-    "Break": false,
-    "Exercise": false,
+    Work: false,
+    Reading: false,
+    Break: false,
+    Exercise: false,
   });
 
   const openModal = () => {
@@ -70,7 +70,7 @@ function Signup() {
   };
 
   return (
-    <div className='signup'>
+    <div className="signup">
       <form onSubmit={handleSubmit} data-testid="signup-form">
         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)} />
         <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
@@ -79,11 +79,7 @@ function Signup() {
         <input type="text" placeholder="Last Name" onChange={e => setLastname(e.target.value)} />
         <button type="submit">Sign Up</button>
       </form>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Select Preferences"
-      >
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Select Preferences">
         <Preference initialPreferredTasks={initialPreferredTasks} onClose={closeModal} />
         {/* <button onClick={() => { closeModal(); navigate('/dashboard'); }}>Submit and Go to Dashboard</button> */}
       </Modal>

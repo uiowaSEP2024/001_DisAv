@@ -9,8 +9,17 @@ const UserSchema = new mongoose.Schema({
   completionRate: { type: Number, default: 0 },
   accountabilityPartners: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
   phoneNumber: { type: String, required: false },
-  preferredTasks: { type: Map, of: String },
-  taskFrequency: { type: Number, required: false },
+  preferredTasks: {
+    type: Map,
+    of: Boolean,
+    default: {
+      Work: false,
+      Reading: false,
+      Exercise: false,
+      Break: false,
+    },
+  },
+  taskFrequency: { type: Number, required: false, default: 0 },
   workPreferences: { type: String, required: false },
   readingPreferences: { type: String, required: false },
 });

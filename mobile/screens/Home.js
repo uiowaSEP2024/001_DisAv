@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Image } from 'react-native';
 import { Button, Text, useTheme, Dialog, Portal } from 'react-native-paper';
-import { LinearGradient } from 'expo-linear-gradient';
+// import { LinearGradient } from 'expo-linear-gradient';
 import { useSession } from '../context/SessionContext';
 import logo from '../assets/logo.png'; // Ensure the path to your logo is correct
 
 export default function Home({ navigation }) {
   const { user } = useSession();
+
+  if (!user) {
+    return null;
+  }
 
   console.log('user', user);
   const { colors } = useTheme();
@@ -38,39 +42,29 @@ export default function Home({ navigation }) {
     );
   }
 
-  useEffect(() => {
-    if (!user) {
-      navigation.navigate('Login');
-    }
-  }, [user, navigation]);
-
   return (
-    <LinearGradient
-      colors={['#00008B', '#ADD8E6', '#008000']} // Dark blue, light blue, green
-      style={styles.gradient}
-    >
-      <ScrollView contentContainerStyle={styles.container}>
-        <Image source={logo} style={styles.logo} />
-        <Text style={{ color: colors.onSurface, margin: 10 }}>
-          {user && `Hello, ${user.firstname}!`}
-        </Text>
-        <Portal>
-          {user && user.preferredTasks && user.preferredTasks.length === 0 && welcome()}
-        </Portal>
-      </ScrollView>
-    </LinearGradient>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Image source={logo} style={styles.logo} />
+      <Text style={{ color: colors.onSurface, margin: 10 }}>
+        {user && `Hello, ${user.firstname}!`}
+      </Text>
+      <Portal>
+        {user &&
+          user.preferredTasks &&
+          Object.values(user.preferredTasks).every(value => value === false) &&
+          welcome()}
+      </Portal>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  gradient: {
-    flex: 1,
-  },
   container: {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: 'white',
   },
   logo: {
     width: 200, // Adjust based on your logo's aspect ratio

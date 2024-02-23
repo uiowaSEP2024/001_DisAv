@@ -23,7 +23,7 @@ describe('Signup', () => {
     render(
       <MemoryRouter>
         <AuthProvider>
-          <Signup/>
+          <Signup />
         </AuthProvider>
       </MemoryRouter>
     );

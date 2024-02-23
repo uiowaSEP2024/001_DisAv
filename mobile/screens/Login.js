@@ -11,8 +11,13 @@ import { useSession } from '../context/SessionContext';
 export default function Login({ navigation }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [err, setErr] = useState('');
   const { login } = useSession();
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisibility(!passwordVisibility);
+  };
 
   async function signIn() {
     if (userName === '' || password === '') {
@@ -31,7 +36,7 @@ export default function Login({ navigation }) {
           console.log(r.data);
           navigation.popToTop();
           login(r.data.user);
-          navigation.navigate('Settings');
+          navigation.navigate('Home');
         }
       })
       .catch(error => {
@@ -66,10 +71,18 @@ export default function Login({ navigation }) {
           testID="passwordInput"
           value={password}
           onChangeText={setPassword}
-          secureTextEntry
+          secureTextEntry={passwordVisibility}
           style={styles.input}
           mode="outlined"
+          right={
+            <TextInput.Icon
+              icon={passwordVisibility ? 'eye-off' : 'eye'}
+              onPress={togglePasswordVisibility}
+              style={{ marginTop: 10, zIndex: 1 }}
+            />
+          }
         />
+
         <Button testID="loginButton" mode="contained" onPress={signIn} style={styles.button}>
           Login
         </Button>
