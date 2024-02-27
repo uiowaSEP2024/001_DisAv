@@ -20,7 +20,7 @@ router.post('/create', async (req, res) => {
     points,
   });
   await newTask.save().then(r => {});
-  return res.json({ message: 'Task successfully created' });
+  return res.json({ message: 'Task successfully created', task: newTask });
 });
 
 // Update task route

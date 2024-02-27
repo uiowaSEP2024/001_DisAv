@@ -44,7 +44,7 @@ describe('Task API Routes', () => {
     const response = await request(app).get('/task/get-all');
     expect(response.statusCode).toBe(200);
     expect(response.body.tasks);
-    // expect(response.body.tasks.length).toBe(4);
+    expect(response.body.tasks.length).toBe(4);
   });
   // Test create task with invalid user
   it('POST /create - should fail to create task with invalid user', async () => {
@@ -63,11 +63,12 @@ describe('Task API Routes', () => {
 
   // test update task
   it('updates a task successfully', async () => {
-    const testUser = createTestUser('test');
-    const testTask = createTestTask('test', 'work');
+    await createTestUser('test');
+    const testTask = await createTestTask('test', 'work');
+    console.log(testTask, 'testTask');
     const response = await request(app).put('/task/update').send({
       id: testTask.id,
-      username: testUser.username,
+      username: 'test',
       taskType: 'Updated Reading',
       date: new Date(),
       startTime: '10:00',
@@ -77,7 +78,7 @@ describe('Task API Routes', () => {
     });
 
     expect(response.statusCode).toBe(200);
-    // expect(response.body.message).toBe('Task successfully updated');
+    expect(response.body.message).toBe('Task successfully updated');
   });
   // test update task with invalid user
   it('fails to update task with invalid user', async () => {
@@ -134,7 +135,7 @@ it('gets task by type', async () => {
   const response = await request(app).get('/task/get-by-type').send({ taskType: 'Reading' });
   expect(response.statusCode).toBe(200);
   expect(response.body.task).toBeDefined();
-  // expect(response.body.task.length).toBe(3);
+  expect(response.body.task.length).toBe(3);
 });
 
 // test get by user id route
