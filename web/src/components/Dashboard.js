@@ -3,6 +3,7 @@ import '../styles/dashboard.css';
 import Preference from './Preference';
 const Dashboard = () => {
   // Retrieve user information from session storage
+  console.log('sessionStorage', sessionStorage);
   const user = JSON.parse(sessionStorage.getItem('user'));
   return (
     <div className="dashboard">

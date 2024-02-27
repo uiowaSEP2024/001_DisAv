@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { authRouter } from './routes/AuthRoute.js';
 import { UserRouter } from './routes/UserRoutes.js';
+import { taskRouter } from './routes/TaskRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -12,6 +13,7 @@ app.use(cors());
 
 app.use('/auth', authRouter);
 app.use('/user', UserRouter);
+app.use('/task', taskRouter);
 const dbUri =
   process.env.NODE_ENV === 'test'
     ? 'mongodb+srv://' +

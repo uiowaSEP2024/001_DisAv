@@ -177,6 +177,28 @@ describe('User API Routes', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe('Invalid user');
   });
+  // test update frozen browsing
+  it('PUT /update-frozen-browsing - should update frozen browsing', async () => {
+    const response = await request(app).put('/user/update-frozen-browsing').send({
+      username: 'test2',
+      frozenBrowsing: true,
+      lastFrozen: new Date(),
+      frozenUntil: new Date(),
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('User updated with frozen browsing');
+  });
+  // test update invalid user frozen browsing
+  it('PUT /update-frozen-browsing - should fail to update invalid user frozen browsing', async () => {
+    const response = await request(app).put('/user/update-frozen-browsing').send({
+      username: 'invalid user',
+      frozenBrowsing: true,
+      lastFrozen: new Date(),
+      frozenUntil: new Date(),
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('Invalid user');
+  });
   // test delete user
   it('DELETE /delete - should delete a user', async () => {
     await createTestUser();
