@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
   endTime: { type: String, required: true },
   duration: { type: Number, required: true },
   points: { type: Number, required: true },
+  isCompleted: { type: Boolean, default: false },
 });
 
 export const TaskModel = mongoose.model('tasks', UserSchema);

@@ -49,7 +49,7 @@ router.get('/get-all', async (req, res) => {
 // Get task by id route
 router.get('/get-by-id', async (req, res) => {
   const { id } = req.body;
-  const task = await TaskModel.find({ id });
+  const task = await TaskModel.findOne({ id });
   if (!task) {
     return res.json({ message: 'Invalid task' });
   }
@@ -59,21 +59,19 @@ router.get('/get-by-id', async (req, res) => {
 // Get task by type route
 router.get('/get-by-type', async (req, res) => {
   const { taskType } = req.body;
-  const task = await TaskModel.findOne({ taskType });
-  if (!task) {
-    return res.json({ message: 'Invalid user' });
-  }
+  const task = await TaskModel.find({ taskType });
   return res.json({ task });
 });
 
 // Get by user id route
-router.get('/get-by-user-id', async (req, res) => {
-  const { associatedUser } = req.body;
-  const task = await TaskModel.findOne({ associatedUser });
-  if (!task) {
+router.get('/get-by-username', async (req, res) => {
+  const { username } = req.body;
+  const user = await UserModel.findOne({ username });
+  if (!user) {
     return res.json({ message: 'Invalid user' });
   }
-  return res.json({ task });
+  const tasks = await TaskModel.find({ associatedUser: user.id_ });
+  return res.json({ tasks });
 });
 
 export { router as taskRouter };
