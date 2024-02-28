@@ -12,27 +12,36 @@ const defaultTasks = {
 
 const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => { } }) => {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
+  const [initialUser, setInitialUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const [preferredTasks, setPreferences] = useState(initialPreferredTasks); // Initialize as empty object
   const [taskFrequency, setTaskFrequency] = useState(':'); // Initialize task frequency
   const [workPreferences, setWorkPreferences] = useState('');
   const [readingPreferences, setReadingPreferences] = useState('');
+
   useEffect(() => {
+    console.log('initial', initialUser);
     // Load the user's preferences when the component mounts
-    if (user && user.preferredTasks) {
-      setPreferences(user.preferredTasks);
+    if (initialUser && initialUser.preferredTasks) {
+      setPreferences(initialUser.preferredTasks);
       // Fetch preferredTasks from the database for new user
     }
-    if (user && !user.preferredTasks) {
+    if (initialUser && !initialUser.preferredTasks) {
       setPreferences(defaultTasks);
     }
     if (user && user.taskFrequency) {
-      const hours = Math.floor(user.taskFrequency / 3600000);
-      const minutes = Math.floor((user.taskFrequency % 3600000) / 60000);
+      const hours = Math.floor(initialUser.taskFrequency / 3600000);
+      const minutes = Math.floor((initialUser.taskFrequency % 3600000) / 60000);
       const formattedFrequency = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 
       setTaskFrequency(formattedFrequency); // Set task frequency from user data
     }
-  }, [user]);
+    if (initialUser && initialUser.workPreferences) {
+      setWorkPreferences(initialUser.workPreferences); // Set work preferences from user data
+    }
+    if (initialUser && initialUser.readingPreferences) {
+      setReadingPreferences(initialUser.readingPreferences); // Set reading preferences from user data
+    }
+  }, [initialUser]);
 
   const handleToggle = preference => {
     const updatedPreferences = {
@@ -43,8 +52,10 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => { } 
     setPreferences(updatedPreferences);
   };
 
+  // Inside the Preference component
+
   const handleSubmit = () => {
-    // Update the user's prefferred tasks in the database
+    // Update the user's preferred tasks in the database
     axios
       .put('http://localhost:3002/user/update-preferred-tasks', {
         username: user.username,
@@ -57,16 +68,16 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => { } 
           JSON.stringify({ ...user, preferredTasks: preferredTasks, taskFrequency: taskFrequency })
         );
         setUser({ ...user, preferredTasks: preferredTasks, taskFrequency: taskFrequency });
-        onClose(); // Close the pop-up after submitting preferences
       })
       .catch(error => {
         console.error('Failed to update preferences', error);
       });
+
     // Convert HH:mm to milliseconds
     const [hours, minutes] = taskFrequency.split(':').map(Number);
     const milliseconds = (hours * 60 * 60 + minutes * 60) * 1000;
 
-    //Update the user's task frequency in the database
+    // Update the user's task frequency in the database
     axios
       .put('http://localhost:3002/user/update-task-frequency', {
         username: user.username,
@@ -76,7 +87,6 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => { } 
         // Update user data in sessionStorage with new preferences
         sessionStorage.setItem('user', JSON.stringify({ ...user, taskFrequency: milliseconds }));
         setUser({ ...user, taskFrequency: milliseconds });
-        onClose(); // Close the pop-up after submitting preferences
       })
       .catch(error => {
         console.error('Failed to update preferences', error);
@@ -92,7 +102,7 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => { } 
         // Update user data in sessionStorage with new preferences
         sessionStorage.setItem('user', JSON.stringify({ ...user, workPreferences: workPreferences }));
         setUser({ ...user, workPreferences: workPreferences });
-        onClose(); // Close the pop-up after submitting preferences
+        setWorkPreferences(''); // Reset the workPreferences state
       })
       .catch(error => {
         console.error('Failed to update work preferences', error);
@@ -108,11 +118,13 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => { } 
         // Update user data in sessionStorage with new preferences
         sessionStorage.setItem('user', JSON.stringify({ ...user, readingPreferences: readingPreferences }));
         setUser({ ...user, readingPreferences: readingPreferences });
-        onClose(); // Close the pop-up after submitting preferences
+        setReadingPreferences(''); // Reset the readingPreferences state
       })
       .catch(error => {
         console.error('Failed to update reading preferences', error);
       });
+
+    onClose(); // Close the pop-up after submitting preferences
   };
 
   return (
