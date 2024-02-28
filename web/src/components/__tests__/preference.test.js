@@ -37,8 +37,8 @@ test('allows the user to toggle preferences', async () => {
     expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
       username: mockUser.username,
       preferredTasks: {
-        Work: 'true',
-        Reading: 'true',
+        Work: true,
+        Reading: true,
         Exercise: false,
         Break: false,
       },
@@ -80,7 +80,7 @@ test('allows the user to set task frequency when a task is enabled', async () =>
     expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
       username: mockUser.username,
       preferredTasks: {
-        Work: 'true',
+        Work: true,
         Reading: false,
         Exercise: false,
         Break: false,
@@ -125,8 +125,8 @@ test('updates preferences on submit', async () => {
     expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
       username: mockUser.username,
       preferredTasks: {
-        Work: 'true',
-        Reading: 'true',
+        Work: true,
+        Reading: true,
         Exercise: false,
         Break: false,
       },
@@ -173,5 +173,76 @@ test('loads default preferences for new user with no stored preferences', async 
     expect(screen.getByLabelText(/Reading/i).checked).toBe(false);
     expect(screen.getByLabelText(/Exercise/i).checked).toBe(false);
     expect(screen.getByLabelText(/Break/i).checked).toBe(false);
+  });
+});
+
+test('updates work and reading preferences on submit', async () => {
+  const mockUser = {
+    username: 'testuser',
+    preferredTasks: {
+      Work: false,
+      Reading: false,
+      Exercise: false,
+      Break: false,
+    },
+  };
+  sessionStorage.setItem('user', JSON.stringify(mockUser));
+
+  axios.put.mockResolvedValue({ data: { message: 'User updated with preferred tasks' } });
+
+  render(<Preference />);
+
+  const workCheckbox = screen.getByLabelText(/Work/i);
+  fireEvent.click(workCheckbox);
+
+  const workPreferenceInput = screen.getByPlaceholderText(/Describe your work/i);
+  fireEvent.change(workPreferenceInput, { target: { value: 'Work preference' } });
+
+  const readingCheckbox = screen.getByLabelText(/Reading/i);
+  fireEvent.click(readingCheckbox);
+
+  const readingPreferenceInput = screen.getByPlaceholderText(/Describe your readings/i);
+  fireEvent.change(readingPreferenceInput, { target: { value: 'Reading preference' } });
+
+  const submitButton = screen.getByText('Submit');
+  fireEvent.click(submitButton);
+
+  await waitFor(() => {
+    expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-work-preferences', {
+      username: mockUser.username,
+      workPreferences: 'Work preference',
+    });
+    expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-reading-preferences', {
+      username: mockUser.username,
+      readingPreferences: 'Reading preference',
+    });
+  });
+});
+
+test('loads user preferences when component mounts', async () => {
+  const mockUser = {
+    username: 'testuser',
+    preferredTasks: {
+      Work: true,
+      Reading: true,
+      Exercise: false,
+      Break: false,
+    },
+    taskFrequency: 3600000, // 1 hour in milliseconds
+    workPreferences: 'Work preference',
+    readingPreferences: 'Reading preference',
+  };
+  sessionStorage.setItem('user', JSON.stringify(mockUser));
+
+  render(<Preference />);
+
+  await waitFor(() => {
+    expect(screen.getByLabelText(/Work/i).checked).toBe(true);
+    expect(screen.getByLabelText(/Reading/i).checked).toBe(true);
+    expect(screen.getByLabelText(/Exercise/i).checked).toBe(false);
+    expect(screen.getByLabelText(/Break/i).checked).toBe(false);
+    expect(screen.getByPlaceholderText(/Describe your work/i).value).toBe('Work preference');
+    expect(screen.getByPlaceholderText(/Describe your readings/i).value).toBe('Reading preference');
+    expect(screen.getByLabelText(/Task Frequency/i).value).toBe('01:00');
   });
 });
