@@ -137,4 +137,15 @@ router.put('/update-all-preferences', async (req, res) => {
   );
   return res.json({ message: 'User updated with all preferences' });
 });
+
+// update frozen browsing
+router.put('/update-frozen-browsing', async (req, res) => {
+  const { username, frozenBrowsing, lastFrozen, frozenUntil } = req.body;
+  const user = await UserModel.findOne({ username });
+  if (!user) {
+    return res.json({ message: 'Invalid user' });
+  }
+  await UserModel.findOneAndUpdate({ username }, { frozenBrowsing, lastFrozen, frozenUntil });
+  return res.json({ message: 'User updated with frozen browsing' });
+});
 export { router as UserRouter };
