@@ -10,10 +10,12 @@ const defaultTasks = {
   Break: false,
 };
 
-const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }) => {
+const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => { } }) => {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const [preferredTasks, setPreferences] = useState(initialPreferredTasks); // Initialize as empty object
   const [taskFrequency, setTaskFrequency] = useState(':'); // Initialize task frequency
+  const [workPreferences, setWorkPreferences] = useState('');
+  const [readingPreferences, setReadingPreferences] = useState('');
   useEffect(() => {
     // Load the user's preferences when the component mounts
     if (user && user.preferredTasks) {
@@ -35,7 +37,7 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
   const handleToggle = preference => {
     const updatedPreferences = {
       ...preferredTasks,
-      [preference]: preferredTasks[preference] === 'true' ? 'false' : 'true', // Toggle the value
+      [preference]: preferredTasks[preference] === true ? false : true, // Toggle the value
     };
 
     setPreferences(updatedPreferences);
@@ -79,6 +81,38 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
       .catch(error => {
         console.error('Failed to update preferences', error);
       });
+
+    // Update the user's work preferences in the database
+    axios
+      .put('http://localhost:3002/user/update-work-preferences', {
+        username: user.username,
+        workPreferences: workPreferences,
+      })
+      .then(response => {
+        // Update user data in sessionStorage with new preferences
+        sessionStorage.setItem('user', JSON.stringify({ ...user, workPreferences: workPreferences }));
+        setUser({ ...user, workPreferences: workPreferences });
+        onClose(); // Close the pop-up after submitting preferences
+      })
+      .catch(error => {
+        console.error('Failed to update work preferences', error);
+      });
+
+    // Update the user's reading preferences in the database
+    axios
+      .put('http://localhost:3002/user/update-reading-preferences', {
+        username: user.username,
+        readingPreferences: readingPreferences,
+      })
+      .then(response => {
+        // Update user data in sessionStorage with new preferences
+        sessionStorage.setItem('user', JSON.stringify({ ...user, readingPreferences: readingPreferences }));
+        setUser({ ...user, readingPreferences: readingPreferences });
+        onClose(); // Close the pop-up after submitting preferences
+      })
+      .catch(error => {
+        console.error('Failed to update reading preferences', error);
+      });
   };
 
   return (
@@ -95,11 +129,33 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
                 <input
                   id={preference}
                   type="checkbox"
-                  checked={preferredTasks[preference] === 'true'}
+                  checked={preferredTasks[preference] === true}
                   onChange={() => handleToggle(preference)}
                 />
                 <span className="slider round"></span>
               </label>
+              {preference === 'Work' && preferredTasks[preference] === true && (
+                <div>
+                  <p>Describe your Work preference</p>
+                  <input
+                    type="text"
+                    placeholder="Describe your work"
+                    value={workPreferences}
+                    onChange={e => setWorkPreferences(e.target.value)}
+                  />
+                </div>
+              )}
+              {preference === 'Reading' && preferredTasks[preference] === true && (
+                <div>
+                  <p>Describe your Reading preference</p>
+                  <input
+                    type="text"
+                    placeholder="Describe your readings"
+                    value={readingPreferences}
+                    onChange={e => setReadingPreferences(e.target.value)}
+                  />
+                </div>
+              )}
             </div>
           </li>
         ))}

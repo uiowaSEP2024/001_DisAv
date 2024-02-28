@@ -37,8 +37,8 @@ test('allows the user to toggle preferences', async () => {
     expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
       username: mockUser.username,
       preferredTasks: {
-        Work: 'true',
-        Reading: 'true',
+        Work: true,
+        Reading: true,
         Exercise: false,
         Break: false,
       },
@@ -80,7 +80,7 @@ test('allows the user to set task frequency when a task is enabled', async () =>
     expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
       username: mockUser.username,
       preferredTasks: {
-        Work: 'true',
+        Work: true,
         Reading: false,
         Exercise: false,
         Break: false,
@@ -125,8 +125,8 @@ test('updates preferences on submit', async () => {
     expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-preferred-tasks', {
       username: mockUser.username,
       preferredTasks: {
-        Work: 'true',
-        Reading: 'true',
+        Work: true,
+        Reading: true,
         Exercise: false,
         Break: false,
       },
