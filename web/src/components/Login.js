@@ -1,13 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-//import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { AuthContext } from './AuthContext'; // Import AuthContext
-//import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/login.css';
 
 const Login = () => {
-  //toast.configure();
+  toast.configure();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -21,12 +21,17 @@ const Login = () => {
         password: password,
       });
 
-      if (response.data.message === 'Invalid username or password') {
-        // toast.error('Invalid username or password');
-        console.log('Invalid username or password');
-      } else {
-        //toast.success('Login successful');
-        console.log('Login successful');
+      if (response.data.message === 'Username or Password incorrect') {
+        toast.error('Invalid password');
+        // console.log('Invalid username or password');
+
+      }
+      else if (response.data.message === 'User does not exist') {
+        toast.error('User does not exist');
+      }
+      else {
+        toast.success('Login successful');
+        // console.log('Login successful');
         // Store the token in localStorage
         localStorage.setItem('token', response.data.token);
         // Store user information in session storage
