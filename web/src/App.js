@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
 import Signup from './components/Signup';
 import Preference from './components/Preference';
+import Rewards from './components/Rewards';
 
 function App() {
   const { isLoggedIn, logout } = useContext(AuthContext);
@@ -28,6 +29,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/preference" element={<Preference />} />
+        <Route path="/rewards" element={<Rewards />} />
       </Routes>
     </div>
   );
