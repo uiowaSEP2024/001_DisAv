@@ -9,6 +9,9 @@ const UserSchema = new mongoose.Schema({
   completionRate: { type: Number, default: 0 },
   accountabilityPartners: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
   phoneNumber: { type: String, required: false },
+  frozenBrowsing: { type: Boolean, default: false },
+  lastFrozen: { type: Date },
+  frozenUntil: { type: Date },
   preferredTasks: {
     type: Map,
     of: Boolean,
