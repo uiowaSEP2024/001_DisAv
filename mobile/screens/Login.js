@@ -41,7 +41,12 @@ export default function Login({ navigation }) {
       })
       .catch(error => {
         console.log('Error', error);
-        setErr('An error occurred during login.');
+        // Here, specifically handle the 401 error
+        if (error.response && error.response.status === 401) {
+          setErr('Unauthorized: Check your username and password.');
+        } else {
+          setErr('An error occurred during login.');
+        }
       });
   }
 

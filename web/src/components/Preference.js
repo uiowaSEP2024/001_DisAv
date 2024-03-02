@@ -10,7 +10,7 @@ const defaultTasks = {
   Break: false,
 };
 
-const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => { } }) => {
+const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }) => {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const [initialUser, setInitialUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const [preferredTasks, setPreferences] = useState(initialPreferredTasks); // Initialize as empty object
@@ -100,7 +100,10 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => { } 
       })
       .then(response => {
         // Update user data in sessionStorage with new preferences
-        sessionStorage.setItem('user', JSON.stringify({ ...user, workPreferences: workPreferences }));
+        sessionStorage.setItem(
+          'user',
+          JSON.stringify({ ...user, workPreferences: workPreferences })
+        );
         setUser({ ...user, workPreferences: workPreferences });
         setWorkPreferences(''); // Reset the workPreferences state
       })
@@ -116,7 +119,10 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => { } 
       })
       .then(response => {
         // Update user data in sessionStorage with new preferences
-        sessionStorage.setItem('user', JSON.stringify({ ...user, readingPreferences: readingPreferences }));
+        sessionStorage.setItem(
+          'user',
+          JSON.stringify({ ...user, readingPreferences: readingPreferences })
+        );
         setUser({ ...user, readingPreferences: readingPreferences });
         setReadingPreferences(''); // Reset the readingPreferences state
       })

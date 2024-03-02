@@ -24,12 +24,9 @@ const Login = () => {
       if (response.data.message === 'Username or Password incorrect') {
         toast.error('Invalid password');
         // console.log('Invalid username or password');
-
-      }
-      else if (response.data.message === 'User does not exist') {
+      } else if (response.data.message === 'User does not exist') {
         toast.error('User does not exist');
-      }
-      else {
+      } else {
         toast.success('Login successful');
         // console.log('Login successful');
         // Store the token in localStorage
