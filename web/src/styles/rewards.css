@@ -109,6 +109,10 @@
   }
 
   .reward-history {
+
+    max-height: 250px; /* Adjust based on the actual height of your items */
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 10px; /* Optional: adds some space inside the container */
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
