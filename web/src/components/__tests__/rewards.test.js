@@ -20,13 +20,13 @@ describe('RewardsScreen', () => {
     // Add a testID to your RewardHistory component or some text unique to it to test its presence
   });
 
-  test('shows the Shop component when the Shop tab is clicked', () => {
-    render(<RewardsScreen />);
-    const shopTabButton = screen.getByText(/shop/i);
-    fireEvent.click(shopTabButton);
-    expect(shopTabButton).toHaveClass('active');
-    // Add a testID to your Shop component or some text unique to it to test its presence
-  });
+  // test('shows the Shop component when the Shop tab is clicked', () => {
+  //   render(<RewardsScreen />);
+  //   const shopTabButton = screen.getByText(/shop/i);
+  //   fireEvent.click(shopTabButton);
+  //   expect(shopTabButton).toHaveClass('active');
+  //   // Add a testID to your Shop component or some text unique to it to test its presence
+  // });
 
   // More tests here for other functionalities and components...
 });

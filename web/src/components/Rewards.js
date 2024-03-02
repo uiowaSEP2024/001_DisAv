@@ -17,16 +17,16 @@ const RewardsScreen = () => {
                 >
                     History
                 </button>
-                <button
+                {/* <button
                     className={`tab-button ${activeTab === 'shop' ? 'active' : ''}`}
                     onClick={() => setActiveTab('shop')}
                 >
                     Shop
-                </button>
+                </button> */}
             </div>
             <div className="tab-content">
                 {activeTab === 'history' && <RewardHistory />}
-                {activeTab === 'shop' && <Shop />}
+                {/* {activeTab === 'shop' && <Shop />} */}
             </div>
         </div>
     );
