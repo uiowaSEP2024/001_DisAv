@@ -10,7 +10,7 @@ router.get('/get-all', async (req, res) => {
 });
 // Get user by username api
 router.get('/get-by-username', async (req, res) => {
-  const { username } = req.body;
+  const { username } = req.query;
   const user = await UserModel.findOne({ username });
   if (!user) {
     return res.json({ message: 'Invalid user' });
@@ -20,7 +20,7 @@ router.get('/get-by-username', async (req, res) => {
 
 // Get user by email api
 router.get('/get-by-email', async (req, res) => {
-  const { email } = req.body;
+  const { email } = req.query;
   const user = await UserModel.findOne({ email });
   if (!user) {
     return res.json({ message: 'Invalid user' });
@@ -28,7 +28,7 @@ router.get('/get-by-email', async (req, res) => {
   return res.json({ user });
 });
 
-// Update user api
+// Update user apis
 router.put('/update', async (req, res) => {
   const { user } = req.body;
   let {
