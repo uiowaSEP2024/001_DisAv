@@ -21,8 +21,8 @@ describe('TaskModel', () => {
     const taskData = {
       taskType: 'Coding',
       date: new Date(),
-      startTime: '09:00',
-      endTime: '11:00',
+      startTime: new Date(),
+      endTime: new Date(),
       duration: 120,
       points: 100,
     };

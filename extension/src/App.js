@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { ExternalLink } from 'react-external-link';
-
+import CountdownTimer from './components/CountdownTimer';
 function App() {
   const [currentUrl, setCurrentUrl] = useState('');
   const [userInfo, setUserInfo] = useState({});
@@ -46,13 +46,14 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Infinite focus</h1>
+      <h1>Infinite focus {new Date(userInfo.createdAt).toLocaleString()}</h1>
       {/*<button onClick={clearStorage}>good Current URL</button>*/}
       {loggedIn ? (
         userInfo && (
           <div>
-            <p>User Name: {userInfo.username}</p>
-            <p>User Email: {userInfo.email}</p>
+            <div className={"timer"}>
+              <CountdownTimer totalTime={userInfo.taskFrequency/1000} />
+            </div>
             <button onClick={clearStorage}>Log out</button>
           </div>
         )

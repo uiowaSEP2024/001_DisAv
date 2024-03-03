@@ -25,6 +25,7 @@ const UserSchema = new mongoose.Schema({
   taskFrequency: { type: Number, required: false, default: 0 },
   workPreferences: { type: String, required: false },
   readingPreferences: { type: String, required: false },
+  createdAt: { type: Date, default: Date.now },
 });
 
 export const UserModel = mongoose.model('users', UserSchema);
