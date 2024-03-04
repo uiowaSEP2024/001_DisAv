@@ -28,14 +28,14 @@ describe('User API Routes', () => {
   // test get user by username
   it('GET /get-by-username - should return user by username', async () => {
     await createTestUser();
-    const response = await request(app).get('/user/get-by-username').send({ username: 'test2' });
+    const response = await request(app).get('/user/get-by-username').query({ username: 'test2' });
     expect(response.statusCode).toBe(200);
     expect(response.body.user).toBeTruthy();
     expect(response.body.user.username).toBe('test2');
   });
   // test get by invalid username
   it('GET /get-by-username - should fail to return invalid user', async () => {
-    const response = await request(app).get('/user/get-by-username').send({ username: 'invalid' });
+    const response = await request(app).get('/user/get-by-username').query({ username: 'invalid' });
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe('Invalid user');
   });
@@ -44,7 +44,7 @@ describe('User API Routes', () => {
     await createTestUser();
     const response = await request(app)
       .get('/user/get-by-email')
-      .send({ email: 'test@example.com' });
+      .query({ email: 'test@example.com' });
     expect(response.statusCode).toBe(200);
     expect(response.body.user).toBeTruthy();
     expect(response.body.user.email).toBe('test@example.com');
@@ -53,7 +53,7 @@ describe('User API Routes', () => {
   it('GET /get-by-email - should fail to return invalid user', async () => {
     const response = await request(app)
       .get('/user/get-by-email')
-      .send({ email: 'invalidEmail123@wrong.com' });
+      .query({ email: 'invalidEmail123@wrong.com' });
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe('Invalid user');
   });

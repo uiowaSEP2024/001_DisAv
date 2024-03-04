@@ -117,9 +117,7 @@ describe('Task API Routes', () => {
   // test get by id route
   it('gets task by id', async () => {
     const testTask = createTestTask('test');
-    const response = await request(app)
-      .get(`/task/get-by-id`)
-      .send({ params: { id: testTask.id } });
+    const response = await request(app).get(`/task/get-by-id`).query({ id: testTask.id });
     expect(response.statusCode).toBe(200);
     expect(response.body.task).toBeDefined();
     expect(response.body.task.id).toBe(testTask.id);
@@ -127,18 +125,14 @@ describe('Task API Routes', () => {
 });
 // test get by invalid id route
 it('fails to get task by invalid id', async () => {
-  const response = await request(app)
-    .get('/task/get-by-id')
-    .send({ params: { id: 'invalid' } });
+  const response = await request(app).get('/task/get-by-id').query({ id: 'invalid' });
   expect(response.statusCode).toBe(200);
   expect(response.body.message).toBe('Invalid task');
 });
 
 // test get by task type route
 it('gets task by type', async () => {
-  const response = await request(app)
-    .get('/task/get-by-type')
-    .send({ params: { taskType: 'Reading' } });
+  const response = await request(app).get('/task/get-by-type').query({ taskType: 'Reading' });
   expect(response.statusCode).toBe(200);
   expect(response.body.task).toBeDefined();
   expect(response.body.task.length).toBe(3);
@@ -146,9 +140,7 @@ it('gets task by type', async () => {
 
 // test get by user id route
 it('gets task by user name', async () => {
-  const response = await request(app)
-    .get('/task/get-by-username')
-    .send({ params: { username: 'test' } });
+  const response = await request(app).get('/task/get-by-username').query({ username: 'test' });
   expect(response.statusCode).toBe(200);
   expect(response.body.tasks).toBeDefined();
   expect(response.body.tasks.length).toBe(4);
@@ -156,9 +148,7 @@ it('gets task by user name', async () => {
 
 // test get by invalid user id route
 it('fails to get task by invalid user id', async () => {
-  const response = await request(app)
-    .get('/task/get-by-username')
-    .send({ params: { username: 'invalid' } });
+  const response = await request(app).get('/task/get-by-username').query({ username: 'invalid' });
   expect(response.statusCode).toBe(200);
   expect(response.body.message).toBe('Invalid user');
 });
