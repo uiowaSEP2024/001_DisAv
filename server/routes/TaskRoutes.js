@@ -11,7 +11,7 @@ router.post('/create', async (req, res) => {
     return res.json({ message: 'Invalid user' });
   }
   const newTask = new TaskModel({
-    associatedUser: user.id_,
+    associatedUser: user._id,
     taskType,
     date,
     startTime,
@@ -32,7 +32,7 @@ router.put('/update', async (req, res) => {
   }
   const task = await TaskModel.findOneAndUpdate(
     { id },
-    { associatedUser: user.id_, taskType, date, startTime, endTime, duration, points }
+    { associatedUser: user._id, taskType, date, startTime, endTime, duration, points }
   );
   if (!task) {
     return res.json({ message: 'Invalid task' });
@@ -70,7 +70,7 @@ router.get('/get-by-username', async (req, res) => {
   if (!user) {
     return res.json({ message: 'Invalid user' });
   }
-  const tasks = await TaskModel.find({ associatedUser: user.id_ });
+  const tasks = await TaskModel.find({ associatedUser: user._id });
   return res.json({ tasks });
 });
 
