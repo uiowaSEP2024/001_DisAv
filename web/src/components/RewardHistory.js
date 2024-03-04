@@ -9,7 +9,7 @@ const RewardHistory = () => {
             try {
                 const user = JSON.parse(sessionStorage.getItem('user'));
                 const username = user.username;
-                const response = await axios.get('http://localhost:3002/task/get-by-username', { username: username });
+                const response = await axios.get('http://localhost:3002/task/get-by-username', { params: { username } });
                 const formattedTasks = response.data.tasks.map(task => {
                     const formattedDate = new Date(task.date).toLocaleString('en-US', {
                         year: 'numeric',

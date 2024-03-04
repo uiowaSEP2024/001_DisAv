@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RewardHistory from './RewardHistory'; // Path to your RewardHistory component
 import Shop from './Shop'; // Path to your Shop component
 import '../styles/rewards.css'; // Ensure the CSS file is updated accordingly
@@ -6,15 +6,17 @@ import axios from 'axios';
 
 const RewardsScreen = () => {
     const [activeTab, setActiveTab] = useState('history');
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    const username = user.username;
     // const createTask = async () => {
     //     const taskDetails = {
-    //       username: 'adnane', // Replace with the actual username
-    //       taskType: 'Break',
-    //       date: '2024-03-01',
+    //       username: username, // Replace with the actual username
+    //       taskType: 'Exercise',
+    //       date: '2024-03-03',
     //       startTime: '10:00 AM',
     //       endTime: '11:00 AM',
     //       duration: 60,
-    //       points: 250,
+    //       points: 0,
     //     };
 
     //     try {
@@ -24,7 +26,11 @@ const RewardsScreen = () => {
     //       console.error('Error creating task:', error);
     //     }
     //   };
-    //   createTask();
+    //   useEffect(() => {
+    //     createTask();
+    //   }, []);
+
+
     return (
 
         <div className="rewards-container">
