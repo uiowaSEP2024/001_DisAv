@@ -11,7 +11,7 @@ router.post('/create', async (req, res) => {
     return res.status(401).json({ message: 'Invalid user' });
   }
   const newTask = new TaskModel({
-    associatedUser: user.id_,
+    associatedUser: user._id,
     taskType,
     date,
     startTime,
@@ -32,7 +32,7 @@ router.put('/update', async (req, res) => {
   }
   const task = await TaskModel.findOneAndUpdate(
     { id },
-    { associatedUser: user.id_, taskType, date, startTime, endTime, duration, points }
+    { associatedUser: user._id, taskType, date, startTime, endTime, duration, points }
   );
   if (!task) {
     return res.status(401).json({ message: 'Invalid task' });
@@ -48,7 +48,7 @@ router.get('/get-all', async (req, res) => {
 
 // Get task by id route
 router.get('/get-by-id', async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.query;
   const task = await TaskModel.findOne({ id });
   if (!task) {
     return res.status(401).json({ message: 'Invalid task' });
@@ -58,20 +58,20 @@ router.get('/get-by-id', async (req, res) => {
 
 // Get task by type route
 router.get('/get-by-type', async (req, res) => {
-  const { taskType } = req.body;
+  const { taskType } = req.query;
   const task = await TaskModel.find({ taskType });
   return res.status(200).json({ task });
 });
 
 // Get by user id route
 router.get('/get-by-username', async (req, res) => {
-  const { username } = req.body;
+  const { username } = req.query;
   const user = await UserModel.findOne({ username });
   if (!user) {
     return res.status(401).json({ message: 'Invalid user' });
   }
-  const tasks = await TaskModel.find({ associatedUser: user.id_ });
-  return res.status(200).json({ tasks });
+  const tasks = await TaskModel.find({ associatedUser: user._id });
+  return res.json({ tasks });
 });
 
 export { router as taskRouter };

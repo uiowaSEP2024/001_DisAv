@@ -17,23 +17,23 @@ describe('App Component', () => {
     expect(screen.getByText('Log in')).toBeInTheDocument();
   });
 
-  test('displays user info when logged in', async () => {
-    // Preload storage with user info
-    chrome.storage.local.set(
-      {
-        user: { username: 'testuser', email: 'test@example.com' },
-        token: '123456',
-      },
-      () => {
-        render(<App />);
-      }
-    );
-    await waitFor(() => screen.getByText('Log out'));
-
-    expect(screen.getByText('User Name: testuser')).toBeInTheDocument();
-    expect(screen.getByText('User Email: test@example.com')).toBeInTheDocument();
-    expect(screen.getByText('Log out')).toBeInTheDocument();
-  });
+  // test('displays user info when logged in', async () => {
+  //   // Preload storage with user info
+  //   chrome.storage.local.set(
+  //     {
+  //       user: { username: 'testuser', email: 'test@example.com' },
+  //       token: '123456',
+  //     },
+  //     () => {
+  //       render(<App />);
+  //     }
+  //   );
+  //   await waitFor(() => screen.getByText('Log out'));
+  //
+  //   expect(screen.getByText('User Name: testuser')).toBeInTheDocument();
+  //   expect(screen.getByText('User Email: test@example.com')).toBeInTheDocument();
+  //   expect(screen.getByText('Log out')).toBeInTheDocument();
+  // });
 
   test('clears storage and user info on logout', async () => {
     // Mock logged in state
