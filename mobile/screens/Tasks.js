@@ -202,18 +202,20 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   card: {
-    width: width * 0.4, // Adjusted for demonstration
-    height: height * 1.3, // Adjusted for demonstration
-    overflow: 'scroll', // Ensures the background image does not bleed outside the card boundaries
+    flex: 1,
+    backgroundColor: 'white',
+    // width: width * 0.4, // Adjusted for demonstration
+    // height: height * 1.3, // Adjusted for demonstration
+    // overflow: 'scroll', // Ensures the background image does not bleed outside the card boundaries
   },
   cardContent: {
-    flex: 1, // Ensure it fills the card
-    justifyContent: 'space-between', // This will help push the content to the top and the button to the bottom
+    flex: 1, // This will make sure the content fills the card
+    width: width * 0.4, // Adjusted for demonstration
+    height: height * 1.3, // Adjusted for demonstration
   },
   imageBackground: {
     flex: 1, // This will make sure the image fills the entire space of its container
-    width: width * 0.4, // Adjusted for demonstration
-    height: height * 1.3, // Adjusted for demonstration
+    // No need to set width and height here
     // justifyContent: 'flex-end', // Aligns button to the bottom
   },
   cardTitle: {
