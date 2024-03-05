@@ -5,11 +5,14 @@ const router = express.Router();
 
 // Create task route
 router.post('/create', async (req, res) => {
+  console.log('Creating task for user:');
   const { username, taskType, date, startTime, endTime, duration, points } = req.body;
+  console.log('Creating task for user with these details:', req.body);
   const user = await UserModel.findOne({ username });
   if (!user) {
     return res.status(401).json({ message: 'Invalid user' });
   }
+  console.log('Creating task for user:', user);
   const newTask = new TaskModel({
     associatedUser: user._id,
     taskType,
@@ -25,16 +28,20 @@ router.post('/create', async (req, res) => {
 
 // Update task route
 router.put('/update', async (req, res) => {
-  const { id, username, taskType, date, startTime, endTime, duration, points } = req.body;
+  const { id, username, taskType, date, startTime, endTime, duration, isCompleted, points } =
+    req.body;
   const user = await UserModel.findOne({ username });
   if (!user) {
+    console.log('Invalid user');
     return res.status(401).json({ message: 'Invalid user' });
   }
+
   const task = await TaskModel.findOneAndUpdate(
-    { id },
-    { associatedUser: user._id, taskType, date, startTime, endTime, duration, points }
+    { _id: id },
+    { associatedUser: user._id, taskType, date, startTime, endTime, isCompleted, duration, points }
   );
   if (!task) {
+    console.log('Invalid task');
     return res.status(401).json({ message: 'Invalid task' });
   }
   return res.status(200).json({ message: 'Task successfully updated' });
@@ -49,7 +56,7 @@ router.get('/get-all', async (req, res) => {
 // Get task by id route
 router.get('/get-by-id', async (req, res) => {
   const { id } = req.query;
-  const task = await TaskModel.findOne({ id });
+  const task = await TaskModel.findOne({ _id: id });
   if (!task) {
     return res.status(401).json({ message: 'Invalid task' });
   }
@@ -71,7 +78,7 @@ router.get('/get-by-username', async (req, res) => {
     return res.status(401).json({ message: 'Invalid user' });
   }
   const tasks = await TaskModel.find({ associatedUser: user._id });
-  return res.json({ tasks });
+  return res.status(200).json({ tasks });
 });
 
 export { router as taskRouter };

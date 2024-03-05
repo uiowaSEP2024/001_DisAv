@@ -51,8 +51,8 @@ function App() {
       {loggedIn ? (
         userInfo && (
           <div>
-            <div className={"timer"}>
-              <CountdownTimer totalTime={userInfo.taskFrequency/1000} />
+            <div className={'timer'}>
+              <CountdownTimer totalTime={userInfo.taskFrequency / 1000} />
             </div>
             <button onClick={clearStorage}>Log out</button>
           </div>
