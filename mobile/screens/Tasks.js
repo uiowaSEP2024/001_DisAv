@@ -67,7 +67,6 @@ export default function TasksScreen() {
         `http://${api}/task/get-by-username?username=${user.username}`
       );
       const tasks = response.data.tasks;
-      console.log('Fetched tasks:', tasks);
       const activeTask = tasks.find(task => !task.isCompleted);
       if (!activeTask) {
         createRandomTaskForUser();
@@ -173,6 +172,7 @@ export default function TasksScreen() {
                 <Text style={styles.cardSubtitle}>Start Time: {currentTask.startTime}</Text>
                 <Button
                   style={styles.completeButton}
+                  testID="complete-task-button"
                   mode="contained"
                   onPress={() => markTaskAsCompleted(currentTask._id)}
                 >
