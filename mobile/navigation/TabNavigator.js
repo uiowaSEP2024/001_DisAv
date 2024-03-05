@@ -21,7 +21,7 @@ const TabNavigator = () => (
             testID = 'homeIcon';
             break;
           case 'Rewards':
-            iconName = focused ? 'card-giftcard' : 'auto-awesome';
+            iconName = 'auto-awesome';
             testID = 'card-giftcardIcon';
             break;
           case 'Settings':
