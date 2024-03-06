@@ -33,7 +33,6 @@ router.post('/login', async (req, res) => {
   }
   // Compare the provided password with the hashed password in the database
   const isPasswordValid = await bcrypt.compare(password, user.password);
-  console.log('isPasswordValid: ', isPasswordValid);
   if (!isPasswordValid) {
     return res.status(401).json({ message: 'Username or Password incorrect' }); // Use HTTP status code 401 for unauthorized
   }
