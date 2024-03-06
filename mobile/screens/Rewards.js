@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Animated, Easing, StyleSheet } from 'react-native';
+import { Animated, Easing, StyleSheet, ScrollView, View, Text } from 'react-native';
 import { useSession } from '../context/SessionContext';
 import axios from 'axios';
 import { api } from '../config/Api';
@@ -10,9 +10,10 @@ import { Headline } from 'react-native-paper';
 export default function Rewards({ navigation }) {
   const { user } = useSession();
   const [totalPoints, setTotalPoints] = useState(0);
+  const [completedTasks, setCompletedTasks] = useState([]);
   const confettiRef = useRef();
-  const scaleAnim = useRef(new Animated.Value(0)).current; // Initial value for scale: 0
-  const rotateAnim = useRef(new Animated.Value(0)).current; // Initial value for rotation: 0
+  const scaleAnim = useRef(new Animated.Value(0)).current;
+  const rotateAnim = useRef(new Animated.Value(0)).current;
 
   async function fetchUserTasks() {
     try {
@@ -21,24 +22,26 @@ export default function Rewards({ navigation }) {
       );
       const userTasks = response.data.tasks;
       let points = 0;
+      const completed = [];
       userTasks.forEach(task => {
         if (task.isCompleted) {
           points += task.points;
+          completed.push(task);
         }
       });
       setTotalPoints(points);
+      // Sort completed tasks by date, most recent first
+      completed.sort((a, b) => new Date(b.dateCompleted) - new Date(a.dateCompleted));
+      console.log('Completed tasks:', completed);
+      setCompletedTasks(completed);
       confettiRef.current.start();
-      // Start rotation animation
+      // Start animations
       Animated.timing(rotateAnim, {
         toValue: 1,
         duration: 1000,
         easing: Easing.out(Easing.cubic),
         useNativeDriver: true,
-      }).start(() => {
-        // After the rotation, reset the rotation to 0 without animation
-        rotateAnim.setValue(0);
-      });
-      // Start scale animation
+      }).start(() => rotateAnim.setValue(0));
       Animated.sequence([
         Animated.timing(scaleAnim, {
           toValue: 1.5,
@@ -62,7 +65,7 @@ export default function Rewards({ navigation }) {
     if (user) {
       fetchUserTasks();
     }
-  }, [user, scaleAnim]);
+  }, [user]);
 
   if (!user) {
     return null;
@@ -92,6 +95,27 @@ export default function Rewards({ navigation }) {
       <Animated.Text style={[styles.points, animatedStyle]}>
         Total Points: {totalPoints}
       </Animated.Text>
+      <ScrollView style={styles.taskList}>
+        {completedTasks.map((task, index) => (
+          <View key={index} style={styles.taskItem}>
+            <Text style={styles.taskText}>
+              Date: {new Date(task.date).toLocaleDateString()} | Time:{' '}
+              {new Date('1970-01-01T' + task.startTime + 'Z').toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true,
+              })}{' '}
+              -{' '}
+              {new Date('1970-01-01T' + task.endTime + 'Z').toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true,
+              })}
+            </Text>
+            <Text style={styles.taskText}>Type: {task.taskType}</Text>
+          </View>
+        ))}
+      </ScrollView>
     </LinearGradient>
   );
 }
@@ -110,6 +134,30 @@ const styles = StyleSheet.create({
   },
   points: {
     fontSize: 20,
-    color: 'white',
+    color: '#FFF',
+    marginBottom: 20,
+    fontWeight: 'bold',
+  },
+  taskList: {
+    width: '100%',
+    maxHeight: 300,
+  },
+  taskItem: {
+    backgroundColor: '#FFF',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  taskText: {
+    fontSize: 16,
+    color: '#333',
   },
 });

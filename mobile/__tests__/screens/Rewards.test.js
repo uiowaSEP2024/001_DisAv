@@ -18,12 +18,28 @@ const mockNavigation = {
   navigate: jest.fn(),
 };
 
-// Mock response data for axios
+// Mock response data for axios with added dateCompleted and taskType
 const mockTasksData = {
   data: {
     tasks: [
-      { isCompleted: true, points: 10, username: 'testuser' },
-      { isCompleted: true, points: 20, username: 'testuser' },
+      {
+        isCompleted: true,
+        points: 10,
+        username: 'testuser',
+        date: '2024-03-05T04:49:24.369Z',
+        taskType: 'Exercise',
+        startTime: '10:00',
+        endTime: '11:00',
+      },
+      {
+        isCompleted: true,
+        points: 20,
+        username: 'testuser',
+        date: '2024-03-05T04:49:24.369Z',
+        taskType: 'Reading',
+        startTime: '12:00',
+        endTime: '13:00',
+      },
       // Add more tasks as needed
     ],
   },
@@ -65,6 +81,28 @@ describe('Rewards Screen', () => {
 
       // Assuming the total points are calculated correctly, they should be displayed
       expect(getByText('Total Points: 30')).toBeTruthy();
+    });
+  });
+
+  it('fetches user tasks and displays total points and completed tasks with dates and types', async () => {
+    const { getByText } = render(
+      <PaperProvider>
+        <Rewards navigation={mockNavigation} />
+      </PaperProvider>
+    );
+
+    // Wait for the axios call to resolve and the component to update
+    await waitFor(() => {
+      expect(axios.get).toHaveBeenCalledWith(
+        expect.stringContaining('/task/get-by-username?username=testuser')
+      );
+
+      // Correct the date and ensure the format matches the component's output
+      expect(getByText('Total Points: 30')).toBeTruthy();
+      expect(getByText('Date: 3/4/2024 | Time: 4:00 AM - 5:00 AM')).toBeTruthy(); // Adjusted date and format
+      expect(getByText('Type: Exercise')).toBeTruthy();
+      expect(getByText('Date: 3/4/2024 | Time: 6:00 AM - 7:00 AM')).toBeTruthy(); // Adjusted date and format
+      expect(getByText('Type: Reading')).toBeTruthy();
     });
   });
 

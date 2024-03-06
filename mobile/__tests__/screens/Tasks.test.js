@@ -43,6 +43,7 @@ const mockTasksData = {
         taskType: 'Reading',
         isCompleted: false,
         startTime: '22:14:06',
+        endTime: '23:14:10',
         points: 10,
       },
     ],
@@ -155,6 +156,7 @@ describe('TasksScreen', () => {
         username: 'testuser',
         id: 'task1',
         isCompleted: true,
+        endTime: expect.any(String),
       });
     });
   });
@@ -199,7 +201,16 @@ describe('TasksScreen', () => {
   it('marks a task as completed', async () => {
     axios.get.mockResolvedValue({
       data: {
-        tasks: [{ _id: '1', taskType: 'Exercise', isCompleted: false, startTime: '10:00' }],
+        tasks: [
+          {
+            _id: '1',
+            taskType: 'Exercise',
+            isCompleted: false,
+            startTime: '10:00',
+            points: 10,
+            endTime: '11:00',
+          },
+        ],
       },
     });
     axios.put.mockResolvedValue({ data: { message: 'Task successfully updated' } });
@@ -219,6 +230,7 @@ describe('TasksScreen', () => {
         username: 'testuser',
         id: '1',
         isCompleted: true,
+        endTime: expect.any(String),
       });
     });
   });

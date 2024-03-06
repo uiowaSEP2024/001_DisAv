@@ -5,14 +5,11 @@ const router = express.Router();
 
 // Create task route
 router.post('/create', async (req, res) => {
-  console.log('Creating task for user:');
   const { username, taskType, date, startTime, endTime, duration, points } = req.body;
-  console.log('Creating task for user with these details:', req.body);
   const user = await UserModel.findOne({ username });
   if (!user) {
     return res.status(401).json({ message: 'Invalid user' });
   }
-  console.log('Creating task for user:', user);
   const newTask = new TaskModel({
     associatedUser: user._id,
     taskType,

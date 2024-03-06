@@ -141,6 +141,7 @@ export default function TasksScreen() {
         username: user.username,
         id: taskId,
         isCompleted: true,
+        endTime: new Date().toLocaleTimeString('en-US', { hour12: false }),
       });
       setTimeout(() => {
         fetchTasks();
