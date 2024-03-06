@@ -142,13 +142,19 @@ describe('Preferences', () => {
     });
   });
 
-  // Test navigation back after successful submission
-  it('navigates back after successful preferences submission', async () => {
+  // Test navigation back after successful submission with all async operations completed
+  it('navigates back after successful preferences submission with all async operations completed', async () => {
     const { getByTestId, getByText } = render(
       <PaperProvider>
         <Preferences navigation={mockNavigation} />
       </PaperProvider>
     );
+
+    // Mock successful API calls
+    axios.put.mockResolvedValueOnce({ status: 200 });
+    axios.put.mockResolvedValueOnce({ status: 200 });
+    axios.put.mockResolvedValueOnce({ status: 200 });
+    axios.put.mockResolvedValueOnce({ status: 200 });
 
     // Simulate user interactions for a successful submission
     fireEvent.press(getByTestId('work-checkbox'));
@@ -156,7 +162,9 @@ describe('Preferences', () => {
     fireEvent.changeText(getByTestId('work-description-input'), 'Software Development');
     fireEvent.press(getByText('Submit'));
 
+    // Wait for all async operations to complete before checking navigation
     await waitFor(() => {
+      expect(axios.put).toHaveBeenCalledTimes(4);
       expect(mockNavigation.goBack).toHaveBeenCalled();
     });
   });
