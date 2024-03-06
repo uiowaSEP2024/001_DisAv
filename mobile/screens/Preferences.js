@@ -85,17 +85,40 @@ export default function Preferences({ navigation }) {
       return;
     }
     try {
-      const response = await axios.put(`http://${api}/user/update`, {
-        user: {
-          ...user,
+      const responseUpdatePreferredTasks = await axios.put(
+        `http://${api}/user/update-preferred-tasks`,
+        {
+          username: user.username,
           preferredTasks,
+        }
+      );
+      const responseUpdateTaskFrequency = await axios.put(
+        `http://${api}/user/update-task-frequency`,
+        {
+          username: user.username,
           taskFrequency: taskFrequencyInMs,
+        }
+      );
+      const responseUpdateWorkPreferences = await axios.put(
+        `http://${api}/user/update-work-preferences`,
+        {
+          username: user.username,
           workPreferences: workDescription,
+        }
+      );
+      const responseUpdateReadingPreferences = await axios.put(
+        `http://${api}/user/update-reading-preferences`,
+        {
+          username: user.username,
           readingPreferences: readingDescription,
-        },
-      });
-      console.log('response', response);
-      if (response.data) {
+        }
+      );
+      if (
+        responseUpdatePreferredTasks.status === 200 &&
+        responseUpdateTaskFrequency.status === 200 &&
+        responseUpdateWorkPreferences.status === 200 &&
+        responseUpdateReadingPreferences.status === 200
+      ) {
         await saveUser({
           ...user,
           preferredTasks,
@@ -103,6 +126,10 @@ export default function Preferences({ navigation }) {
           workPreferences: workDescription,
           readingPreferences: readingDescription,
         });
+      } else {
+        setErrorMessage('Failed to update user preferences');
+        setErrorVisible(true);
+        return;
       }
     } catch (error) {
       setErrorMessage(error.message);

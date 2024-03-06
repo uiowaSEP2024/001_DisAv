@@ -212,10 +212,13 @@ test('updates work and reading preferences on submit', async () => {
       username: mockUser.username,
       workPreferences: 'Work preference',
     });
-    expect(axios.put).toHaveBeenCalledWith('http://localhost:3002/user/update-reading-preferences', {
-      username: mockUser.username,
-      readingPreferences: 'Reading preference',
-    });
+    expect(axios.put).toHaveBeenCalledWith(
+      'http://localhost:3002/user/update-reading-preferences',
+      {
+        username: mockUser.username,
+        readingPreferences: 'Reading preference',
+      }
+    );
   });
 });
 

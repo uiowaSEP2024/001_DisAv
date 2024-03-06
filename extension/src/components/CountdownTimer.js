@@ -12,12 +12,12 @@ const CountdownTimer = ({ totalTime }) => {
 
     return () => clearInterval(timer);
   }, []);
-  const formatTime = (time) => {
+  const formatTime = time => {
     const hours = Math.floor(time / 3600);
     const minutes = Math.floor((time % 3600) / 60);
     const seconds = time % 60;
-    if(hours === 0){
-      if(minutes === 0){
+    if (hours === 0) {
+      if (minutes === 0) {
         return `${seconds.toString().padStart(2, '0')}`;
       }
       return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -26,9 +26,9 @@ const CountdownTimer = ({ totalTime }) => {
   };
   return (
     <div className="countdown-timer">
-      <h3 style={{color: 'white'}}> Next task in:</h3>
-      <div style={{ width: '300px', height: '300px'}}>
-      <CircularProgressbar
+      <h3 style={{ color: 'white' }}> Next task in:</h3>
+      <div style={{ width: '300px', height: '300px' }}>
+        <CircularProgressbar
           value={(remainingTime / totalTime) * 100}
           text={formatTime(remainingTime)}
           styles={buildStyles({

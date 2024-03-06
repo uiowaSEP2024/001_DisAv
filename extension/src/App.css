@@ -12,9 +12,9 @@ button {
   font-size: 16px;
   cursor: pointer;
 }
- .timer{
-   display: flex;
-   justify-content: center;
-   align-content: center;
-   align-items: center;
- }
+.timer {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}

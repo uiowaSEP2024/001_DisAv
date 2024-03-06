@@ -48,6 +48,10 @@ export default function Home({ navigation }) {
       <Text style={{ color: colors.onSurface, margin: 10 }}>
         {user && `Hello, ${user.firstname}!`}
       </Text>
+      <Button mode="contained" onPress={() => navigation.navigate('Tasks')} style={styles.button}>
+        {' '}
+        Tasks
+      </Button>
       <Portal>
         {user &&
           user.preferredTasks &&
