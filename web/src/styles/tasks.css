@@ -1,0 +1,33 @@
+/* task.css */
+.task-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative; /* Ensure positioning context for the overlay */
+    z-index: 2; /* Higher than the overlay to be clickable */
+  }
+
+  .task-container button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+    z-index: 1; /* Below the task container to keep it clickable */
+    display: none; /* Hidden by default */
+  }
+
+  .overlay.active {
+    display: block; /* Show overlay when active */
+  }
+
+  /* Add specific styles for each task component as needed */
