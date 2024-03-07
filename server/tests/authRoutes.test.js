@@ -10,7 +10,7 @@ describe('Authentication API', () => {
   // Test for registration
   it('should register a new user', async () => {
     const userData = {
-      username: 'test',
+      username: 'newTest',
       email: 'test@example.com',
       password: 'password123',
       firstname: 'john',
@@ -19,14 +19,14 @@ describe('Authentication API', () => {
 
     const response = await request(app).post('/auth/register').send(userData);
 
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(201);
     // expect(response.body.message).toBe('User successfully created');
   });
 
   // Test for login
   it('should login the registered user', async () => {
     const loginData = {
-      username: 'test',
+      username: 'newTest',
       password: 'password123',
     };
 
@@ -46,7 +46,7 @@ describe('Authentication API', () => {
 
     const response = await request(app).post('/auth/login').send(loginData);
 
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(401);
     expect(response.body.message).toBe('Username or Password incorrect');
   });
   it('should not register an existing user', async function () {
@@ -58,7 +58,7 @@ describe('Authentication API', () => {
       lastname: 'doe',
     };
     const response = await request(app).post('/auth/register').send(userData);
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(409);
   });
   it('should not login a non-existing user', async function () {
     const loginData = {
@@ -66,7 +66,7 @@ describe('Authentication API', () => {
       password: 'password123',
     };
     const response = await request(app).post('/auth/login').send(loginData);
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(404);
     expect(response.body.message).toBe('User does not exist');
   });
 });
