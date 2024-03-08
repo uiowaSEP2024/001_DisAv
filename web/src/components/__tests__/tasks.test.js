@@ -1,81 +1,69 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, act, fireEvent } from '@testing-library/react';
 import Tasks from '../Tasks';
-import TaskBreak from '../TaskBreak';
+import TaskBreak from '../TaskBreak'; // If you're planning to mock this, remember to update the import path
+import confetti from 'canvas-confetti';
 
-jest.useFakeTimers();
+jest.mock('canvas-confetti', () => jest.fn());
 
-test('renders the break task', () => {
-    render(<Tasks />);
-    expect(screen.getByText(/break time/i)).toBeInTheDocument();
-    }
-);
+describe('Tasks component', () => {
+    beforeEach(() => {
+        jest.useFakeTimers();
+        confetti.mockClear();
+    });
 
-test('renders the timer', () => {
-    render(<Tasks />);
-    expect(screen.getByText(/time remaining/i)).toBeInTheDocument();
-    }
-);
+    afterEach(() => {
+        act(() => {
+            jest.runOnlyPendingTimers(); // Make sure this runs inside act()
+        });
+        jest.useRealTimers();
+    });
 
-test('renders the skip button', () => {
-    render(<Tasks />);
-    expect(screen.getByText(/skip/i)).toBeInTheDocument();
-    }
-);
+    test('renders and counts down correctly', () => {
+        render(<Tasks />);
+        expect(screen.getByText(/Time remaining: 10 seconds/i)).toBeInTheDocument();
+        act(() => {
+            jest.advanceTimersByTime(3000); // Fast-forward 3 seconds.
+        });
+        expect(screen.getByText(/Time remaining: 7 seconds/i)).toBeInTheDocument();
+    });
+
+    test('confetti triggers on timer end', () => {
+        render(<Tasks />);
+        act(() => {
+            jest.advanceTimersByTime(10000); // Fast-forward past the timer duration.
+        });
+        expect(confetti).toHaveBeenCalled();
+        expect(screen.getByText(/Task completed!/i)).toBeInTheDocument();
+    });
+
+    test('skip button works and triggers confetti', () => {
+        render(<Tasks />);
+        fireEvent.click(screen.getByText(/skip/i));
+        expect(confetti).toHaveBeenCalled();
+        expect(screen.getByText(/Task completed!/i)).toBeInTheDocument();
+    });
 
 
-test('renders the skip button', () => {
-    render(<Tasks />);
-    expect(screen.getByText(/skip/i)).toBeInTheDocument();
-    }
-);
+    test('rendering exercise task', () => {
+        render(<Tasks assignedTask="exercise" />);
+        expect(screen.getByText(/Exercise task/i)).toBeInTheDocument();
+    });
 
-test('skip button should be disabled when timer is 0', () => {
-    render(<Tasks />);
-    const skipButton = screen.getByText(/skip/i);
-    expect(skipButton).toBeDisabled();
-    }
-);
+    test('rendering work task', () => {
+        render(<Tasks assignedTask="work" />);
+        expect(screen.getByText(/Work task/i)).toBeInTheDocument();
+    });
 
-test('skip button should be enabled when timer is greater than 0', () => {
-    render(<Tasks />);
-    jest.advanceTimersByTime(10000);
-    const skipButton = screen.getByText(/skip/i);
-    expect(skipButton).toBeEnabled();
-    }
-);
+    test('rendering reading task', () => {
+        render(<Tasks assignedTask="reading" />);
+        expect(screen.getByText(/Reading task/i)).toBeInTheDocument();
+    });
 
-test('skip button should skip the task', () => {
-    render(<Tasks />);
-    const skipButton = screen.getByText(/skip/i);
-    fireEvent.click(skipButton);
-    expect(screen.getByText(/task completed/i)).toBeInTheDocument();
-    }
-);
+    test('rendering break task', () => {
+        render(<Tasks assignedTask="break" />);
+        expect(screen.getByText("Break Time")).toBeInTheDocument();
+    });
 
-test('renders the break task', () => {
-    render(<TaskBreak />);
-    expect(screen.getByText(/break time/i)).toBeInTheDocument();
-    }
-);
 
-test('renders the timer', () => {
-    render(<TaskBreak />);
-    expect(screen.getByText(/take a deep breath/i)).toBeInTheDocument();
-    }
-);
-
-test('skip button should be disabled when timer is 0', () => {
-    render(<TaskBreak />);
-    const skipButton = screen.getByText(/skip/i);
-    expect(skipButton).toBeDisabled();
-    }
-);
-
-test('skip button should be enabled when timer is greater than 0', () => {
-    render(<TaskBreak />);
-    jest.advanceTimersByTime(10000);
-    const skipButton = screen.getByText(/skip/i);
-    expect(skipButton).toBeEnabled();
-    }
-);
+});

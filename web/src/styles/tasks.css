@@ -31,3 +31,13 @@
   }
 
   /* Add specific styles for each task component as needed */
+
+  .break-time-container {
+    text-align: center; /* Center align the text */
+  }
+
+  .break-time-video {
+    max-width: 100%; /* Make video responsive */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Optional: adds rounded corners to the video */
+  }
