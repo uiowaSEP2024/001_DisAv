@@ -6,8 +6,7 @@
   "permissions": [
     "activeTab",
     "storage",
-    "idle",
-    "webNavigation"
+    "idle"
   ],
   "action": {
     "default_icon": "logo192.png",
