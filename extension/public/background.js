@@ -14,7 +14,7 @@ chrome.storage.local.get(['user'], (result) => {
 let firstTime = true;
 function openWebsite() {
   console.log('openWebsite called'); // This will log to the background page's console
-  const website = 'https://netflix.com'; // Replace with your desired URL
+  const website = 'http://localhost:3000/tasks';
   chrome.tabs.create({ url: website });
 }
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
@@ -45,6 +45,7 @@ function checkIdleState() {
       const currentDate = new Date();
       updateFrozenBrowsing({username: user.username, nextFrozen: new Date(currentDate.getTime() + user.taskFrequency)}) //Update the nextFrozen time on firststate query because there would be no state change since you arent idle
       firstTime = false;
+      setInterval(checkNextFrozen, 10000);
     }
   });
 }
@@ -95,6 +96,33 @@ chrome.storage.onChanged.addListener(handleStorageChange);
 
 checkIdleState();
 setInterval(checkIdleState, 5000);
+
+
+function checkNextFrozen() {
+  console.log("checking")
+  if (user && user.nextFrozen && !user.frozenBrowsing) {
+    console.log("checking again1", user.nextFrozen)
+    const nextFrozenTime = new Date(user.nextFrozen).getTime();
+    const currentTime = new Date().getTime();
+    console.log("checking again2", nextFrozenTime, currentTime, nextFrozenTime <= currentTime)
+    if (user.nextFrozen  && currentTime >= nextFrozenTime) {
+      console.log('Current time is past nextFrozen:', user.nextFrozen);
+      openWebsite()
+      user.frozenBrowsing = true
+      updateFrozenBrowsing({username: user.username, nextFrozen: null, frozenBrowsing: true}) //Update the nextFrozen time on firststate query because there would be no state change since you arent idle
+      // Perform actions when the current time is past nextFrozen
+    }
+  }
+}
+// redirect all search urls
+
+chrome.webNavigation.onBeforeNavigate.addListener(function(details) {
+  const url = new URL(details.url);
+  if (url.pathname === "/" && url.searchParams.has("q") && user.frozenBrowsing) {
+    const redirectUrl = "http://localhost:3000/tasks"
+    chrome.tabs.update(details.tabId, { url: redirectUrl });
+  }
+}, { url: [{ schemes: ['http', 'https'] }] });
 // chrome.runtime.onInstalled.addListener(() => {
 //   console.log('Extension installed, setting timeout...'); // This will log when the extension is installed
 //   setTimeout(() => {
