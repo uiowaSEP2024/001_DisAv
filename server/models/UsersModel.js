@@ -11,6 +11,7 @@ const UserSchema = new mongoose.Schema({
   phoneNumber: { type: String, required: false },
   frozenBrowsing: { type: Boolean, default: false },
   lastFrozen: { type: Date },
+  nextFrozen: { type: Date },
   frozenUntil: { type: Date },
   preferredTasks: {
     type: Map,

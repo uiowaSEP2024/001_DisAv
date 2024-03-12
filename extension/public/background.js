@@ -1,11 +1,80 @@
 // background.js
-
+console.log('Background script is running.'); // This will log to the background page's console
+// Grab user data from the API
+let user;
+chrome.storage.local.get(['user'], (result) => {
+  user = result.user;
+  if (user) {
+    console.log('User:', user);
+    // Use the retrieved token and user data as needed
+  } else {
+    console.log('Token or user data not found in storage.');
+  }
+});
+let firstTime = true;
 function openWebsite() {
   console.log('openWebsite called'); // This will log to the background page's console
   const website = 'https://netflix.com'; // Replace with your desired URL
   chrome.tabs.create({ url: website });
 }
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  // Perform actions based on the message
+  if (message.action === "mouseActive") {
+    // Display an alert or perform other actions
+    console.log("User is active");
+  }
+});
 
+console.log('Background script is running.');
+chrome.idle.setDetectionInterval(300)
+chrome.idle.onStateChanged.addListener(function(state) {
+  if (state === "active") {
+    console.log("User is active!");
+    const currentDate = new Date();
+    updateFrozenBrowsing({username: user.username, nextFrozen: new Date(currentDate.getTime() + user.taskFrequency)})
+  } else {
+    console.log("User is idle."); //stop timer
+    updateFrozenBrowsing({nextFrozen: null})
+  }
+});
+
+function checkIdleState() {
+  chrome.idle.queryState(15, function(state) {
+    console.log(user, "USER")
+    if(firstTime && state === "active" && user) {
+      const currentDate = new Date();
+      updateFrozenBrowsing({username: user.username, nextFrozen: new Date(currentDate.getTime() + user.taskFrequency)}) //Update the nextFrozen time on firststate query because there would be no state change since you arent idle
+      firstTime = false;
+    }
+  });
+}
+
+function updateFrozenBrowsing(data) {
+  fetch('http://localhost:3002/user/update-frozen-browsing', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(responseData => {
+      console.log('API response:', responseData);
+    })
+    .catch(error => {
+      console.error('Error updating frozen browsing:', error);
+    });
+}
+
+
+
+checkIdleState();
+setInterval(checkIdleState, 10000);
 // chrome.runtime.onInstalled.addListener(() => {
 //   console.log('Extension installed, setting timeout...'); // This will log when the extension is installed
 //   setTimeout(() => {

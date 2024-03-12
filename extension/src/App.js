@@ -12,11 +12,17 @@ function App() {
       console.log('HERE');
       if (result.user) {
         console.log('There');
-        setUserInfo(result.user); // Assuming 'user' is stored as a JSON string
+        setUserInfo(result.user);
         setLoggedIn(true);
       }
     });
   };
+  const timeDifference = (timeToCompare)  => {
+   // get the difference in milliseconds between the current time and the time timeToCompare
+    let difference = new Date().getTime() - new Date(timeToCompare).getTime();
+    // calculate seconds difference
+    return Math.floor(difference / 1000);
+  }
   const clearStorage = () => {
     chrome.storage.local.clear(function () {
       let error = chrome.runtime.lastError;
@@ -43,27 +49,35 @@ function App() {
   //     setCurrentUrl(tab.url);
   //   });
   // };
-
-  return (
-    <div className="App">
-      <h1>Infinite focus {new Date(userInfo.createdAt).toLocaleString()}</h1>
-      {/*<button onClick={clearStorage}>good Current URL</button>*/}
-      {loggedIn ? (
-        userInfo && (
-          <div>
-            <div className={'timer'}>
-              <CountdownTimer totalTime={userInfo.taskFrequency / 1000} />
-            </div>
-            <button onClick={clearStorage}>Log out</button>
+  if(loggedIn){
+    return (
+      <div className="App">
+        <h1>Infinite focus {new Date(userInfo.createdAt).toLocaleString()}tv {timeDifference(userInfo.nextFrozen)}</h1>
+        {/*<button onClick={clearStorage}>good Current URL</button>*/}
+          userInfo.lastFrozen?  (
+        {null}
+          ):(
+        <div>
+          <div className={'timer'}>
+            <CountdownTimer totalTime={userInfo.taskFrequency / 1000} />
           </div>
+          <button onClick={clearStorage}>Log out</button>
+        </div>
         )
-      ) : (
+      </div>
+    );
+  }
+  else{
+    return (
+      <div className="App">
+        <h1>Infinite focus {new Date(userInfo.createdAt).toLocaleString()}</h1>
+        {/*<button onClick={clearStorage}>good Current URL</button>*/}
         <ExternalLink href={'http://localhost:3000/login'}>
           <button>Log in</button>
         </ExternalLink>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 export default App;

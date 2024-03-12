@@ -1,23 +1,27 @@
 {
-  "content_scripts": [
-    {
-      "matches": ["http://localhost:3000/*", "http://localhost:3002/*"],
-      "js": ["contentScript.js"]
-    }
+  "manifest_version": 3,
+  "name": "Infinite Focus",
+  "description": "A Chrome extension built with React",
+  "version": "1.0",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "idle"
   ],
   "action": {
     "default_icon": "logo192.png",
     "default_popup": "index.html"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["contentScript.js"]
+    }
+  ],
   "background": {
     "service_worker": "background.js"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
-  },
-  "description": "A Chrome extension built with React",
-  "manifest_version": 3,
-  "name": "Infinite Focus",
-  "permissions": ["alarms", "tabs", "storage"],
-  "version": "1.0"
+  }
 }
