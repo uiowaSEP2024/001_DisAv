@@ -2,24 +2,34 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { ExternalLink } from 'react-external-link';
 import CountdownTimer from './components/CountdownTimer';
+import axios from 'axios';
 function App() {
   const [currentUrl, setCurrentUrl] = useState('');
   const [userInfo, setUserInfo] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const fetchUserInfo = () => {
     console.log('fetchUserInfo called');
-    chrome.storage.local.get(['user', 'token'], function (result) {
+    chrome.storage.local.get(['user', 'token'], async function(result) {
       console.log('HERE');
       if (result.user) {
-        console.log('There');
-        setUserInfo(result.user);
-        setLoggedIn(true);
+        await axios.get('http://localhost:3002/user/get-by-username', { params: { username: result.user.username } })
+          .then((response) => {
+            setUserInfo(response.data.user);
+            setLoggedIn(true);
+            console.log('User info:', response.data);
+          })
       }
+      console.log('User info:', result.user);
     });
   };
+
   const timeDifference = (timeToCompare)  => {
    // get the difference in milliseconds between the current time and the time timeToCompare
-    let difference = new Date().getTime() - new Date(timeToCompare).getTime();
+    let difference = new Date(timeToCompare).getTime() - new Date().getTime();
+    console.log("UserInfo", userInfo)
+    console.log(new Date(timeToCompare).getTime(), 'timeToCompare')
+    console.log(new Date().getTime(), 'new Date().getTime()')
+    console.log(difference, 'difference')
     // calculate seconds difference
     return Math.floor(difference / 1000);
   }
@@ -35,6 +45,7 @@ function App() {
       }
     });
   };
+
   console.log('First');
   // Use useEffect to fetch user info when the component mounts
   useEffect(() => {
@@ -52,14 +63,14 @@ function App() {
   if(loggedIn){
     return (
       <div className="App">
-        <h1>Infinite focus {new Date(userInfo.createdAt).toLocaleString()}tv {timeDifference(userInfo.nextFrozen)}</h1>
+        <h1>Infinite focus {new Date(userInfo.createdAt).toLocaleString()}</h1>
         {/*<button onClick={clearStorage}>good Current URL</button>*/}
           userInfo.lastFrozen?  (
         {null}
           ):(
         <div>
           <div className={'timer'}>
-            <CountdownTimer totalTime={userInfo.taskFrequency / 1000} />
+            <CountdownTimer totalTime={userInfo.taskFrequency/1000} timeLeft={timeDifference(userInfo.nextFrozen)} />
           </div>
           <button onClick={clearStorage}>Log out</button>
         </div>
