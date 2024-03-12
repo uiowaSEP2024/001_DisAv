@@ -50,6 +50,11 @@ function checkIdleState() {
 }
 
 function updateFrozenBrowsing(data) {
+  user.nextFrozen = data.nextFrozen
+  console.log('nextFrozen updated for the user:', data.nextFrozen);
+  chrome.storage.local.set({ user: user }, function() {
+    console.log('nextFrozen updated for the user:', user);
+  });
   fetch('http://localhost:3002/user/update-frozen-browsing', {
     method: 'PUT',
     headers: {
@@ -70,11 +75,26 @@ function updateFrozenBrowsing(data) {
       console.error('Error updating frozen browsing:', error);
     });
 }
-
+function handleStorageChange(changes, namespace) {
+  console.log("IN On Chnage", changes, namespace)
+  if (namespace === 'local') {
+    for (let key in changes) {
+      if (key === 'user') {
+        const newUserValue = changes[key].newValue;
+        if (newUserValue) {
+          user = newUserValue;
+        } else {
+          user =null;
+        }
+      }
+    }
+  }
+}
+chrome.storage.onChanged.addListener(handleStorageChange);
 
 
 checkIdleState();
-setInterval(checkIdleState, 10000);
+setInterval(checkIdleState, 5000);
 // chrome.runtime.onInstalled.addListener(() => {
 //   console.log('Extension installed, setting timeout...'); // This will log when the extension is installed
 //   setTimeout(() => {
