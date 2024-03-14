@@ -33,6 +33,9 @@ const Login = () => {
         localStorage.setItem('token', response.data.token);
         // Store user information in session storage
         sessionStorage.setItem('user', JSON.stringify(response.data.user));
+
+        localStorage.setItem('username', response.data.user.username); // sessionStorage does not persist when opening a new tab, and need to grab username values on task redirect
+        localStorage.setItem('taskFrequency', response.data.user.taskFrequency); // sessionStorage does not persist when opening a new tab, and need to grab taskFrequency values on task redirect
         window.postMessage(
           {
             type: 'LOGIN_SUCCESS',

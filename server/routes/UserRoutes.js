@@ -140,12 +140,16 @@ router.put('/update-all-preferences', async (req, res) => {
 
 // update frozen browsing
 router.put('/update-frozen-browsing', async (req, res) => {
-  const { username, frozenBrowsing, lastFrozen, frozenUntil } = req.body;
+  const { username, frozenBrowsing, lastFrozen, frozenUntil, nextFrozen } = req.body;
   const user = await UserModel.findOne({ username });
   if (!user) {
     return res.status(401).json({ message: 'Invalid user, failed to update frozen browsing' });
   }
-  await UserModel.findOneAndUpdate({ username }, { frozenBrowsing, lastFrozen, frozenUntil });
-  return res.status(200).json({ message: 'User updated with frozen browsing' });
+  await UserModel.findOneAndUpdate(
+    { username },
+    { frozenBrowsing, lastFrozen, frozenUntil, nextFrozen }
+  );
+  console.log(user)
+  return res.status(200).json({ message: 'User updated with frozen browsing', user });
 });
 export { router as UserRouter };

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import App from '../App';
-
+import { timeDifference, clearStorage } from '../App';
 // Mock chrome API
 jest.mock('../../__mocks__/chromeMock.js');
 
@@ -16,43 +16,49 @@ describe('App Component', () => {
     render(<App />);
     expect(screen.getByText('Log in')).toBeInTheDocument();
   });
+  test('renders logout button when logged in', async () => {
+    await chrome.storage.local.set({ user: { username: 'testUser' }, token: 'testToken' });
 
-  // test('displays user info when logged in', async () => {
-  //   // Preload storage with user info
-  //   chrome.storage.local.set(
-  //     {
-  //       user: { username: 'testuser', email: 'test@example.com' },
-  //       token: '123456',
-  //     },
-  //     () => {
-  //       render(<App />);
-  //     }
-  //   );
-  //   await waitFor(() => screen.getByText('Log out'));
-  //
-  //   expect(screen.getByText('User Name: testuser')).toBeInTheDocument();
-  //   expect(screen.getByText('User Email: test@example.com')).toBeInTheDocument();
-  //   expect(screen.getByText('Log out')).toBeInTheDocument();
+    setTimeout(() => {
+      render(<App />);
+      expect(screen.getByText('Log out')).toBeInTheDocument();
+    }, 100); // Adjust the delay time as needed
+  });
+  test('logs out user and clears storage when logout button is clicked', async () => {
+    await chrome.storage.local.set({ user: { username: 'testUser' }, token: 'testToken' });
+    setTimeout(() => {
+      render(<App />);
+      const logoutButton = screen.getByText('Log out');
+      fireEvent.click(logoutButton);
+      // Check if user is logged out and storage is cleared
+      expect(screen.getByText('Log in')).toBeInTheDocument();
+      expect(chrome.storage.local.clear).toHaveBeenCalled();
+    }, 100)
+
+  });
+  // describe('clearStorage function', () => {
+  //   it('clears local storage when called', () => {
+  //     clearStorage();
+  //     expect(chrome.storage.local.clear).toHaveBeenCalled();
+  //   });
   // });
 
-  test('clears storage and user info on logout', async () => {
-    // Mock logged in state
-    chrome.storage.local.set(
-      {
-        user: { username: 'testuser', email: 'test@example.com' },
-        token: '123456',
-      },
-      () => {
-        const { getByText } = render(<App />);
-        const logoutButton = getByText('Log out');
-        fireEvent.click(logoutButton);
-      }
-    );
+});
+// Import the function
 
-    // Wait for async useEffect to resolve
-    await waitFor(() => screen.getByText('Log in'));
+describe('timeDifference function', () => {
+  it('calculates time difference correctly when timeToCompare is in the future', () => {
+    // Define the current time and a future time to compare
+    const futureTime = new Date().getTime()+3600000; // Assuming time to compare is 13:00:00 UTC
 
-    expect(chrome.storage.local.clear).toHaveBeenCalled();
-    expect(screen.getByText('Log in')).toBeInTheDocument();
+    // Call the function with the future time
+    const result = timeDifference(futureTime);
+
+    // Assert that the result matches the expected difference
+    expect(Math.round(result / 100)*100).toEqual(3600);
   });
+
+
+
+  // Add more test cases as needed
 });

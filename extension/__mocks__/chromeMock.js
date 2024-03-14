@@ -1,29 +1,28 @@
 const mockChrome = (() => {
   let storage = {};
   return {
-    local: {
-      get: jest.fn((keys, callback) => {
-        callback(
-          keys.reduce((acc, key) => {
-            acc[key] = storage[key];
+    storage: {
+      local: {
+        get: jest.fn((keys, callback) => {
+          const result = keys.reduce((acc, key) => {
+            acc[key] = storage[key] || null;
             return acc;
-          }, {})
-        );
-      }),
-      set: jest.fn((items, callback) => {
-        storage = { ...storage, ...items };
-        if (typeof callback === 'function') {
-          callback();
-        }
-      }),
-      clear: jest.fn(callback => {
-        storage = {};
-        if (typeof callback === 'function') {
+          }, {});
+          callback(result);
+        }),
+        set: jest.fn((items, callback) => {
+          Object.assign(storage, items);
           if (typeof callback === 'function') {
             callback();
           }
-        }
-      }),
+        }),
+        clear: jest.fn((callback) => {
+          storage = {};
+          if (typeof callback === 'function') {
+            callback();
+          }
+        }),
+      },
     },
     runtime: {
       lastError: null,
