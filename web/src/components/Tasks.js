@@ -5,7 +5,7 @@ import confetti from 'canvas-confetti';
 import axios from 'axios'; // Import the confetti library
 
 const Tasks = ({ assignedTask }) => {
-  const [timer, setTimer] = useState(5); // 10 seconds for demo purposes
+  const [timer, setTimer] = useState(10); // 10 seconds for demo purposes
   const [currentTask, setCurrentTask] = useState('break'); // Default task type
   const [taskCompleted, setTaskCompleted] = useState(false); // State to track task completion
   const endFrozenBrowsing = async () => {
