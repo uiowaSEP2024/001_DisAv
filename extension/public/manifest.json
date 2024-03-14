@@ -3,11 +3,7 @@
   "name": "Infinite Focus",
   "description": "A Chrome extension built with React",
   "version": "1.0",
-  "permissions": [
-    "activeTab",
-    "storage",
-    "idle"
-  ],
+  "permissions": ["activeTab", "storage", "idle", "webNavigation","tabs"],
   "action": {
     "default_icon": "logo192.png",
     "default_popup": "index.html"

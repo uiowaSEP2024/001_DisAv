@@ -96,6 +96,12 @@ function handleStorageChange(changes, namespace) {
         if (newUserValue) {
           user = newUserValue;
           user.frozenBrowsing = newUserValue.frozenBrowsing;
+          let currentDate = new Date();
+          updateFrozenBrowsing({
+            username: user.username,
+            nextFrozen: new Date(currentDate.getTime() + user.taskFrequency),
+            frozenBrowsing: false,
+          });
         } else {
           user = null;
         }
@@ -109,8 +115,8 @@ chrome.storage.onChanged.addListener(handleStorageChange);
 setInterval(checkIdleState, 1000);
 
 function checkNextFrozen() {
-  console.log('checking');
-  if (user && user.nextFrozen && !user.frozenBrowsing) {
+  console.log('checking',user.frozenBrowsing, user.nextFrozen);
+  if (user && user.nextFrozen) {
     console.log('checking again1', user.nextFrozen);
     const nextFrozenTime = new Date(user.nextFrozen).getTime();
     const currentTime = new Date().getTime();
