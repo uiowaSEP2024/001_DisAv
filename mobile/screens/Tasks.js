@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View, ImageBackground, Text } from 'react-native';
 import { Card, Button } from 'react-native-paper';
 import axios from 'axios';
+import { useIsFocused } from '@react-navigation/native'; // Import useIsFocused
 import { useSession } from '../context/SessionContext';
 import { height, width } from '../config/DeviceDimensions';
 import { api } from '../config/Api';
@@ -16,50 +17,43 @@ const taskAssets = {
     gif: require('../assets/readingGif.gif'),
     music: require('../assets/readingSound.mp3'),
   },
-  Break: {
-    gif: require('../assets/breakGif.gif'),
-    music: require('../assets/breakSound.mp3'),
-  },
 };
 
 export default function TasksScreen() {
   const { user } = useSession();
   const [currentTask, setCurrentTask] = useState(null);
+  const isFocused = useIsFocused();
   const [sound, setSound] = useState(null);
 
   useEffect(() => {
     fetchTasks();
-    return sound
-      ? () => {
-          sound.unloadAsync();
-        }
-      : undefined;
   }, []);
 
-  const playSound = async music => {
-    const { sound: newSound } = await Audio.Sound.createAsync(music);
-    setSound(newSound);
-    await newSound.playAsync();
-  };
-
   useEffect(() => {
-    if (currentTask && taskAssets[currentTask.taskType].music) {
-      playSound(taskAssets[currentTask.taskType].music).catch(err => console.error(err));
+    const loadAndPlaySound = async music => {
+      // Unload any existing sound first
+      if (sound) {
+        await sound.unloadAsync();
+        setSound(null);
+      }
+      if (currentTask && taskAssets[currentTask.taskType]?.music && isFocused) {
+        const { sound: newSound } = await Audio.Sound.createAsync(music);
+        await newSound.playAsync();
+        setSound(newSound);
+      }
+    };
+
+    if (currentTask && taskAssets[currentTask.taskType]?.music) {
+      loadAndPlaySound(taskAssets[currentTask.taskType].music).catch(err => console.error(err));
     }
-  }, [currentTask]);
 
-  // Make sure to unload the sound when component unmounts or task changes
-  useEffect(() => {
-    return sound
-      ? () => {
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound, currentTask]);
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
+    return () => {
+      // Unload the sound when the component unmounts or the currentTask changes
+      if (sound) {
+        sound.unloadAsync();
+      }
+    };
+  }, [currentTask, isFocused]); // Depend on currentTask and isFocused so this effect runs every time the currentTask changes or the focus state changes.
 
   const fetchTasks = async () => {
     try {
@@ -83,7 +77,6 @@ export default function TasksScreen() {
       // Assuming user.preferredTasks is an array of task types like ['Work', 'Reading']
       const preferredTasks = user.preferredTasks;
       if (!preferredTasks || preferredTasks.length === 0) {
-        console.log('No preferred tasks found for user');
         return;
       }
 
@@ -94,22 +87,15 @@ export default function TasksScreen() {
 
       for (let i = 0; i < userTasks.length; i++) {
         if (userTasks[i].isCompleted === false) {
-          console.log('User already has an active task');
           return;
         }
       }
-      console.log(
-        'preferredTasks[Math.floor(Math.random() * preferredTasks.length)]',
-        preferredTasks[Math.floor(Math.random() * preferredTasks.length)]
-      );
       // Select a random task from preferred tasks
       let randomTaskType;
       do {
         const preferredTaskKeys = Object.keys(preferredTasks).filter(key => preferredTasks[key]);
         randomTaskType = preferredTaskKeys[Math.floor(Math.random() * preferredTaskKeys.length)];
-      } while (randomTaskType === 'Work');
-      console.log('randomTaskType', randomTaskType);
-
+      } while (randomTaskType === 'Work' || randomTaskType === 'Break');
       // Create a new task
       await axios.post(`http://${api}/task/create`, {
         username: user.username,
@@ -123,8 +109,6 @@ export default function TasksScreen() {
         points: 10, // Example points, adjust as needed
       });
 
-      console.log('Task created');
-
       // wait to three seconds to fetch the tasks again
       setTimeout(() => {
         fetchTasks();
@@ -136,7 +120,6 @@ export default function TasksScreen() {
 
   const markTaskAsCompleted = async taskId => {
     try {
-      console.log('Marking task as completed:', taskId);
       await axios.put(`http://${api}/task/update`, {
         username: user.username,
         id: taskId,

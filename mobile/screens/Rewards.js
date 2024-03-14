@@ -64,6 +64,7 @@ export default function Rewards({ navigation }) {
   useEffect(() => {
     if (user) {
       fetchUserTasks();
+      console.log('Fetched user tasks...');
     }
   }, [user]);
 
