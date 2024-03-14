@@ -149,6 +149,7 @@ router.put('/update-frozen-browsing', async (req, res) => {
     { username },
     { frozenBrowsing, lastFrozen, frozenUntil, nextFrozen }
   );
-  return res.status(200).json({ message: 'User updated with frozen browsing' });
+  console.log(user)
+  return res.status(200).json({ message: 'User updated with frozen browsing', user });
 });
 export { router as UserRouter };

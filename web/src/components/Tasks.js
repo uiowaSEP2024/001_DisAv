@@ -1,13 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import TaskBreak from './TaskBreak'; // Import the break task component
 import '../styles/tasks.css';
-import confetti from 'canvas-confetti'; // Import the confetti library
+import confetti from 'canvas-confetti';
+import axios from 'axios'; // Import the confetti library
 
 const Tasks = ({ assignedTask }) => {
-  const [timer, setTimer] = useState(10); // 10 seconds for demo purposes
+  const [timer, setTimer] = useState(5); // 10 seconds for demo purposes
   const [currentTask, setCurrentTask] = useState('break'); // Default task type
   const [taskCompleted, setTaskCompleted] = useState(false); // State to track task completion
-
+  const endFrozenBrowsing = async () => {
+    const currentDate = new Date();
+    await axios
+      .put('http://localhost:3002/user/update-frozen-browsing', {
+        username: localStorage.getItem('username'),
+        frozenBrowsing: false,
+        nextFrozen: new Date(currentDate.getTime() + localStorage.getItem('taskFrequency')),
+      })
+      .then(response => {
+        sessionStorage.setItem('user', JSON.stringify(response.data.user)); // Update current stored user
+        console.log('Success', response.data.user);
+        window.postMessage(
+          {
+            type: 'LOGIN_SUCCESS',
+            token: localStorage.getItem('token'),
+            user: sessionStorage.getItem('user'),
+          },
+          '*'
+        );
+        console.log('Success', response.data.user);
+      })
+      .catch(error => {
+        console.log('Unexpected error', error);
+      });
+  };
   useEffect(() => {
     if (assignedTask) {
       setCurrentTask(assignedTask);
@@ -25,11 +50,12 @@ const Tasks = ({ assignedTask }) => {
             clearInterval(interval);
             // Trigger confetti when the timer reaches 1 so it explodes right as the timer hits 0
             triggerConfetti();
+            endFrozenBrowsing().then(r => console.log('Browsing updated'));
             return 0;
           }
         });
       }, 1000);
-
+      // endFrozenBrowsing().then(r => console.log("Browsing updated"))
       // Clean up the interval on component unmount
       return () => clearInterval(interval);
     }
