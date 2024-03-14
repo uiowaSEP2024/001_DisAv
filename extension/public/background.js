@@ -120,10 +120,34 @@ function checkNextFrozen() {
       openWebsite();
       user.frozenBrowsing = true;
       updateFrozenBrowsing({ username: user.username, nextFrozen: null, frozenBrowsing: true }); //Update the nextFrozen time on firststate query because there would be no state change since you arent idle
-      // Perform actions when the current time is past nextFrozen
+      createTask({username:user.username, taskType: "break",date: new Date() , startTime: currentTime, endTime: currentTime, duration: 20000, points: 10}) //TODO specify task duration
     }
   }
 }
+
+function createTask(data){
+  fetch('http://localhost:3002/task/create', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(responseData => {
+      console.log('API response:', responseData);
+    })
+    .catch(error => {
+      console.error('Error creating task:', error);
+    });
+
+}
+
 // redirect all search urls
 
 chrome.webNavigation.onBeforeNavigate.addListener(
