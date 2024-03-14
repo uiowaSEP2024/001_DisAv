@@ -18,7 +18,7 @@ const Tasks = ({ assignedTask }) => {
     if (timer > 0) {
       setTaskCompleted(false); // Reset task completion state with each new timer
       const interval = setInterval(() => {
-        setTimer((prevTimer) => {
+        setTimer(prevTimer => {
           if (prevTimer > 1) {
             return prevTimer - 1;
           } else {
@@ -40,7 +40,7 @@ const Tasks = ({ assignedTask }) => {
     confetti({
       particleCount: 1000,
       spread: 100,
-      origin: { y: 0.6 } // Make confetti come from the top
+      origin: { y: 0.6 }, // Make confetti come from the top
     });
     setTimeout(() => setTaskCompleted(false), 3000); // Hide confetti after 3 seconds
   };
@@ -78,7 +78,9 @@ const Tasks = ({ assignedTask }) => {
             {taskCompleted && <div className="confetti">🎉</div>}
           </>
         )}
-        <button onClick={skipTask} disabled={timer <= 0}>Skip</button>
+        <button onClick={skipTask} disabled={timer <= 0}>
+          Skip
+        </button>
       </div>
     </>
   );

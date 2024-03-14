@@ -22,7 +22,6 @@ jest.mock('expo-av', () => ({
         sound: {
           playAsync: jest.fn(),
           unloadAsync: jest.fn(),
-          // Mock other methods you use from the sound object as needed
         },
       }),
     },
@@ -39,7 +38,7 @@ const mockTasksData = {
   data: {
     tasks: [
       {
-        _id: 'task1',
+        _id: '1',
         taskType: 'Reading',
         isCompleted: false,
         startTime: '22:14:06',
@@ -57,10 +56,21 @@ jest.mock('../../config/Api', () => ({
   api: 'http://localhost:3002',
 }));
 
+// Mock useIsFocused to simulate screen focus
+jest.mock('@react-navigation/native', () => {
+  const actualNav = jest.requireActual('@react-navigation/native');
+  return {
+    ...actualNav,
+    useIsFocused: jest.fn(() => true),
+  };
+});
+
 describe('TasksScreen', () => {
   beforeEach(() => {
     // Reset mocks before each test
     axios.get.mockClear();
+    axios.post.mockClear();
+    axios.put.mockClear();
     mockNavigation.navigate.mockClear();
     Audio.Sound.createAsync.mockClear();
 
@@ -69,21 +79,6 @@ describe('TasksScreen', () => {
       user: {
         username: 'testuser',
         preferredTasks: ['Reading', 'Exercise'],
-      },
-    });
-
-    // Mock response data for axios to return a Reading task
-    axios.get.mockResolvedValue({
-      data: {
-        tasks: [
-          {
-            _id: 'task1',
-            taskType: 'Reading',
-            isCompleted: false,
-            startTime: '22:14:06',
-            points: 10,
-          },
-        ],
       },
     });
   });
@@ -140,8 +135,8 @@ describe('TasksScreen', () => {
     // Wait for the tasks to be fetched and displayed
     await waitFor(() => {
       expect(getByText('Your Tasks')).toBeTruthy();
-      expect(getByText('Reading')).toBeTruthy();
-      expect(getByText('Start Time: 22:14:06')).toBeTruthy();
+      expect(getByText('Exercise')).toBeTruthy();
+      expect(getByText('Start Time: 10:00')).toBeTruthy();
     });
 
     // Mock the response for marking a task as completed
@@ -154,7 +149,7 @@ describe('TasksScreen', () => {
     await waitFor(() => {
       expect(axios.put).toHaveBeenCalledWith(expect.any(String), {
         username: 'testuser',
-        id: 'task1',
+        id: '1',
         isCompleted: true,
         endTime: expect.any(String),
       });
@@ -198,7 +193,7 @@ describe('TasksScreen', () => {
     });
   });
 
-  it('marks a task as completed', async () => {
+  it('marks a task as completed and sound plays', async () => {
     axios.get.mockResolvedValue({
       data: {
         tasks: [
@@ -226,6 +221,8 @@ describe('TasksScreen', () => {
     });
 
     await waitFor(() => {
+      // Ensure createAsync was called
+      expect(Audio.Sound.createAsync).toHaveBeenCalled();
       expect(axios.put).toHaveBeenCalledWith(expect.any(String), {
         username: 'testuser',
         id: '1',
@@ -234,4 +231,26 @@ describe('TasksScreen', () => {
       });
     });
   });
+  it('creates a random task for the user when no active tasks are found', async () => {
+    // Adjust this test to check for task creation if no active tasks are found
+    axios.get.mockResolvedValueOnce({ data: { tasks: [] } }); // Simulate no active tasks
+    axios.post.mockResolvedValueOnce({ data: { message: 'Task successfully created' } }); // Simulate task creation success
+
+    render(
+      <PaperProvider>
+        <TasksScreen />
+      </PaperProvider>
+    );
+
+    await waitFor(() => {
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          username: 'testuser',
+          taskType: expect.any(String), // You might want to be more specific based on your logic
+        })
+      );
+    });
+  });
+  // TODO: Make sure sound stops playing when the screen is not focused
 });

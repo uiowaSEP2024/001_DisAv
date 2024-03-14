@@ -1,5 +1,5 @@
 import React from 'react';
-import "../styles/tasks.css";
+import '../styles/tasks.css';
 
 // Import all your video files
 import fireBreak from '../assets/fire.mp4';

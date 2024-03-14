@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import HomeStack from './HomeStack';
 import Rewards from '../screens/Rewards';
-import Settings from '../screens/Settings';
+import BreakScreen from '../screens/BreakScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,12 +21,12 @@ const TabNavigator = () => (
             testID = 'homeIcon';
             break;
           case 'Rewards':
-            iconName = focused ? 'card-giftcard' : 'auto-awesome';
+            iconName = 'auto-awesome';
             testID = 'card-giftcardIcon';
             break;
-          case 'Settings':
-            iconName = focused ? 'settings' : 'settings-applications';
-            testID = 'settingsIcon';
+          case 'Break':
+            iconName = focused ? 'free-breakfast' : 'free-breakfast';
+            testID = 'free-breakfastIcon';
             break;
           default:
             iconName = 'error';
@@ -39,7 +39,7 @@ const TabNavigator = () => (
   >
     <Tab.Screen name="HomeStack" component={HomeStack} options={{ headerShown: false }} />
     <Tab.Screen name="Rewards" component={Rewards} />
-    <Tab.Screen name="Settings" component={Settings} />
+    <Tab.Screen name="Break" component={BreakScreen} />
   </Tab.Navigator>
 );
 
