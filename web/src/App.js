@@ -1,6 +1,8 @@
+// App.js
 import React, { useContext } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { AuthContext } from './components/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 import Homepage from './components/Homepage';
 import Login from './components/Login';
@@ -27,11 +29,40 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/preference" element={<Preference />} />
-        <Route path="/rewards" element={<Rewards />} />
-        <Route path="/tasks" element={<Tasks />} />
+        {/* Apply the ProtectedRoute wrapper to each protected route */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/preference"
+          element={
+            <ProtectedRoute>
+              <Preference />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/rewards"
+          element={
+            <ProtectedRoute>
+              <Rewards />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tasks"
+          element={
+            <ProtectedRoute>
+              <Tasks />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </div>
   );
