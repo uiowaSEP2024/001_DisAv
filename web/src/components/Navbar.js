@@ -1,11 +1,17 @@
 import React from 'react';
 import '../styles/navbar.css';
 import { Link } from 'react-router-dom';
+import LogoImage from '../assets/logo.png';
 
 const Navbar = ({ isLoggedIn, onLogout }) => {
   return (
     <nav className="navbar" data-testid="navbar">
-      <div className="logo">Logo</div>
+      <div className="buttons">
+        <Link to="/">
+          <button>Infinite Focus</button>
+        </Link>
+      </div>
+
       <div className="buttons">
         {isLoggedIn ? (
           <>

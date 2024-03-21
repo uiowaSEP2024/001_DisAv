@@ -1,27 +1,96 @@
 .homepage {
-  /* Gradient background with calming colors */
-  background: linear-gradient(to right, #88d3ce, #6e45e2);
-  height: 100vh;
-  color: white;
+  background: linear-gradient(to right, #88d3ce, #6e45e2); /* Gradient background for the entire page */
+  padding: 50px 0; /* Adjust top and bottom padding as needed */
+  display: flex;
+  align-items: flex-start; /* Aligns content to the top */
+  justify-content: center;
+  position: relative; /* For positioning the logo pattern absolutely */
+  overflow: hidden; /* Hides any overflow, preventing horizontal scroll */
 }
 
-.homepage .header {
-  display: flex;
-  justify-content: space-between;
+/* If the logo background is not appearing, confirm the path to the logo image file is correct */
+.homepage::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../assets/logo.png'); /* Replace with the correct path to your logo pattern image */
+  background-repeat: repeat; /* Ensures the logo pattern repeats */
+  opacity: 0.05;
+  z-index: -1;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns as per your layout */
+  grid-template-rows: auto auto; /* 2 rows as per your layout */
+  width: 100%;
+  max-width: 1200px;
+  background: #ffffffb5; /* Light grey background only for the grid */
+  margin: 0 auto;
   padding: 20px;
+  grid-gap: 0; /* No gap between cells */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow around the grid */
+  border-radius: 8px; /* Rounded corners for the grid container */
 }
 
-.homepage .logo {
-  /* Add your logo styles here */
-}
-
-.homepage .buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.homepage .section {
-  display: flex;
-  /* Use 'flex-direction: row-reverse;' to swap text and image positions */
+.grid-item {
+  background: #eae9e9;
   padding: 20px;
+  display: flex;
+  flex-direction: column; /* Stack image and text vertically */
+  align-items: center; /* Center align the content */
+  justify-content: center;
+  overflow: hidden; /* Prevents content from spilling out */
+  border: 2px solid #e0e0e0;
+}
+
+/* Specific grid item styles retained */
+.grid-item.welcome-section {
+  grid-area: 1 / 1 / 3 / 2; /* Spanning two columns in the first row */
+}
+
+.grid-item.problem-section {
+  grid-area: 1 / 2 / 1 / 5; /* Spanning two columns in the first row */
+}
+/* Specific style for the Doomscrolling image to control its size */
+.grid-item.problem-section .section-image {
+  max-height: 350px; /* Adjust this value to match the height of other images */
+}
+
+.grid-item.solution-section {
+  grid-area: 2 / 2 / 3 / 3; /* Spanning two columns in the second row */
+}
+
+.grid-item.how-to-section {
+  grid-area: 2 / 3 / 2 / 4; /* Occupying the third column in the second row */
+}
+
+.grid-item.join-section {
+  grid-area: 2 / 4 / 2 / 5; /* Occupying the fourth column in the second row */
+}
+
+.section-image {
+  max-width: 100%; /* Limits image width to the grid cell size */
+  height: auto; /* Maintains aspect ratio */
+  object-fit: contain; /* Ensures the image is contained within its div without stretching */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    padding: 10px;
+  }
+
+  .grid-item {
+    padding: 10px;
+  }
+
+  .section-image {
+    max-height: 100px; /* Smaller images on mobile */
+  }
 }
