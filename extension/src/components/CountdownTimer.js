@@ -3,7 +3,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 const CountdownTimer = ({ totalTime, timeLeft }) => {
-  const [remainingTime, setRemainingTime] = useState(timeLeft);
+  const [remainingTime, setRemainingTime] = useState(timeLeft? timeLeft: 0);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -29,8 +29,8 @@ const CountdownTimer = ({ totalTime, timeLeft }) => {
       <h3 style={{ color: 'white' }}> Next task in:</h3>
       <div style={{ width: '300px', height: '300px' }}>
         <CircularProgressbar
-          value={(remainingTime / totalTime) * 100}
-          text={formatTime(remainingTime)}
+          value={remainingTime && totalTime? (remainingTime / totalTime) * 100: 0}
+          text={remainingTime? formatTime(remainingTime): formatTime(0)}
           styles={buildStyles({
             textColor: '#fff',
             pathColor: '#007bff',

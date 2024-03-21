@@ -4,6 +4,9 @@
   "description": "A Chrome extension built with React",
   "version": "1.0",
   "permissions": ["activeTab", "storage", "idle", "webNavigation","tabs"],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "action": {
     "default_icon": "logo192.png",
     "default_popup": "index.html"

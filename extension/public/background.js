@@ -2,21 +2,26 @@
 console.log('Background script is running.'); // This will log to the background page's console
 // Grab user data from the API
 let user;
-chrome.storage.local.get(['user'], result => {
-  user = result.user;
+// Retrieve user data from Chrome storage
+chrome.storage.local.get(['user'], async function (result) {
+  const user = result.user;
   if (user) {
     console.log('User:', user);
-    // Use the retrieved token and user data as needed
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      const activeTab = tabs[0];
+      chrome.tabs.sendMessage(activeTab.id, { type: 'FETCH_USER_INFO' });
+    });
   } else {
     console.log('Token or user data not found in storage.');
   }
 });
+
 let firstTime = true;
 let interval;
 function openWebsite() {
   console.log('openWebsite called'); // This will log to the background page's console
   const website = 'http://localhost:3000/tasks';
-  chrome.tabs.create({ url: website });
+  chrome.tabs.update({ url: website });
 }
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   // Perform actions based on the message
@@ -158,6 +163,8 @@ function createTask(data){
 
 chrome.webNavigation.onBeforeNavigate.addListener(
   function (details) {
+    console.log("CHEKING NAV", user);
+
     const url = new URL(details.url);
     if (url.pathname === '/' && url.searchParams.has('q') && user.frozenBrowsing) {
       const redirectUrl = 'http://localhost:3000/tasks';

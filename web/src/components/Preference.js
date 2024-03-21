@@ -1,7 +1,8 @@
 // Preference.js
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../styles/preference.css';
+import DurationPicker from 'react-duration-picker';
 
 const defaultTasks = {
   Work: false,
@@ -14,10 +15,20 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const [initialUser, setInitialUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const [preferredTasks, setPreferences] = useState(initialPreferredTasks); // Initialize as empty object
-  const [taskFrequency, setTaskFrequency] = useState(':'); // Initialize task frequency
+  const [taskFrequency, setTaskFrequency] = useState(0); // Initialize task frequency
   const [workPreferences, setWorkPreferences] = useState('');
   const [readingPreferences, setReadingPreferences] = useState('');
-
+  const [duration, setDuration] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+  const onChangeDuration = (time) => {
+    const { hours, minutes, seconds } = time;
+    setDuration({ hours, minutes, seconds });
+    console.log("OG IS",time)
+    console.log("NWEIS",duration)
+  };
   useEffect(() => {
     console.log('initial', initialUser);
     // Load the user's preferences when the component mounts
@@ -55,6 +66,7 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
   // Inside the Preference component
 
   const handleSubmit = () => {
+
     // Update the user's preferred tasks in the database
     axios
       .put('http://localhost:3002/user/update-preferred-tasks', {
@@ -74,8 +86,7 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
       });
 
     // Convert HH:mm to milliseconds
-    const [hours, minutes] = taskFrequency.split(':').map(Number);
-    const milliseconds = (hours * 60 * 60 + minutes * 60) * 1000;
+    const milliseconds = timeToMs(duration.hours, duration.minutes, duration.seconds);
 
     // Update the user's task frequency in the database
     axios
@@ -132,13 +143,17 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
 
     onClose(); // Close the pop-up after submitting preferences
   };
-
+  function timeToMs(hours, minutes, seconds) {
+    let totalSeconds = hours * 3600 + minutes * 60 + seconds;
+    return totalSeconds * 1000;
+  }
   return (
     <div className="preferences">
       <h2>User Preferences</h2>
+      <label>What kind of tasks would you like to use?</label>
       <ul>
         {Object.keys(preferredTasks).map(preference => (
-          <li key={preference}>
+          <li key={preference} className={"left-aligned-list"}>
             <div className="preference-item">
               <label htmlFor={preference}>
                 {preference.charAt(0).toUpperCase() + preference.slice(1)}
@@ -177,23 +192,15 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
             </div>
           </li>
         ))}
+        <br/>
         <li>
-          <label htmlFor="taskFrequency">Task Frequency</label>
-          <input
-            id="taskFrequency"
-            type="text"
-            placeholder="HH:mm"
-            value={taskFrequency}
-            pattern="[0-9]{2}:[0-9]{2}"
-            onChange={e => {
-              const frequency = e.target.value;
-              if (/^[0-9:]*$/.test(frequency)) {
-                const [hours, minutes] = frequency.split(':').map(Number);
-                if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
-                  setTaskFrequency(frequency);
-                }
-              }
-            }}
+          <label htmlFor="taskFrequency">How often should tasks be triggered?</label>
+          <DurationPicker
+            onChange={(time)=> {onChangeDuration(time)}}
+            initialDuration={{ hours: 0, minutes: 0, seconds: 0 }}
+            maxHours={23}
+            value={duration}
+            seconds={0}
           />
         </li>
       </ul>

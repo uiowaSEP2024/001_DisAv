@@ -12,12 +12,10 @@
 }
 
 .preferences li {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 
 .preference-item {
-  display: flex;
-  flex-direction: column;
   align-items: center;
 }
 
@@ -27,6 +25,7 @@
   display: inline-block;
   width: 60px;
   height: 34px;
+  margin-left: 10px;
 }
 
 /* Hide default HTML checkbox */
@@ -34,6 +33,7 @@
   opacity: 0;
   width: 0;
   height: 0;
+  margin-top: 25px;
 }
 
 /* The slider */
