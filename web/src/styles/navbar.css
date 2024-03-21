@@ -1,14 +1,22 @@
 .navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #6e45e2;
   display: flex;
   justify-content: space-between;
-  padding: 20px;
-  background-color: #6e45e2; /* Different background color for navbar */
-  color: white; /* White text for better readability */
+  align-items: center;
+  color: white;
 }
 
-.navbar .logo {
-  /* Add your logo styles here */
+
+.navbar-logo {
+  height: 60px;
+  margin-left: 20px;
+  border-radius: 50%; /* Make the logo round */
 }
+
 
 .navbar .buttons {
   display: flex;

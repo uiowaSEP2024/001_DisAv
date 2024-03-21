@@ -1,27 +1,42 @@
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import Navbar from '../Navbar.js';
+import { render, screen, fireEvent } from '@testing-library/react';
+import Navbar from '../Navbar';
+import { MemoryRouter } from 'react-router-dom';
 
-test('renders navbar', () => {
-  render(
-    <Router>
-      <Navbar />
-    </Router>
-  );
+describe('Navbar Component', () => {
+  test('renders Navbar with buttons for non-logged in user', () => {
+    render(
+      <MemoryRouter>
+        <Navbar isLoggedIn={false} />
+      </MemoryRouter>
+    );
 
-  // Check if logo is rendered
-  const logoElement = screen.getByText('Logo');
-  expect(logoElement).toBeInTheDocument();
+    expect(screen.getByText(/Log In/i)).toBeInTheDocument();
+    expect(screen.getByText(/Sign Up/i)).toBeInTheDocument();
+  });
 
-  // Check if Log In button is rendered
-  const loginButtonElement = screen.getByText('Log In');
-  expect(loginButtonElement).toBeInTheDocument();
+  test('renders Navbar with user options for logged-in user', () => {
+    render(
+      <MemoryRouter>
+        <Navbar isLoggedIn={true} />
+      </MemoryRouter>
+    );
 
-  // Check if Sign Up button is rendered
-  const signupButtonElement = screen.getByText('Sign Up');
-  expect(signupButtonElement).toBeInTheDocument();
+    expect(screen.getByText(/Rewards/i)).toBeInTheDocument();
+    expect(screen.getByText(/Preferences/i)).toBeInTheDocument();
+    expect(screen.getByText(/Tasks/i)).toBeInTheDocument();
+    expect(screen.getByText(/Dashboard/i)).toBeInTheDocument();
+    expect(screen.getByText(/Log Out/i)).toBeInTheDocument();
+  });
 
-  // Check if navbar class is present
-  const navbarElement = screen.getByRole('navigation');
-  expect(navbarElement).toHaveClass('navbar');
+  test('invokes logout handler when log out is clicked', () => {
+    const handleLogout = jest.fn();
+    render(
+      <MemoryRouter>
+        <Navbar isLoggedIn={true} onLogout={handleLogout} />
+      </MemoryRouter>
+    );
+
+    fireEvent.click(screen.getByText(/Log Out/i));
+    expect(handleLogout).toHaveBeenCalled();
+  });
 });
