@@ -1,5 +1,12 @@
 .preferences {
   padding: 20px;
+  overflow-y: auto; /* Enables vertical scrolling */
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #ffff;
+  border-radius: 8px;
+  color: black;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .preferences h2 {

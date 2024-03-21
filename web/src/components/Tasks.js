@@ -8,6 +8,7 @@ const Tasks = ({ assignedTask }) => {
   const [timer, setTimer] = useState(10); // 10 seconds for demo purposes
   const [currentTask, setCurrentTask] = useState('break'); // Default task type
   const [taskCompleted, setTaskCompleted] = useState(false); // State to track task completion
+  const [tasks, setTasks] = useState(null);
   const endFrozenBrowsing = async () => {
     const currentDate = new Date();
     await axios
@@ -33,12 +34,24 @@ const Tasks = ({ assignedTask }) => {
         console.log('Unexpected error', error);
       });
   };
+  // get tasks by username
+  const fetchTasks = async () => {
+    try {
+      const response = await axios.get('http://localhost:3002/task/get-by-username', {
+        params: { username: sessionStorage.getItem('username') },
+      });
+      response.data.tasks.length>0? setTasks(response.data.tasks): setTasks(null)
+      console.log("tasks",response.data.tasks)
+    } catch (error) {
+      console.error('Error fetching user tasks:', error);
+    }
+  }
   useEffect(() => {
     if (assignedTask) {
       setCurrentTask(assignedTask);
     }
   }, [assignedTask]); // Only re-run the effect if assignedTask changes
-
+  fetchTasks().then(r => null);
   useEffect(() => {
     if (timer > 0) {
       setTaskCompleted(false); // Reset task completion state with each new timer
@@ -88,28 +101,37 @@ const Tasks = ({ assignedTask }) => {
         return <div>Reading task</div>;
     }
   };
+  if(tasks){
+    return (
+      <>
+        <div className={`overlay ${timer > 0 ? 'active' : ''}`}></div>
+        <div className="task-container">
+          {timer > 0 ? (
+            <>
+              <div>{renderTask()}</div>
+              <div>Time remaining: {timer} seconds</div>
+            </>
+          ) : (
+            <>
+              <div>Task completed!</div>
+              {taskCompleted && <div className="confetti">🎉</div>}
+            </>
+          )}
+          <button onClick={skipTask} disabled={timer <= 0}>
+            Skip
+          </button>
+        </div>
+      </>
+    );
+  }
 
   return (
-    <>
-      <div className={`overlay ${timer > 0 ? 'active' : ''}`}></div>
-      <div className="task-container">
-        {timer > 0 ? (
-          <>
-            <div>{renderTask()}</div>
-            <div>Time remaining: {timer} seconds</div>
-          </>
-        ) : (
-          <>
-            <div>Task completed!</div>
-            {taskCompleted && <div className="confetti">🎉</div>}
-          </>
-        )}
-        <button onClick={skipTask} disabled={timer <= 0}>
-          Skip
-        </button>
-      </div>
-    </>
+    <div className="task-container">
+      <h1>No tasks at this time</h1>
+    </div>
   );
+
+
 };
 
 export default Tasks;

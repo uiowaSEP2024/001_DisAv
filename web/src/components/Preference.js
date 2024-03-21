@@ -26,11 +26,8 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
   const onChangeDuration = (time) => {
     const { hours, minutes, seconds } = time;
     setDuration({ hours, minutes, seconds });
-    console.log("OG IS",time)
-    console.log("NWEIS",duration)
   };
   useEffect(() => {
-    console.log('initial', initialUser);
     // Load the user's preferences when the component mounts
     if (initialUser && initialUser.preferredTasks) {
       setPreferences(initialUser.preferredTasks);
