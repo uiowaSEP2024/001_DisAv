@@ -14,13 +14,8 @@ jobs:
           node-version: '16.x'
       - name: Install dependencies (Web)
         run: cd web && npm install
-      - name: Run tests with coverage (Web)
-        run: cd web && npm test --coverage --watchAll=false
-      - name: Archive coverage report (Web)
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage-web
-          path: web/coverage
+      - name: Run tests (Web)
+        run: cd web && npm test
 
   test-mobile:
     runs-on: ubuntu-latest
