@@ -39,6 +39,11 @@
   "jest": {
     "transformIgnorePatterns": [
       "/node_modules/(?!(axios)/)"
+    ],
+    "coveragePathIgnorePatterns" : [
+      "../src/components/ProtectedRoute.js" ,
+      "../src/index.js",
+      "../src/reportWebVitals.js"
     ]
   },
   "eslintConfig": {
