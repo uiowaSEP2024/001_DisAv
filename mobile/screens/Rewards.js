@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Animated, Easing, StyleSheet, ScrollView, View, Text } from 'react-native';
 import { useSession } from '../context/SessionContext';
+import { useIsFocused } from '@react-navigation/native';
 import axios from 'axios';
 import { api } from '../config/Api';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -9,6 +10,7 @@ import { Headline } from 'react-native-paper';
 
 export default function Rewards({ navigation }) {
   const { user } = useSession();
+  const isFocused = useIsFocused(); // This hook returns true if the screen is focused, false otherwise.
   const [totalPoints, setTotalPoints] = useState(0);
   const [completedTasks, setCompletedTasks] = useState([]);
   const confettiRef = useRef();
@@ -16,6 +18,11 @@ export default function Rewards({ navigation }) {
   const rotateAnim = useRef(new Animated.Value(0)).current;
 
   async function fetchUserTasks() {
+    if (!user) {
+      return;
+    } else if (!isFocused) {
+      return;
+    }
     try {
       const response = await axios.get(
         `http://${api}/task/get-by-username?username=${user.username}`
@@ -66,7 +73,7 @@ export default function Rewards({ navigation }) {
       fetchUserTasks();
       console.log('Fetched user tasks...');
     }
-  }, [user]);
+  }, [user, isFocused]);
 
   if (!user) {
     return null;

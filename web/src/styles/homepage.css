@@ -1,5 +1,9 @@
 .homepage {
-  background: linear-gradient(to right, #88d3ce, #6e45e2); /* Gradient background for the entire page */
+  background: linear-gradient(
+    to right,
+    #88d3ce,
+    #6e45e2
+  ); /* Gradient background for the entire page */
   padding: 50px 0; /* Adjust top and bottom padding as needed */
   display: flex;
   align-items: flex-start; /* Aligns content to the top */

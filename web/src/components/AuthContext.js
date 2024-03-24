@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(false); // set loading to false after checking the user's logged-in state
   }, []);
 
-  const login = (user) => {
+  const login = user => {
     sessionStorage.setItem('user', JSON.stringify(user));
     setIsLoggedIn(true);
   };

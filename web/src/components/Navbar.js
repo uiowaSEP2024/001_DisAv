@@ -15,14 +15,19 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
       <div className="buttons">
         {isLoggedIn ? (
           <>
-            <Link to="/rewards"><button>Rewards</button></Link>
-            <Link to="/preference"><button>Preferences</button></Link>
-            <Link to="/tasks"><button>Tasks</button></Link>
+            <Link to="/rewards">
+              <button>Rewards</button>
+            </Link>
+            <Link to="/preference">
+              <button>Preferences</button>
+            </Link>
+            <Link to="/tasks">
+              <button>Tasks</button>
+            </Link>
             <Link to="/dashboard">
               <button>Dashboard</button>
             </Link>
             <button onClick={onLogout}>Log Out</button>
-
           </>
         ) : (
           <>

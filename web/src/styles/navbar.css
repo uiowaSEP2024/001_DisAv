@@ -10,13 +10,11 @@
   color: white;
 }
 
-
 .navbar-logo {
   height: 60px;
   margin-left: 20px;
   border-radius: 50%; /* Make the logo round */
 }
-
 
 .navbar .buttons {
   display: flex;
