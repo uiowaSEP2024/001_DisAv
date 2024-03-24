@@ -62,7 +62,7 @@ export default function TasksScreen() {
   }, [currentTask, isFocused]);
 
   const fetchTasks = async () => {
-    setIsLoading(true); // Start loading
+    // setIsLoading(true); // Start loading
     try {
       const response = await axios.get(
         `http://${api}/task/get-by-username?username=${user.username}`
@@ -82,7 +82,6 @@ export default function TasksScreen() {
   };
 
   async function createRandomTaskForUser() {
-    setIsLoading(true); // Start loading
     try {
       const preferredTasks = user.preferredTasks;
       if (!preferredTasks || preferredTasks.length === 0) {
@@ -119,9 +118,9 @@ export default function TasksScreen() {
         points: 10,
       });
 
-      // wait to three seconds to fetch the tasks again
-      setTimeout(() => {
-        fetchTasks();
+      // Wait three seconds before starting to fetch the tasks again and wait for it to finish
+      setTimeout(async () => {
+        await fetchTasks();
       }, 3000);
     } catch (error) {
       console.error('Failed to create random task for user:', error);
@@ -146,7 +145,6 @@ export default function TasksScreen() {
       }, 3000);
     } catch (error) {
       console.error('Failed to mark task as completed:', error);
-    } finally {
       setIsLoading(false); // Reset loading state regardless of outcome
     }
   };
@@ -240,5 +238,10 @@ const styles = StyleSheet.create({
     bottom: 15,
     right: 10,
     width: width * 0.16, // Adjusted for demonstration
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
