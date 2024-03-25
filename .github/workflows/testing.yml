@@ -1,45 +1,34 @@
-#name: CI testing
-#
-#on:
-#  pull_request:
-#
-#jobs:
-#  test-web:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Set up Node.js
-#        uses: actions/setup-node@v1
-#        with:
-#          node-version: '16.x'
-#      - name: Install dependencies (Web)
-#        run: cd web && npm install
-#      - name: Run tests (Web)
-#        run: cd web && npm test --forceExit
-
-name: CI Testing with Jest Coverage
+name: CI testing
 
 on:
   pull_request:
 
 jobs:
-  test-mobile:
+  test-web:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
+      - uses: actions/checkout@v2
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
+      - name: Install dependencies (Web)
+        run: cd web && npm install
+      - name: Run tests (Web)
+        run: cd web && npm test
 
+  test-mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
       - name: Install dependencies (Mobile)
         run: cd mobile && npm install
-
       - name: Run tests with coverage (Mobile)
         run: cd mobile && npm test --coverage --watchAll=false
-
       - name: Archive coverage report (Mobile)
         uses: actions/upload-artifact@v2
         with:
@@ -49,23 +38,18 @@ jobs:
   test-server:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
+      - uses: actions/checkout@v2
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
-
       - name: Install dependencies (Server)
         run: cd server && npm install
-
       - name: Run tests with coverage (Server)
         env:
           MONGO_UNAME: ${{ secrets.MONGO_UNAME }}
           MONGO_PWD: ${{ secrets.MONGO_PWD }}
         run: cd server && npm test --coverage --watchAll=false
-
       - name: Archive coverage report (Server)
         uses: actions/upload-artifact@v2
         with:
@@ -75,32 +59,17 @@ jobs:
   test-extension:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
+      - uses: actions/checkout@v2
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
-
       - name: Install dependencies (Extension)
         run: cd extension && npm install
-
       - name: Run tests with coverage (Extension)
         run: cd extension && npm test --coverage --watchAll=false
-
       - name: Archive coverage report (Extension)
         uses: actions/upload-artifact@v2
         with:
           name: coverage-extension
           path: extension/coverage
-
-  generate-coverage-report:
-    runs-on: ubuntu-latest
-    needs: [ test-mobile, test-server, test-extension ]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Generate Jest coverage report
-        uses: ArtiomTr/jest-coverage-report-action@v2
