@@ -73,3 +73,30 @@ jobs:
         with:
           name: coverage-extension
           path: extension/coverage
+  comment-on-pr:
+    needs: [ test-web, test-mobile, test-server, test-extension ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate and post coverage summary
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const coverageReports = {
+              'Web': ${{ toJson(needs.test-web.outputs) }},
+              'Mobile': ${{ toJson(needs.test-mobile.outputs) }},
+              'Server': ${{ toJson(needs.test-server.outputs) }},
+              'Extension': ${{ toJson(needs.test-extension.outputs) }}
+            };
+
+            let comment = '## Coverage Summary\n\n';
+            for (const [testName, output] of Object.entries(coverageReports)) {
+              comment += `### ${testName}\n\n`;
+              comment += `Coverage Report: ${output.coverageReportUrl}\n\n`;
+            }
+
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

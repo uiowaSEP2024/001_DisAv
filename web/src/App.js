@@ -11,7 +11,6 @@ import Signup from './components/Signup';
 import Preference from './components/Preference';
 import Rewards from './components/Rewards';
 import Tasks from './components/Tasks';
-import LandingPage from './components/LandingPage';
 import Navbar from './components/Navbar';
 
 function App() {

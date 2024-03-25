@@ -1,12 +1,6 @@
 import React from 'react';
 import '../styles/homepage.css';
-import FocusImage from '../assets/FeatureImage.png'; // Placeholder image for the welcome section
-import DoomscrollingImage from '../assets/doomscrolling.png'; // Placeholder image for the problem section
-import SolutionImage from '../assets/solution.png'; // Placeholder image for the solution section
-import HowToImage from '../assets/guide.png'; // Placeholder image for the how-to section
-import JoinImage from '../assets/join-mouvement.png'; // Placeholder image for the join section
 import timeImg from '../assets/timeglass.jpeg'
-import scrollImage from '../assets/scrollf.jpeg'
 import { Link } from 'react-router-dom';
 const Homepage = () => {
   return (
