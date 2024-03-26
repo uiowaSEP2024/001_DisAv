@@ -6,6 +6,8 @@ on:
 jobs:
   test-web:
     runs-on: ubuntu-latest
+    outputs:
+      coverageReportUrl: ${{ steps.upload_coverage.outputs.artifact_url }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Node.js
@@ -14,11 +16,20 @@ jobs:
           node-version: '16.x'
       - name: Install dependencies (Web)
         run: cd web && npm install
-      - name: Run tests (Web)
-        run: cd web && npm test
+      - name: Run tests with coverage (Web)
+        run: cd web && npm test -- --coverage --watchAll=false
+      - name: Archive coverage report (Web)
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-web
+          path: web/coverage
+          # Set the output for coverage report URL
+          id: upload_coverage
 
   test-mobile:
     runs-on: ubuntu-latest
+    outputs:
+      coverageReportUrl: ${{ steps.upload_coverage.outputs.artifact_url }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Node.js
@@ -34,9 +45,13 @@ jobs:
         with:
           name: coverage-mobile
           path: mobile/coverage
+          # Set the output for coverage report URL
+          id: upload_coverage
 
   test-server:
     runs-on: ubuntu-latest
+    outputs:
+      coverageReportUrl: ${{ steps.upload_coverage.outputs.artifact_url }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Node.js
@@ -55,9 +70,13 @@ jobs:
         with:
           name: coverage-server
           path: server/coverage
+          # Set the output for coverage report URL
+          id: upload_coverage
 
   test-extension:
     runs-on: ubuntu-latest
+    outputs:
+      coverageReportUrl: ${{ steps.upload_coverage.outputs.artifact_url }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Node.js
@@ -73,30 +92,5 @@ jobs:
         with:
           name: coverage-extension
           path: extension/coverage
-  comment-on-pr:
-    needs: [ test-web, test-mobile, test-server, test-extension ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Generate and post coverage summary
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const coverageReports = {
-              'Web': ${{ toJson(needs.test-web.outputs) }},
-              'Mobile': ${{ toJson(needs.test-mobile.outputs) }},
-              'Server': ${{ toJson(needs.test-server.outputs) }},
-              'Extension': ${{ toJson(needs.test-extension.outputs) }}
-            };
-
-            let comment = '## Coverage Summary\n\n';
-            for (const [testName, output] of Object.entries(coverageReports)) {
-              comment += `### ${testName}\n\n`;
-              comment += `Coverage Report: ${output.coverageReportUrl}\n\n`;
-            }
-
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: comment
-            });
+          # Set the output for coverage report URL
+          id: upload_coverage
