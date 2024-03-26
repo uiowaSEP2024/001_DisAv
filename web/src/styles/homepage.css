@@ -1,7 +1,9 @@
 .homepage {
-  background: linear-gradient(to right, #88d3ce, #6e45e2); /* Gradient background for the entire page */
+  /*background: linear-gradient(to right, #88d3ce, #6e45e2); !* Gradient background for the entire page *!*/
+  background-color: #fffefe;
   padding: 50px 0; /* Adjust top and bottom padding as needed */
   display: flex;
+  height: 100vh;
   align-items: flex-start; /* Aligns content to the top */
   justify-content: center;
   position: relative; /* For positioning the logo pattern absolutely */
@@ -75,7 +77,6 @@
 .section-image {
   max-width: 100%; /* Limits image width to the grid cell size */
   height: auto; /* Maintains aspect ratio */
-  object-fit: contain; /* Ensures the image is contained within its div without stretching */
 }
 
 /* Responsive design for smaller screens */
@@ -93,4 +94,54 @@
   .section-image {
     max-height: 100px; /* Smaller images on mobile */
   }
+}
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Ephesis&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Squada&display=swap');
+
+
+.text{
+  margin-left: -7vw;
+  margin-top: 5vh;
+}
+.name{
+  font-family: 'Squada', sans-serif;
+  font-size: 1.8em;
+  width: 45vw;
+}
+.intro{
+  font-family: 'Ephesis', cursive;
+  font-size: 1.8em;
+  margin-bottom: -2vh;
+  color: #6e45e2;
+}
+.bio{
+  width: 40vw;
+  font-family: 'Roboto', sans-serif;
+  color: #565555;
+  margin-top: 30px;
+}
+.btn{
+  background-color: #6e45e2;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  margin-top: 30px;
+}
+.section-image{
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  border-radius: 40px;
+  margin-top: 5vh;
+
+}
+.welcome-section{
+  display: flex;
+  justify-content: space-between;
+  margin-right: 3vw;
 }

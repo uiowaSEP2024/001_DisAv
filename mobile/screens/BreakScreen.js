@@ -10,7 +10,7 @@ const BreakScreen = () => {
   const isFocused = useIsFocused(); // This hook returns true if the screen is focused, false otherwise.
   const [sound, setSound] = useState(null);
   const [timerKey, setTimerKey] = useState(0);
-  const time = 300; // 5 minutes break
+  const time = 20; // 5 minutes break
   const isPlaying = true;
 
   useEffect(() => {
