@@ -17,6 +17,10 @@ const config = {
   transform: {
     '^.+\\.[t|j]sx?$': 'babel-jest',
   },
+
+  moduleNameMapper: {
+    '^node-fetch$': 'node-fetch/lib/index.js', // Mapping for node-fetch module
+  },
   // The directory where Jest should store its cached dependency information
   // cacheDirectory: "/private/var/folders/6n/5lbwzs7j2qq6bz2rhy3hphlm0000gn/T/jest_dx",
 
