@@ -1,6 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import fetch from 'node-fetch'; // Import fetch module
 import path from 'path';
 import { BooksModel } from '../models/BooksModel.js';
 import { UserModel } from '../models/UsersModel.js';

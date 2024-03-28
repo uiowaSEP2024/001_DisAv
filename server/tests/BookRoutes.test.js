@@ -56,7 +56,6 @@ describe('Book API Routes', () => {
     const response = await request(app)
       .get('/book/get-by-username')
       .query({ username: 'testbookuser' });
-
     expect(response.status).toBe(200);
     expect(response.body.books).toBeDefined();
     // Add more assertions if needed
