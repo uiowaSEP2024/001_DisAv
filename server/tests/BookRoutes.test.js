@@ -1,10 +1,8 @@
 import request from 'supertest';
 import app from '../index.js'; // Replace 'yourAppFileName.js' with the actual file name of your Express application
-import { UserModel } from '../models/UsersModel.js';
 import { BooksModel } from '../models/BooksModel.js';
 
 afterAll(async () => {
-  await UserModel.deleteMany({});
   await BooksModel.deleteMany({});
 });
 
@@ -22,7 +20,7 @@ const createTestUser = async uname => {
 describe('Book API Routes', () => {
   // Test creating a book
   it('POST /create - should create a book', async () => {
-    await createTestUser('test');
+    await createTestUser('testbookuser');
     const response = await request(app)
       .post('/book/create')
       .send({
@@ -32,7 +30,7 @@ describe('Book API Routes', () => {
         description: 'Example book description',
         author: 'Example Author',
         categories: ['Fiction', 'Sci-Fi'],
-        username: 'test',
+        username: 'testbookuser',
       });
 
     expect(response.status).toBe(200);
@@ -55,7 +53,9 @@ describe('Book API Routes', () => {
 
   // Test getting user books by username
   it('GET /get-by-username - should get user books by username', async () => {
-    const response = await request(app).get('/book/get-by-username').query({ username: 'test' });
+    const response = await request(app)
+      .get('/book/get-by-username')
+      .query({ username: 'testbookuser' });
 
     expect(response.status).toBe(200);
     expect(response.body.books).toBeDefined();
@@ -84,17 +84,17 @@ describe('Book API Routes', () => {
 
   // test get by invalid title
   it('GET /get-by-title - should get user book by invalid title', async () => {
-    await createTestUser('test');
+    await createTestUser('testbookuser');
     const response = await request(app)
       .get('/book/get-by-title')
-      .query({ title: 'invalid Title', username: 'test' });
+      .query({ title: 'invalid Title', username: 'testbookuser' });
     expect(response.status).toBe(401);
     expect(response.body.message).toBe('Invalid book');
   });
 
   // get by invalid username and valid title
   it('GET /get-by-title - should get user book by invalid username and valid title', async () => {
-    await createTestUser('test');
+    await createTestUser('testbookuser');
     const response = await request(app)
       .get('/book/get-by-title')
       .query({ title: 'Example Book Title', username: 'invalidUser' });
