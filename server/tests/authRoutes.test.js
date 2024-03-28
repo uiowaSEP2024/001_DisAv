@@ -5,7 +5,16 @@ import { UserModel } from '../models/UsersModel.js'; // Adjust the import path
 afterAll(async () => {
   await UserModel.deleteMany({});
 });
-
+const createTestUser = async uname => {
+  const userData = {
+    username: uname,
+    email: 'test@example.com',
+    password: 'password123',
+    firstname: 'john',
+    lastname: 'doe',
+  };
+  await request(app).post('/auth/register').send(userData);
+};
 describe('Authentication API', () => {
   // Test for registration
   it('should register a new user', async () => {
@@ -43,7 +52,7 @@ describe('Authentication API', () => {
       username: 'test',
       password: 'wrongpassword',
     };
-
+    await createTestUser('test');
     const response = await request(app).post('/auth/login').send(loginData);
 
     expect(response.statusCode).toBe(401);
