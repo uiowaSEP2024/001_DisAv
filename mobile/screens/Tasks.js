@@ -173,6 +173,7 @@ export default function TasksScreen() {
                     style={styles.completeButton}
                     mode="contained"
                     onPress={() => markTaskAsCompleted(currentTask._id)}
+                    testID="complete-task-button"
                   >
                     Complete Task
                   </Button>
