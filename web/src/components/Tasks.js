@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import TaskBreak from './TaskBreak'; // Import the break task component
 import '../styles/tasks.css';
 import confetti from 'canvas-confetti';
-import axios from 'axios'; // Import the confetti library
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import SubNavbar from './SubNavbar'; // Import the confetti library
 
 const Tasks = ({ assignedTask }) => {
   const [timer, setTimer] = useState(10); // 10 seconds for demo purposes
@@ -46,6 +48,7 @@ const Tasks = ({ assignedTask }) => {
       console.error('Error fetching user tasks:', error);
     }
   }
+
   useEffect(() => {
     if (assignedTask) {
       setCurrentTask(assignedTask);
@@ -92,7 +95,11 @@ const Tasks = ({ assignedTask }) => {
   const renderTask = () => {
     switch (currentTask) {
       case 'break':
-        return <TaskBreak />;
+        return(
+          <>
+            <TaskBreak/>
+          </>
+      )
       case 'work':
         return <div>Work task</div>;
       case 'exercise':
@@ -101,10 +108,11 @@ const Tasks = ({ assignedTask }) => {
         return <div>Reading task</div>;
     }
   };
-  if(tasks){
-    return (
+  if(tasks && currentTask === 'break')
+  { return (
       <>
-        <div className={`overlay ${timer > 0 ? 'active' : ''}`}></div>
+        <SubNavbar/>
+        {/*<div className={`overlay ${timer > 0 ? 'active' : ''}`}></div>*/}
         <div className="task-container">
           {timer > 0 ? (
             <>
@@ -124,13 +132,23 @@ const Tasks = ({ assignedTask }) => {
       </>
     );
   }
-
-  return (
-    <div className="task-container">
-      <h1>No tasks at this time</h1>
-    </div>
-  );
-
+  if(!tasks && currentTask === 'break') {
+    return (
+      <div className="task-container">
+        <SubNavbar />
+        <h1>No tasks at this time</h1>
+      </div>
+    );
+  }
+  if (currentTask === "reading")
+  {
+    return (
+      <div className="task-container">
+        <SubNavbar />
+        <h1>Reading task</h1>
+      </div>
+    );
+  }
 
 };
 

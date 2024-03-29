@@ -18,7 +18,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
             <>
               <Link to="/rewards" className="link-style"><h4>Rewards</h4></Link>
               <Link to="/preference" className="link-style"><h4>Preferences</h4></Link>
-              <Link to="/tasks" className="link-style"><h4>Tasks</h4></Link>
+              <Link to="/break-task" className="link-style"><h4>Tasks</h4></Link>
               <Link to="/dashboard" className="link-style">
                 <h4>Dashboard</h4>
               </Link>
