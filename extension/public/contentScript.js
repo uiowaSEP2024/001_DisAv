@@ -18,3 +18,19 @@ window.addEventListener(
   },
   false
 );
+window.addEventListener('message', event => {
+  // Check if the message is from a trusted source (optional)
+  if (event.source !== window) return;
+
+  // Extract message data
+  const message = event.data;
+
+  // Check message type
+  if (message.type === 'LOGIN_SUCCESS') {
+    const { token, user } = message;
+
+    // Do something with the token and user data
+    // For example, send it to the background script
+    chrome.runtime.sendMessage({ type: 'LOGIN_SUCCESS', token: token, user: user });
+  }
+});

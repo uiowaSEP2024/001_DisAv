@@ -3,7 +3,10 @@ html {
   height: 100%; /* Ensure the html and body take full height */
   margin: 0; /* Remove default margin */
   padding: 0; /* Remove default padding */
-  background: linear-gradient(to right, #88d3ce, #6e45e2); /* Apply background gradient here */
+ /* Apply background gradient here */
+  font-family: 'Roboto', sans-serif; /* Use Roboto font */
+  background-color: #f4f4f4;
+  color: white; /* Set text color to white */
 }
 
 /* Ensure .login only styles the form area and not the entire page */
@@ -13,7 +16,7 @@ html {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   background: rgba(255, 255, 255, 0.3); /* Slightly transparent white background */
   border-radius: 8px;
-  color: white;
+  color: black;
   position: absolute; /* Positioning relative to the viewport */
   top: 50%; /* Center vertically */
   left: 50%; /* Center horizontally */
@@ -33,7 +36,7 @@ html {
 .login form label {
   display: block; /* Make label block to take full width */
   margin-bottom: 10px;
-  color: white;
+  color: #312a2a;
 }
 
 .login form input[type='text'] {
@@ -43,6 +46,8 @@ html {
   background: rgba(255, 255, 255, 0.2); /* Slightly visible background */
   color: black;
   border-radius: 4px;
+  width: 20vw;
+
 }
 
 .login form input[type='password'] {
@@ -52,6 +57,7 @@ html {
   background: rgba(255, 255, 255, 0.2); /* Slightly visible background */
   color: black;
   border-radius: 4px; /* Rounded corners for inputs */
+  width: 20vw;
 }
 
 .login form input[type='submit'] {
