@@ -21,9 +21,9 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
   const [duration, setDuration] = useState({
     hours: 0,
     minutes: 0,
-    seconds: 0
+    seconds: 0,
   });
-  const onChangeDuration = (time) => {
+  const onChangeDuration = time => {
     const { hours, minutes, seconds } = time;
     setDuration({ hours, minutes, seconds });
   };
@@ -63,7 +63,6 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
   // Inside the Preference component
 
   const handleSubmit = () => {
-
     // Update the user's preferred tasks in the database
     axios
       .put('http://localhost:3002/user/update-preferred-tasks', {
@@ -150,7 +149,7 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
       <label>What kind of tasks would you like to use?</label>
       <ul>
         {Object.keys(preferredTasks).map(preference => (
-          <li key={preference} className={"left-aligned-list"}>
+          <li key={preference} className={'left-aligned-list'}>
             <div className="preference-item">
               <label htmlFor={preference}>
                 {preference.charAt(0).toUpperCase() + preference.slice(1)}
@@ -189,11 +188,13 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
             </div>
           </li>
         ))}
-        <br/>
+        <br />
         <li>
           <label htmlFor="taskFrequency">How often should tasks be triggered?</label>
           <DurationPicker
-            onChange={(time)=> {onChangeDuration(time)}}
+            onChange={time => {
+              onChangeDuration(time);
+            }}
             initialDuration={{ hours: 0, minutes: 0, seconds: 0 }}
             maxHours={23}
             value={duration}

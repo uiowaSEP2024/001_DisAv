@@ -1,14 +1,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import path from 'path';
 import { BooksModel } from '../models/BooksModel.js';
 import { UserModel } from '../models/UsersModel.js';
 const router = express.Router();
 
 // Load environment variables from .env
 const cwd = process.cwd();
-const parentDir = path.resolve(cwd, '..');
-dotenv.config({ path: parentDir + '/.env' });
+dotenv.config({ path: cwd + '/.env' });
 
 // Access environment variables
 const apiKey = process.env.BOOKS_API_KEY;
@@ -71,19 +69,20 @@ router.get('/get-by-title', async (req, res) => {
 });
 
 function searchBooksByTitle(title) {
-  const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${title}&key=${apiKey}`;
-
+  const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${title}&key=${apiKey}&langRestrict=en`;
   // Making a GET request to the Google Books API
+  console.log(apiKey, cwd);
   return fetch(url)
     .then(response => {
       if (!response.ok) {
+        console.log('Error');
         throw new Error('Network response was not ok');
       }
       return response.json();
     })
     .then(data => {
       return data.items.map(item => {
-        return item;
+        return item.volumeInfo;
       });
     })
     .catch(error => {

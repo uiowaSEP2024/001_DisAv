@@ -16,7 +16,7 @@ const mockChrome = (() => {
             callback();
           }
         }),
-        clear: jest.fn((callback) => {
+        clear: jest.fn(callback => {
           storage = {};
           if (typeof callback === 'function') {
             callback();

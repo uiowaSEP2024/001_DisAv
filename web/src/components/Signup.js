@@ -78,7 +78,9 @@ function Signup() {
         <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
         <input type="text" placeholder="First Name" onChange={e => setFirstname(e.target.value)} />
         <input type="text" placeholder="Last Name" onChange={e => setLastname(e.target.value)} />
-        <button className={'submit'} type="submit">Sign Up</button>
+        <button className={'submit'} type="submit">
+          Sign Up
+        </button>
       </form>
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Select Preferences">
         <Preference initialPreferredTasks={initialPreferredTasks} onClose={closeModal} />
