@@ -1,6 +1,6 @@
 import React from 'react';
 import '../assets/ListItem.css';
-function ListItem(props) {
+function ListItem({ title, googleId, image, description, authors, categories, addBook }) {
   const container = {
     width: '34vw',
     listStyle: 'none',
@@ -47,16 +47,22 @@ function ListItem(props) {
   }
 
   return (
-    <div style={container} className={'container'} onClick={props.addBook}>
+    <div
+      style={container}
+      className={'container'}
+      onClick={() =>
+        addBook({ title, googleId, imageLink: image, description, authors, categories })
+      }
+    >
       <li style={listItem}>
         <div style={{ width: '70%' }}>
           <div style={listText}>
-            <h4>{props.title}</h4>
-            <p>{props.authors}</p>
-            <p style={descText}>{props.description}</p>
+            <h4>{title}</h4>
+            <p>{authors}</p>
+            <p style={descText}>{description}</p>
           </div>
         </div>
-        <ListImage image={props.image} />
+        <ListImage image={image} />
       </li>
     </div>
   );

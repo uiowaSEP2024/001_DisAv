@@ -26,6 +26,16 @@ router.get('/get-by-google-id', (req, res) => {
 
 router.post('/create', async (req, res) => {
   const { title, googleId, imageLink, description, author, categories, username } = req.body;
+  console.log(
+    'Creating book',
+    title,
+    googleId,
+    imageLink,
+    description,
+    author,
+    categories,
+    username
+  );
   const user = await UserModel.findOne({ username });
   if (!user) {
     return res.status(401).json({ message: 'Invalid user' });
@@ -40,7 +50,7 @@ router.post('/create', async (req, res) => {
     associatedUser: user._id,
   });
   await newBook.save().then(r => {});
-  return res.status(200).json({ message: 'Book successfully created', task: newBook });
+  return res.status(200).json({ message: 'Book successfully created', book: newBook });
 });
 
 // get user books

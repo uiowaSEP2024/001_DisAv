@@ -35,6 +35,8 @@ function DialogBox({ isOpen, onClose, addBook }) {
               image={book.imageLinks?.thumbnail}
               authors={book.authors}
               description={book.description}
+              categories={book.categories}
+              googleId={book.googleId}
               addBook={addBook}
             />
           ))}
