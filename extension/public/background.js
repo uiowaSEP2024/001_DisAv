@@ -120,7 +120,7 @@ chrome.storage.onChanged.addListener(handleStorageChange);
 setInterval(checkIdleState, 1000);
 
 function checkNextFrozen() {
-  console.log('checking',user.frozenBrowsing, user.nextFrozen);
+  console.log('checking', user.frozenBrowsing, user.nextFrozen);
   if (user && user.nextFrozen) {
     console.log('checking again1', user.nextFrozen);
     const nextFrozenTime = new Date(user.nextFrozen).getTime();
@@ -131,12 +131,20 @@ function checkNextFrozen() {
       openWebsite();
       user.frozenBrowsing = true;
       updateFrozenBrowsing({ username: user.username, nextFrozen: null, frozenBrowsing: true }); //Update the nextFrozen time on firststate query because there would be no state change since you arent idle
-      createTask({username:user.username, taskType: "break",date: new Date() , startTime: currentTime, endTime: currentTime, duration: 20000, points: 10}) //TODO specify task duration
+      createTask({
+        username: user.username,
+        taskType: 'break',
+        date: new Date(),
+        startTime: currentTime,
+        endTime: currentTime,
+        duration: 20000,
+        points: 10,
+      }); //TODO specify task duration
     }
   }
 }
 
-function createTask(data){
+function createTask(data) {
   fetch('http://localhost:3002/task/create', {
     method: 'POST',
     headers: {
@@ -156,14 +164,13 @@ function createTask(data){
     .catch(error => {
       console.error('Error creating task:', error);
     });
-
 }
 
 // redirect all search urls
 
 chrome.webNavigation.onBeforeNavigate.addListener(
   function (details) {
-    console.log("CHEKING NAV", user);
+    console.log('CHEKING NAV', user);
 
     const url = new URL(details.url);
     if (url.pathname === '/' && url.searchParams.has('q') && user.frozenBrowsing) {

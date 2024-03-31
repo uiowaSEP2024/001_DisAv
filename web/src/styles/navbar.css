@@ -1,4 +1,4 @@
-.tabs{
+.tabs {
   list-style-type: none;
   padding: 0;
   overflow: hidden;
@@ -26,7 +26,6 @@ h4 {
   border-radius: 50%; /* Make the logo round */
 }
 
-
 .navbar .buttons {
   display: flex;
   gap: 10px;
@@ -38,7 +37,7 @@ h4 {
   /*padding: 10px 20px;*/
   /*cursor: pointer;*/
   transition: background-color 0.3s ease;
-/* If you want to remove the color change on visited links: */
+  /* If you want to remove the color change on visited links: */
 }
 .link-style:visited {
   color: black;

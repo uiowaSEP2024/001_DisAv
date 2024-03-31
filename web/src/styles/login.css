@@ -3,7 +3,7 @@ html {
   height: 100%; /* Ensure the html and body take full height */
   margin: 0; /* Remove default margin */
   padding: 0; /* Remove default padding */
- /* Apply background gradient here */
+  /* Apply background gradient here */
   font-family: 'Roboto', sans-serif; /* Use Roboto font */
   background-color: #f4f4f4;
   color: white; /* Set text color to white */
@@ -47,7 +47,6 @@ html {
   color: black;
   border-radius: 4px;
   width: 20vw;
-
 }
 
 .login form input[type='password'] {

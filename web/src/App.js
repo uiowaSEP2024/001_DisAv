@@ -14,7 +14,6 @@ import Tasks from './components/Tasks';
 import Navbar from './components/Navbar';
 import ReadTask from './components/ReadTask';
 
-
 function App() {
   const { isLoggedIn, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -26,7 +25,7 @@ function App() {
   };
 
   return (
-    <div >
+    <div>
       <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<Homepage />} />

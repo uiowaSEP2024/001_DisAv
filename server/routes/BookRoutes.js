@@ -1,14 +1,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import path from 'path';
 import { BooksModel } from '../models/BooksModel.js';
 import { UserModel } from '../models/UsersModel.js';
 const router = express.Router();
 
 // Load environment variables from .env
 const cwd = process.cwd();
-const parentDir = path.resolve(cwd, '..');
-dotenv.config({ path: parentDir + '/.env' });
+dotenv.config({ path: cwd + '/.env' });
 
 // Access environment variables
 const apiKey = process.env.BOOKS_API_KEY;
@@ -28,6 +26,16 @@ router.get('/get-by-google-id', (req, res) => {
 
 router.post('/create', async (req, res) => {
   const { title, googleId, imageLink, description, author, categories, username } = req.body;
+  console.log(
+    'Creating book',
+    title,
+    googleId,
+    imageLink,
+    description,
+    author,
+    categories,
+    username
+  );
   const user = await UserModel.findOne({ username });
   if (!user) {
     return res.status(401).json({ message: 'Invalid user' });
@@ -42,7 +50,7 @@ router.post('/create', async (req, res) => {
     associatedUser: user._id,
   });
   await newBook.save().then(r => {});
-  return res.status(200).json({ message: 'Book successfully created', task: newBook });
+  return res.status(200).json({ message: 'Book successfully created', book: newBook });
 });
 
 // get user books
@@ -71,19 +79,20 @@ router.get('/get-by-title', async (req, res) => {
 });
 
 function searchBooksByTitle(title) {
-  const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${title}&key=${apiKey}`;
-
+  const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${title}&key=${apiKey}&langRestrict=en`;
   // Making a GET request to the Google Books API
+  console.log(apiKey, cwd);
   return fetch(url)
     .then(response => {
       if (!response.ok) {
+        console.log('Error');
         throw new Error('Network response was not ok');
       }
       return response.json();
     })
     .then(data => {
       return data.items.map(item => {
-        return item;
+        return item.volumeInfo;
       });
     })
     .catch(error => {

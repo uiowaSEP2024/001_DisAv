@@ -2,21 +2,30 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 
 function SubNavbar() {
-  return(
+  return (
     <div className="task-navbar">
-      <div className="" >
-        <Link className="taskNames" to="/break-task">Break </Link>
+      <div className="">
+        <Link className="taskNames" to="/break-task">
+          Break{' '}
+        </Link>
       </div>
       <div>
-        <Link className="taskNames" to="/read-task">Reading </Link>
+        <Link className="taskNames" to="/read-task">
+          Reading{' '}
+        </Link>
       </div>
       <div>
-        <Link className="taskNames" to="/exercise-task">Exercise </Link>
+        <Link className="taskNames" to="/exercise-task">
+          Exercise{' '}
+        </Link>
       </div>
       <div>
-        <Link className="taskNames" to="">Placeholder </Link>
+        <Link className="taskNames" to="">
+          Placeholder{' '}
+        </Link>
       </div>
-    </div>)
+    </div>
+  );
 }
 
 export default SubNavbar;
