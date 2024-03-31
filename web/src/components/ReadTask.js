@@ -5,6 +5,7 @@ import DialogBox from './DialogBox';
 import Notification from './Notification';
 import axios from 'axios';
 import BookCard from './BookCard';
+import BookDetail from './BookDetail';
 
 function ReadTask(props) {
   const [openDialog, setOpenDialog] = useState(true);
@@ -12,6 +13,15 @@ function ReadTask(props) {
   const user = JSON.parse(sessionStorage.getItem('user'));
   const [books, setBooks] = useState([]);
 
+  const [selectedBook, setSelectedBook] = useState(null);
+
+  function handleBookClick(book) {
+    setSelectedBook(book); // Set the clicked book as the selected book
+  }
+
+  function handleClose() {
+    setSelectedBook(null); // Clear the selected book
+  }
   function handleDialogOpen() {
     setOpenDialog(true);
   }
@@ -68,16 +78,20 @@ function ReadTask(props) {
       <SubNavbar />
       <h1>Reading Task</h1>
       <p>Read a book for 30 minutes</p>
-      <div className="book-cards-container"> {/* Add a container for the scrollable area */}
-        {books.map((book, index) => (
+      <div className="book-cards-container">
+        {books.map((book) => (
           <BookCard
-            key={index}
+            key={book.id}
             title={book.title}
             imageLink={book.imageLink}
-            completionPercentage={book.completionPercentage} // You need to calculate this based on your data
+            completionPercentage={book.completionPercentage}
+            onClick={() => handleBookClick(book)}
           />
         ))}
       </div>
+      {selectedBook && (
+        <BookDetail book={selectedBook} onClose={handleClose} />
+      )}
       <DialogBox isOpen={openDialog} onClose={() => setOpenDialog(false)} addBook={AddBook} />
       <Notification message={'Book was added successfully!'} visible={visibleNotification} />
     </div>
