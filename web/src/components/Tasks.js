@@ -42,12 +42,12 @@ const Tasks = ({ assignedTask }) => {
       const response = await axios.get('http://localhost:3002/task/get-by-username', {
         params: { username: sessionStorage.getItem('username') },
       });
-      response.data.tasks.length>0? setTasks(response.data.tasks): setTasks(null)
-      console.log("tasks",response.data.tasks)
+      response.data.tasks.length > 0 ? setTasks(response.data.tasks) : setTasks(null);
+      console.log('tasks', response.data.tasks);
     } catch (error) {
       console.error('Error fetching user tasks:', error);
     }
-  }
+  };
 
   useEffect(() => {
     if (assignedTask) {
@@ -95,11 +95,11 @@ const Tasks = ({ assignedTask }) => {
   const renderTask = () => {
     switch (currentTask) {
       case 'break':
-        return(
+        return (
           <>
-            <TaskBreak/>
+            <TaskBreak />
           </>
-      )
+        );
       case 'work':
         return <div>Work task</div>;
       case 'exercise':
@@ -108,10 +108,10 @@ const Tasks = ({ assignedTask }) => {
         return <div>Reading task</div>;
     }
   };
-  if(tasks && currentTask === 'break')
-  { return (
+  if (tasks && currentTask === 'break') {
+    return (
       <>
-        <SubNavbar/>
+        <SubNavbar />
         {/*<div className={`overlay ${timer > 0 ? 'active' : ''}`}></div>*/}
         <div className="task-container">
           {timer > 0 ? (
@@ -132,7 +132,7 @@ const Tasks = ({ assignedTask }) => {
       </>
     );
   }
-  if(!tasks && currentTask === 'break') {
+  if (!tasks && currentTask === 'break') {
     return (
       <div className="task-container">
         <SubNavbar />
@@ -140,8 +140,7 @@ const Tasks = ({ assignedTask }) => {
       </div>
     );
   }
-  if (currentTask === "reading")
-  {
+  if (currentTask === 'reading') {
     return (
       <div className="task-container">
         <SubNavbar />
@@ -149,7 +148,6 @@ const Tasks = ({ assignedTask }) => {
       </div>
     );
   }
-
 };
 
 export default Tasks;

@@ -1,0 +1,12 @@
+.container:hover {
+  background-color: rgba(236, 216, 216, 0.46);
+  cursor: pointer;
+}
+
+.btn {
+  margin-left: 30vw;
+}
+.btn:hover {
+  background-color: #2c509d;
+  color: white;
+}

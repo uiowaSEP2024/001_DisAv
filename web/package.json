@@ -12,6 +12,10 @@
     ]
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.14",
+    "@mui/material": "^5.15.14",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.7",
@@ -59,7 +63,8 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
-    "test": "react-scripts test --watchAll=false --transformIgnorePatterns \"node_modules/(?!@web)/\" --env=jsdom --coverage",    "test:coverage": "jest --coverage"
+    "test": "react-scripts test --watchAll=false --transformIgnorePatterns \"node_modules/(?!@web)/\" --env=jsdom --coverage",
+    "test:coverage": "jest --coverage"
   },
   "version": "0.1.0"
 }

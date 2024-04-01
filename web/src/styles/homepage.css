@@ -99,29 +99,28 @@
 @import url('https://fonts.googleapis.com/css?family=Ephesis&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Squada&display=swap');
 
-
-.text{
+.text {
   margin-left: -7vw;
   margin-top: 5vh;
 }
-.name{
+.name {
   font-family: 'Squada', sans-serif;
   font-size: 1.8em;
   width: 45vw;
 }
-.intro{
+.intro {
   font-family: 'Ephesis', cursive;
   font-size: 1.8em;
   margin-bottom: -2vh;
   color: #6e45e2;
 }
-.bio{
+.bio {
   width: 40vw;
   font-family: 'Roboto', sans-serif;
   color: #565555;
   margin-top: 30px;
 }
-.btn{
+.btn {
   background-color: #6e45e2;
   color: white;
   padding: 10px 20px;
@@ -132,15 +131,14 @@
   transition: background-color 0.3s;
   margin-top: 30px;
 }
-.section-image{
+.section-image {
   height: 100%;
   width: auto;
   object-fit: contain;
   border-radius: 40px;
   margin-top: 5vh;
-
 }
-.welcome-section{
+.welcome-section {
   display: flex;
   justify-content: space-between;
   margin-right: 3vw;

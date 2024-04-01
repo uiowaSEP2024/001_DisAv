@@ -170,7 +170,7 @@ function createTask(data) {
 
 chrome.webNavigation.onBeforeNavigate.addListener(
   function (details) {
-    console.log("CHEKING NAV", user);
+    console.log('CHEKING NAV', user);
 
     const url = new URL(details.url);
     if (url.pathname === '/' && url.searchParams.has('q') && user.frozenBrowsing) {

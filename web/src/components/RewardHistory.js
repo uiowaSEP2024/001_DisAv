@@ -11,7 +11,7 @@ const RewardHistory = ({ setTotalPoints }) => {
       const response = await axios.get('http://localhost:3002/task/get-by-username', {
         params: { username },
       });
-      console.log(response.data.tasks,username);
+      console.log(response.data.tasks, username);
       const formattedTasks = response.data.tasks.map(task => {
         const formattedDate = new Date(task.date).toLocaleString('en-US', {
           year: 'numeric',
