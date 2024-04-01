@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View, ImageBackground, Text } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  ImageBackground,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
 import { Card, Button } from 'react-native-paper';
 import axios from 'axios';
-import { useIsFocused } from '@react-navigation/native'; // Import useIsFocused
+import { useIsFocused } from '@react-navigation/native';
 import { useSession } from '../context/SessionContext';
 import { height, width } from '../config/DeviceDimensions';
 import { api } from '../config/Api';
@@ -24,6 +31,7 @@ export default function TasksScreen() {
   const [currentTask, setCurrentTask] = useState(null);
   const isFocused = useIsFocused();
   const [sound, setSound] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // New loading state
 
   useEffect(() => {
     fetchTasks();
@@ -31,7 +39,6 @@ export default function TasksScreen() {
 
   useEffect(() => {
     const loadAndPlaySound = async music => {
-      // Unload any existing sound first
       if (sound) {
         await sound.unloadAsync();
         setSound(null);
@@ -48,14 +55,14 @@ export default function TasksScreen() {
     }
 
     return () => {
-      // Unload the sound when the component unmounts or the currentTask changes
       if (sound) {
         sound.unloadAsync();
       }
     };
-  }, [currentTask, isFocused]); // Depend on currentTask and isFocused so this effect runs every time the currentTask changes or the focus state changes.
+  }, [currentTask, isFocused]);
 
   const fetchTasks = async () => {
+    // setIsLoading(true); // Start loading
     try {
       const response = await axios.get(
         `http://${api}/task/get-by-username?username=${user.username}`
@@ -69,56 +76,61 @@ export default function TasksScreen() {
       }
     } catch (error) {
       console.error('Failed to fetch tasks:', error);
+    } finally {
+      setIsLoading(false); // End loading
     }
   };
 
   async function createRandomTaskForUser() {
     try {
-      // Assuming user.preferredTasks is an array of task types like ['Work', 'Reading']
       const preferredTasks = user.preferredTasks;
       if (!preferredTasks || preferredTasks.length === 0) {
+        setIsLoading(false); // End loading early if no preferred tasks
         return;
       }
 
-      // Check if there's an existing active task
       const userTasks = await axios.get(
         `http://${api}/task/get-by-username?username=${user.username}`
       );
 
       for (let i = 0; i < userTasks.length; i++) {
         if (userTasks[i].isCompleted === false) {
+          setIsLoading(false); // End loading early if there's an active task
           return;
         }
       }
-      // Select a random task from preferred tasks
+
       let randomTaskType;
       do {
         const preferredTaskKeys = Object.keys(preferredTasks).filter(key => preferredTasks[key]);
         randomTaskType = preferredTaskKeys[Math.floor(Math.random() * preferredTaskKeys.length)];
       } while (randomTaskType === 'Work' || randomTaskType === 'Break');
-      // Create a new task
+
       await axios.post(`http://${api}/task/create`, {
         username: user.username,
         taskType: randomTaskType,
-        date: new Date(), // Set the date as today, adjust as needed
-        startTime: new Date().toLocaleTimeString('en-US', { hour12: false }), // Current time
+        date: new Date(),
+        startTime: new Date().toLocaleTimeString('en-US', { hour12: false }),
         endTime: new Date(new Date().getTime() + 10 * 60000).toLocaleTimeString('en-US', {
           hour12: false,
-        }), // 10 minutes later
+        }),
         duration: 10,
-        points: 10, // Example points, adjust as needed
+        points: 10,
       });
 
-      // wait to three seconds to fetch the tasks again
-      setTimeout(() => {
-        fetchTasks();
+      // Wait three seconds before starting to fetch the tasks again and wait for it to finish
+      setTimeout(async () => {
+        await fetchTasks();
       }, 3000);
     } catch (error) {
       console.error('Failed to create random task for user:', error);
+    } finally {
+      setIsLoading(false); // Ensure loading state is reset even if there's an error
     }
   }
 
   const markTaskAsCompleted = async taskId => {
+    setIsLoading(true); // Indicate start of task completion process
     try {
       await axios.put(`http://${api}/task/update`, {
         username: user.username,
@@ -126,47 +138,51 @@ export default function TasksScreen() {
         isCompleted: true,
         endTime: new Date().toLocaleTimeString('en-US', { hour12: false }),
       });
+
+      // Optionally wait for a few seconds before fetching tasks again
       setTimeout(() => {
         fetchTasks();
       }, 3000);
-      // stop sound
-      if (sound) {
-        sound.unloadAsync();
-      }
     } catch (error) {
       console.error('Failed to mark task as completed:', error);
+      setIsLoading(false); // Reset loading state regardless of outcome
     }
   };
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Text style={styles.title}>Your Tasks</Text>
-        {currentTask && (
-          <Card style={styles.card}>
-            {/* Use Card.Content for better control and to avoid overflow issues */}
-            <Card.Content style={styles.cardContent}>
-              <ImageBackground
-                source={taskAssets[currentTask.taskType]?.gif}
-                style={styles.imageBackground}
-                resizeMode="cover"
-              >
-                {/* Additional content and styling can go here */}
-                <Text style={styles.cardTitle}>{currentTask.taskType}</Text>
-                <Text style={styles.cardSubtitle}>Start Time: {currentTask.startTime}</Text>
-                <Button
-                  style={styles.completeButton}
-                  testID="complete-task-button"
-                  mode="contained"
-                  onPress={() => markTaskAsCompleted(currentTask._id)}
+      {isLoading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" />
+        </View>
+      )}
+      {!isLoading && (
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <Text style={styles.title}>Your Tasks</Text>
+          {currentTask && (
+            <Card style={styles.card}>
+              <Card.Content style={styles.cardContent}>
+                <ImageBackground
+                  source={taskAssets[currentTask.taskType]?.gif}
+                  style={styles.imageBackground}
+                  resizeMode="cover"
                 >
-                  Complete Task
-                </Button>
-              </ImageBackground>
-            </Card.Content>
-          </Card>
-        )}
-      </ScrollView>
+                  <Text style={styles.cardTitle}>{currentTask.taskType}</Text>
+                  <Text style={styles.cardSubtitle}>Start Time: {currentTask.startTime}</Text>
+                  <Button
+                    style={styles.completeButton}
+                    mode="contained"
+                    onPress={() => markTaskAsCompleted(currentTask._id)}
+                    testID="complete-task-button"
+                  >
+                    Complete Task
+                  </Button>
+                </ImageBackground>
+              </Card.Content>
+            </Card>
+          )}
+        </ScrollView>
+      )}
     </View>
   );
 }
@@ -223,5 +239,10 @@ const styles = StyleSheet.create({
     bottom: 15,
     right: 10,
     width: width * 0.16, // Adjusted for demonstration
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

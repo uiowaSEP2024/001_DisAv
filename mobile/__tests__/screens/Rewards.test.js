@@ -18,6 +18,15 @@ const mockNavigation = {
   navigate: jest.fn(),
 };
 
+// Mock useIsFocused to simulate screen focus
+jest.mock('@react-navigation/native', () => {
+  const actualNav = jest.requireActual('@react-navigation/native');
+  return {
+    ...actualNav,
+    useIsFocused: jest.fn(() => true),
+  };
+});
+
 // Mock response data for axios with added dateCompleted and taskType
 const mockTasksData = {
   data: {
