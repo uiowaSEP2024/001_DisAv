@@ -6,12 +6,14 @@ import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 import Homepage from './components/Homepage';
 import Login from './components/Login';
-import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
 import Signup from './components/Signup';
 import Preference from './components/Preference';
 import Rewards from './components/Rewards';
 import Tasks from './components/Tasks';
+import Navbar from './components/Navbar';
+import ReadTask from './components/ReadTask';
+
 
 function App() {
   const { isLoggedIn, logout } = useContext(AuthContext);
@@ -24,7 +26,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div >
       <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<Homepage />} />
@@ -56,10 +58,18 @@ function App() {
           }
         />
         <Route
-          path="/tasks"
+          path="/break-task"
           element={
             <ProtectedRoute>
               <Tasks />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/read-task"
+          element={
+            <ProtectedRoute>
+              <ReadTask />
             </ProtectedRoute>
           }
         />

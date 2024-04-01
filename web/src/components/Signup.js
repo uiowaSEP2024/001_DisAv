@@ -72,12 +72,13 @@ function Signup() {
   return (
     <div className="signup">
       <form onSubmit={handleSubmit} data-testid="signup-form">
+        <h2>Sign up</h2>
         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)} />
         <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
         <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
         <input type="text" placeholder="First Name" onChange={e => setFirstname(e.target.value)} />
         <input type="text" placeholder="Last Name" onChange={e => setLastname(e.target.value)} />
-        <button type="submit">Sign Up</button>
+        <button className={'submit'} type="submit">Sign Up</button>
       </form>
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Select Preferences">
         <Preference initialPreferredTasks={initialPreferredTasks} onClose={closeModal} />

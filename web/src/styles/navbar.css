@@ -1,13 +1,23 @@
-.navbar {
+.tabs{
   list-style-type: none;
-  margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #6e45e2;
+  /*background-color: #6e45e2;*/
+  border-bottom-width: 10px;
+  border-bottom-color: black;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   color: white;
+  margin-left: 5vw;
+  margin-right: 5vw;
+}
+.navbar {
+  background: rgba(149, 117, 241, 0.18);
+}
+
+h4 {
+  font-size: large;
+  font-style: normal;
 }
 
 .navbar-logo {
@@ -16,21 +26,37 @@
   border-radius: 50%; /* Make the logo round */
 }
 
+
 .navbar .buttons {
   display: flex;
   gap: 10px;
 }
-
-.navbar .buttons button {
-  background-color: #88d3ce; /* Initial background color for buttons */
-  color: #6e45e2; /* Text color for buttons */
+.link-style {
+  text-decoration: none; /* Removes underline */
+  color: black; /* Sets the text color to black */
   border: none;
-  padding: 10px 20px;
-  cursor: pointer;
+  /*padding: 10px 20px;*/
+  /*cursor: pointer;*/
+  transition: background-color 0.3s ease;
+/* If you want to remove the color change on visited links: */
+}
+.link-style:visited {
+  color: black;
+}
+/* If you want the text to not change color on hover as well */
+.link-style:hover {
+  color: #676464;
+}
+.navbar .buttons button {
+  /*background-color: #88d3ce; !* Initial background color for buttons *!*/
+  color: black; /* Text color for buttons */
+  border: none;
+  /*padding: 10px 20px;*/
+  /*cursor: pointer;*/
   transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
 .navbar .buttons button:hover {
-  background-color: #6e45e2; /* Background color for buttons when hovered over */
-  color: white; /* Text color for buttons when hovered over */
+  color: #6e45e2; /* Background color for buttons when hovered over */
+  /*color: white; !* Text color for buttons when hovered over *!*/
 }

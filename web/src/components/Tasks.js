@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import TaskBreak from './TaskBreak'; // Import the break task component
 import '../styles/tasks.css';
 import confetti from 'canvas-confetti';
-import axios from 'axios'; // Import the confetti library
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import SubNavbar from './SubNavbar'; // Import the confetti library
 
 const Tasks = ({ assignedTask }) => {
   const [timer, setTimer] = useState(10); // 10 seconds for demo purposes
   const [currentTask, setCurrentTask] = useState('break'); // Default task type
   const [taskCompleted, setTaskCompleted] = useState(false); // State to track task completion
+  const [tasks, setTasks] = useState(null);
   const endFrozenBrowsing = async () => {
     const currentDate = new Date();
     await axios
@@ -33,12 +36,25 @@ const Tasks = ({ assignedTask }) => {
         console.log('Unexpected error', error);
       });
   };
+  // get tasks by username
+  const fetchTasks = async () => {
+    try {
+      const response = await axios.get('http://localhost:3002/task/get-by-username', {
+        params: { username: sessionStorage.getItem('username') },
+      });
+      response.data.tasks.length>0? setTasks(response.data.tasks): setTasks(null)
+      console.log("tasks",response.data.tasks)
+    } catch (error) {
+      console.error('Error fetching user tasks:', error);
+    }
+  }
+
   useEffect(() => {
     if (assignedTask) {
       setCurrentTask(assignedTask);
     }
   }, [assignedTask]); // Only re-run the effect if assignedTask changes
-
+  fetchTasks().then(r => null);
   useEffect(() => {
     if (timer > 0) {
       setTaskCompleted(false); // Reset task completion state with each new timer
@@ -79,7 +95,11 @@ const Tasks = ({ assignedTask }) => {
   const renderTask = () => {
     switch (currentTask) {
       case 'break':
-        return <TaskBreak />;
+        return(
+          <>
+            <TaskBreak/>
+          </>
+      )
       case 'work':
         return <div>Work task</div>;
       case 'exercise':
@@ -88,28 +108,48 @@ const Tasks = ({ assignedTask }) => {
         return <div>Reading task</div>;
     }
   };
-
-  return (
-    <>
-      <div className={`overlay ${timer > 0 ? 'active' : ''}`}></div>
+  if(tasks && currentTask === 'break')
+  { return (
+      <>
+        <SubNavbar/>
+        {/*<div className={`overlay ${timer > 0 ? 'active' : ''}`}></div>*/}
+        <div className="task-container">
+          {timer > 0 ? (
+            <>
+              <div>{renderTask()}</div>
+              <div>Time remaining: {timer} seconds</div>
+            </>
+          ) : (
+            <>
+              <div>Task completed!</div>
+              {taskCompleted && <div className="confetti">🎉</div>}
+            </>
+          )}
+          <button onClick={skipTask} disabled={timer <= 0}>
+            Skip
+          </button>
+        </div>
+      </>
+    );
+  }
+  if(!tasks && currentTask === 'break') {
+    return (
       <div className="task-container">
-        {timer > 0 ? (
-          <>
-            <div>{renderTask()}</div>
-            <div>Time remaining: {timer} seconds</div>
-          </>
-        ) : (
-          <>
-            <div>Task completed!</div>
-            {taskCompleted && <div className="confetti">🎉</div>}
-          </>
-        )}
-        <button onClick={skipTask} disabled={timer <= 0}>
-          Skip
-        </button>
+        <SubNavbar />
+        <h1>No tasks at this time</h1>
       </div>
-    </>
-  );
+    );
+  }
+  if (currentTask === "reading")
+  {
+    return (
+      <div className="task-container">
+        <SubNavbar />
+        <h1>Reading task</h1>
+      </div>
+    );
+  }
+
 };
 
 export default Tasks;

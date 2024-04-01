@@ -7,10 +7,11 @@ const RewardHistory = ({ setTotalPoints }) => {
   const fetchUserTasks = async () => {
     try {
       const user = JSON.parse(sessionStorage.getItem('user'));
-      const username = localStorage.getItem('username') || user.username; // Use the username from session storage or local storage
+      const username = sessionStorage.getItem('username') || user.username; // Use the username from session storage or local storage
       const response = await axios.get('http://localhost:3002/task/get-by-username', {
         params: { username },
       });
+      console.log(response.data.tasks,username);
       const formattedTasks = response.data.tasks.map(task => {
         const formattedDate = new Date(task.date).toLocaleString('en-US', {
           year: 'numeric',
