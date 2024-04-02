@@ -190,6 +190,7 @@ describe('User API Routes', () => {
       taskFrequency: '3000',
       workPreferences: 'I work on things related to software development',
       readingPreferences: 'I read books related to software development',
+      whitelistedWebsites: ['https://example.com', 'https://example2.com', 'https://example3.com'],
     };
     request(app)
       .put('/user/update-all-preferences')
@@ -197,6 +198,11 @@ describe('User API Routes', () => {
       .then(response => {
         expect(response.statusCode).toBe(200);
         expect(response.body.message).toBe('User updated with all preferences');
+        expect(response.body.user.whitelistedWebsites).toEqual(preferences.whitelistedWebsites);
+        expect(response.body.user.preferredTasks).toEqual(preferences.preferredTasks);
+        expect(response.body.user.taskFrequency).toBe(preferences.taskFrequency);
+        expect(response.body.user.workPreferences).toBe(preferences.workPreferences);
+        expect(response.body.user.readingPreferences).toBe(preferences.readingPreferences);
       });
   });
   // test update invalid user all preferences

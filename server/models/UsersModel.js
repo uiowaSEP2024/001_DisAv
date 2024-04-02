@@ -28,6 +28,7 @@ const UserSchema = new mongoose.Schema({
   readingPreferences: { type: String, required: false },
   createdAt: { type: Date, default: Date.now },
   xpPoints: { type: Number, default: 0 },
+  whitelistedWebsites: [{ type: String, required: false }],
 });
 
 export const UserModel = mongoose.model('users', UserSchema);

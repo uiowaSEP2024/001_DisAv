@@ -129,16 +129,23 @@ router.put('/update-reading-preferences', async (req, res) => {
 
 // update all preferences
 router.put('/update-all-preferences', async (req, res) => {
-  const { username, preferredTasks, taskFrequency, workPreferences, readingPreferences } = req.body;
+  const {
+    username,
+    preferredTasks,
+    taskFrequency,
+    workPreferences,
+    readingPreferences,
+    whitelistedWebsites,
+  } = req.body;
   const user = await UserModel.findOne({ username });
   if (!user) {
     return res.status(401).json({ message: 'Invalid user, failed to update all preferences' });
   }
   await UserModel.findOneAndUpdate(
     { username },
-    { preferredTasks, taskFrequency, workPreferences, readingPreferences }
+    { preferredTasks, taskFrequency, workPreferences, readingPreferences, whitelistedWebsites }
   );
-  return res.status(200).json({ message: 'User updated with all preferences' });
+  return res.status(200).json({ message: 'User updated with all preferences', user });
 });
 
 // update frozen browsing
