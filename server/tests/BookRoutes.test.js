@@ -172,4 +172,12 @@ describe('Book API Routes', () => {
     expect(response.status).toBe(401);
     expect(response.body.message).toBe('Invalid book, failed to update summary');
   });
+
+  // Test get badges
+  it('GET /get-badges - should get badges', async () => {
+    const response = await request(app).get('/badge/get-badges');
+    expect(response.status).toBe(200);
+    expect(response.body.badges).toBeDefined();
+    expect(response.body.badges.length).toBe(11);
+  });
 });
