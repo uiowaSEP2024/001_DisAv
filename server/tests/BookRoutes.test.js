@@ -105,9 +105,6 @@ describe('Book API Routes', () => {
       .get('/book/get-by-title')
       .query({ title: 'Example Book Title', username: 'testbookuser' });
     expect(response.status).toBe(200);
-    console.log(response.body.book);
-    console.log(response.body.book.title, 'dsfdsfdsger');
-    console.log(response.body.book.authors, 'dsfdsfdsger');
     expect(response.body.book).toBeDefined();
     expect(response.body.book.title).toBe('Example Book Title');
     expect(response.body.book.authors).toEqual(['Example Author']);
@@ -125,7 +122,6 @@ describe('Book API Routes', () => {
       summary: 'This is an Example summary of chapter one',
       username: 'testbookuser',
     });
-    console.log(response);
     expect(response.status).toBe(200);
     expect(response.body.message).toBe('Summary added successfully');
     expect(response.body.book.chapterSummaries[0]).toBe(

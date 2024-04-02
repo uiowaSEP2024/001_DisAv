@@ -187,7 +187,7 @@ describe('User API Routes', () => {
   it('PUT /update-all-preferences - should update all user preferences', async () => {
     const preferences = {
       preferredTasks: { work: false, reading: true },
-      taskFrequency: '3000',
+      taskFrequency: 3000,
       workPreferences: 'I work on things related to software development',
       readingPreferences: 'I read books related to software development',
       whitelistedWebsites: ['https://example.com', 'https://example2.com', 'https://example3.com'],
@@ -198,6 +198,7 @@ describe('User API Routes', () => {
       .then(response => {
         expect(response.statusCode).toBe(200);
         expect(response.body.message).toBe('User updated with all preferences');
+        console.log(response.body.user, 'sadsafsad');
         expect(response.body.user.whitelistedWebsites).toEqual(preferences.whitelistedWebsites);
         expect(response.body.user.preferredTasks).toEqual(preferences.preferredTasks);
         expect(response.body.user.taskFrequency).toBe(preferences.taskFrequency);

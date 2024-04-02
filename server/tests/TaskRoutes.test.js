@@ -161,7 +161,6 @@ it('gets task by user name', async () => {
     .then(response => {
       expect(response.statusCode).toBe(200);
       expect(response.body.tasks).toBeDefined();
-      console.log(response.body.tasks);
       expect(response.body.tasks.length).toBe(2);
     });
 });
