@@ -239,6 +239,26 @@ describe('User API Routes', () => {
     expect(response.statusCode).toBe(401);
     expect(response.body.message).toBe('Invalid user, failed to update frozen browsing');
   });
+  // test update xp points
+  it('PUT /update-xp-points - should update xp points', async () => {
+    const response = await request(app).put('/user/update-xp-points').send({
+      username: 'test2',
+      xpPoints: 1000,
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('User updated with xp points');
+    expect(response.body.user.xpPoints).toBe(1000);
+  });
+
+  // test update invalid user xp points
+  it('PUT /update-xp-points - should fail to update invalid user xp points', async () => {
+    const response = await request(app).put('/user/update-xp-points').send({
+      username: 'invalid user',
+      xpPoints: 1000,
+    });
+    expect(response.statusCode).toBe(401);
+    expect(response.body.message).toBe('Invalid user');
+  });
   // test delete user
   it('DELETE /delete - should delete a user', async () => {
     await request(app)

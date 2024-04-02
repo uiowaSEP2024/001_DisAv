@@ -156,6 +156,18 @@ router.put('/update-frozen-browsing', async (req, res) => {
   return res.status(200).json({ message: 'User updated with frozen browsing', user });
 });
 
+// update xp points
+router.put('/update-xp-points', async (req, res) => {
+  const { username, xpPoints } = req.body;
+  const user = await UserModel.findOne({ username });
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid user' });
+  }
+  user.xpPoints = xpPoints;
+  await UserModel.findOneAndUpdate({ username }, { xpPoints });
+  return res.status(200).json({ message: 'User updated with xp points', user });
+});
+
 // Get url Type
 // router.get("/get-browsing-type", async (req, res) => {
 //   const { url } = req.query;
