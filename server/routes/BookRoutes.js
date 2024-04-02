@@ -2,12 +2,13 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { BooksModel } from '../models/BooksModel.js';
 import { UserModel } from '../models/UsersModel.js';
+import path from 'path';
 const router = express.Router();
-
 // Load environment variables from .env
 const cwd = process.cwd();
-dotenv.config({ path: cwd + '/.env' });
-
+const parent = path.dirname(cwd);
+dotenv.config({ path: parent + '/.env' });
+console.log(parent + '/.env');
 // Access environment variables
 const apiKey = process.env.BOOKS_API_KEY;
 router.get('/get-by-google-title', (req, res) => {
@@ -40,14 +41,16 @@ router.post('/create', async (req, res) => {
   if (!user) {
     return res.status(401).json({ message: 'Invalid user' });
   }
+  const chapterSummaries = Array(100).fill('');
   const newBook = new BooksModel({
     title,
     googleId,
     imageLink,
     description,
-    author,
+    authors: author,
     categories,
     associatedUser: user._id,
+    chapterSummaries,
   });
   await newBook.save().then(r => {});
   return res.status(200).json({ message: 'Book successfully created', book: newBook });
@@ -77,11 +80,29 @@ router.get('/get-by-title', async (req, res) => {
   }
   return res.status(200).json({ book });
 });
+router.put('/update-summary', async (req, res) => {
+  const { title, chapter, summary, username } = req.body;
+  const user = await UserModel.findOne({ username });
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid user, failed to update summary' });
+  }
+  const book = await BooksModel.findOne({ title, associatedUser: user._id });
+  if (!book) {
+    return res.status(401).json({ message: 'Invalid book, failed to update summary' });
+  }
+  // update the array summaries in the book model at index chapter
+  book.chapterSummaries[chapter - 1] = summary;
+  await BooksModel.findOneAndUpdate(
+    { title, associatedUser: user._id },
+    { chapterSummaries: book.chapterSummaries }
+  );
+  res.status(200).json({ message: 'Summary added successfully', book: book });
+});
 
 function searchBooksByTitle(title) {
   const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${title}&key=${apiKey}&langRestrict=en`;
   // Making a GET request to the Google Books API
-  console.log(apiKey, cwd);
+  console.log(url, cwd);
   return fetch(url)
     .then(response => {
       if (!response.ok) {

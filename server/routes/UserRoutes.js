@@ -2,6 +2,9 @@ import express from 'express';
 import { UserModel } from '../models/UsersModel.js';
 import bcrypt from 'bcrypt';
 const router = express.Router();
+// import OpenAI from 'openai';
+// import dotenv from 'dotenv';
+// import path from 'path';
 
 // Get all users api
 router.get('/get-all', async (req, res) => {
@@ -152,4 +155,50 @@ router.put('/update-frozen-browsing', async (req, res) => {
   console.log(user);
   return res.status(200).json({ message: 'User updated with frozen browsing', user });
 });
+
+// Get url Type
+// router.get("/get-browsing-type", async (req, res) => {
+//   const { url } = req.query;
+//   const browsingType = await GPTcall(url);
+//   if (browsingType === "entertainment" || browsingType === "work"){
+//     return res.status(200).json({ browsingType });
+//   }
+//   return res.status(400).json({ message: 'Invalid browsing type' });
+// });
+// async function GPTcall (url) {
+//   const cwd = process.cwd();
+//   const envDirectory = path.resolve(cwd, '..') + "/.env";
+//   dotenv.config({path: envDirectory});
+//   const openai = new OpenAI({
+//     apiKey: process.env.GPT_KEY // This is also the default, can be omitted
+//   });
+//   try {
+//     const chatCompletion = await openai.chat.completions.create({
+//       model: "gpt-3.5-turbo",
+//       messages: [
+//         {
+//           role: "system",
+//           content: "Your task is to classify a given URL as either primarily for entertainment or work-related purposes. Consider the context in which a user might visit this URL, such as their profession or personal interests. Provide your classification along with a brief explanation for your decision.return the answer as a single word being entertainment or work"
+//         },
+//         {
+//           role: "user",
+//           content: "Classify the following URL:"+url
+//         }
+//       ]
+//     });
+//
+//     console.log(chatCompletion.choices[0].message);
+//     return chatCompletion.choices[0].message.content;
+//
+//   } catch (err) {
+//     if (err.response) {
+//       console.log(err.response.status);
+//       console.log(err.response.data);
+//     } else {
+//       console.log(err.message);
+//     }
+//   }
+// }
+console.log('asdsadsaasfgrde');
+// GPTcall().then(r=>null)
 export { router as UserRouter };
