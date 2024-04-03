@@ -187,9 +187,10 @@ describe('User API Routes', () => {
   it('PUT /update-all-preferences - should update all user preferences', async () => {
     const preferences = {
       preferredTasks: { work: false, reading: true },
-      taskFrequency: '3000',
+      taskFrequency: 3000,
       workPreferences: 'I work on things related to software development',
       readingPreferences: 'I read books related to software development',
+      whitelistedWebsites: ['https://example.com', 'https://example2.com', 'https://example3.com'],
     };
     request(app)
       .put('/user/update-all-preferences')
@@ -197,6 +198,12 @@ describe('User API Routes', () => {
       .then(response => {
         expect(response.statusCode).toBe(200);
         expect(response.body.message).toBe('User updated with all preferences');
+        console.log(response.body.user, 'sadsafsad');
+        expect(response.body.user.whitelistedWebsites).toEqual(preferences.whitelistedWebsites);
+        expect(response.body.user.preferredTasks).toEqual(preferences.preferredTasks);
+        expect(response.body.user.taskFrequency).toBe(preferences.taskFrequency);
+        expect(response.body.user.workPreferences).toBe(preferences.workPreferences);
+        expect(response.body.user.readingPreferences).toBe(preferences.readingPreferences);
       });
   });
   // test update invalid user all preferences
@@ -238,6 +245,26 @@ describe('User API Routes', () => {
     });
     expect(response.statusCode).toBe(401);
     expect(response.body.message).toBe('Invalid user, failed to update frozen browsing');
+  });
+  // test update xp points
+  it('PUT /update-xp-points - should update xp points', async () => {
+    const response = await request(app).put('/user/update-xp-points').send({
+      username: 'test2',
+      xpPoints: 1000,
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('User updated with xp points');
+    expect(response.body.user.xpPoints).toBe(1000);
+  });
+
+  // test update invalid user xp points
+  it('PUT /update-xp-points - should fail to update invalid user xp points', async () => {
+    const response = await request(app).put('/user/update-xp-points').send({
+      username: 'invalid user',
+      xpPoints: 1000,
+    });
+    expect(response.statusCode).toBe(401);
+    expect(response.body.message).toBe('Invalid user');
   });
   // test delete user
   it('DELETE /delete - should delete a user', async () => {
