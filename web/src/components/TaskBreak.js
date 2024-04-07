@@ -15,7 +15,7 @@ const TaskBreak = () => {
   return (
     <div className="break-time-container">
       <h2>Break Time</h2>
-      <p>Take a deep breath and relax for a moment.</p>
+      <p>Read a book, exercise or wait out timer to continue browsing</p>
       <video autoPlay loop muted className="break-time-video">
         <source src={randomVideo} type="video/mp4" />
       </video>

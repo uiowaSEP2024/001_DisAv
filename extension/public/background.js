@@ -131,7 +131,13 @@ function checkNextFrozen() {
       console.log('Current time is past nextFrozen:', user.nextFrozen);
       openWebsite();
       user.frozenBrowsing = true;
-      updateFrozenBrowsing({ username: user.username, nextFrozen: null, frozenBrowsing: true }); //Update the nextFrozen time on firststate query because there would be no state change since you arent idle
+      let currentDate = new Date();
+      updateFrozenBrowsing({
+        username: user.username,
+        nextFrozen: null,
+        frozenBrowsing: true,
+        frozenUntil: new Date(currentDate.getTime() + 300000),
+      }); //Update the nextFrozen time on firststate query because there would be no state change since you arent idle
       const userString = JSON.stringify(user);
       sessionStorage.setItem('user', userString);
       createTask({

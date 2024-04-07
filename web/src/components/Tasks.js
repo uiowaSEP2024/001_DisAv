@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import SubNavbar from './SubNavbar'; // Import the confetti library
 
 const Tasks = ({ assignedTask }) => {
-  const [timer, setTimer] = useState(10); // 10 seconds for demo purposes
+  const [timer, setTimer] = useState(300); // 10 seconds for demo purposes
   const [currentTask, setCurrentTask] = useState('break'); // Default task type
   const [taskCompleted, setTaskCompleted] = useState(false); // State to track task completion
   const [tasks, setTasks] = useState(null);
@@ -39,6 +39,15 @@ const Tasks = ({ assignedTask }) => {
         console.log('Unexpected error', error);
       });
   };
+  function timeDifference(timeToCompare) {
+    // get the difference in milliseconds between the current time and the time timeToCompare
+    let difference = new Date(timeToCompare).getTime() - new Date().getTime();
+    console.log(new Date(timeToCompare).getTime(), 'timeToCompare');
+    console.log(new Date().getTime(), 'new Date().getTime()');
+    console.log(difference, 'difference');
+    // calculate seconds difference
+    return Math.floor(difference / 1000);
+  }
   // get tasks by username
   const fetchTasks = async () => {
     try {
@@ -93,6 +102,11 @@ const Tasks = ({ assignedTask }) => {
   }, [timer]);
 
   const triggerConfetti = () => {
+    user.frozenBrowsing = false;
+    sessionStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(user));
+    endFrozenBrowsing().then(r => console.log('Browsing updated'));
+
     setTaskCompleted(true); // Mark the task as completed
     confetti({
       particleCount: 1000,
@@ -101,7 +115,27 @@ const Tasks = ({ assignedTask }) => {
     });
     setTimeout(() => setTaskCompleted(false), 3000); // Hide confetti after 3 seconds
   };
-
+  const formatTime = time => {
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = time % 60;
+    if (hours === 0) {
+      if (minutes === 0) {
+        return `${seconds.toString().padStart(2, '0')}`;
+      }
+      return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
+  function timeDifference(timeToCompare) {
+    // get the difference in milliseconds between the current time and the time timeToCompare
+    let difference = new Date(timeToCompare).getTime() - new Date().getTime();
+    console.log(new Date(timeToCompare).getTime(), 'timeToCompare');
+    console.log(new Date().getTime(), 'new Date().getTime()');
+    console.log(difference, 'difference');
+    // calculate seconds difference
+    return Math.floor(difference / 1000);
+  }
   const skipTask = () => {
     setTimer(0);
     triggerConfetti();
@@ -133,7 +167,7 @@ const Tasks = ({ assignedTask }) => {
           {timer > 0 ? (
             <>
               <div>{renderTask()}</div>
-              <div>Time remaining: {timer} seconds</div>
+              <div>Time remaining: {formatTime(timeDifference(user.frozenUntil))} seconds</div>
             </>
           ) : (
             <>
