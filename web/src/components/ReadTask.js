@@ -76,8 +76,25 @@ function ReadTask(props) {
   return (
     <div className={'reading'}>
       <SubNavbar />
-      <h1>Reading Task</h1>
-      <p>Read a book for 30 minutes</p>
+      {
+        user.frozenBrowsing ? (
+          <div style={{marginLeft: '15px'}}>
+            <h1>Reading Task</h1>
+            <h2>Sorry, your browsing is frozen!</h2>
+            <p>
+              Wait until the timer reaches 0, or submit a chapter summary to unfreeze your browsing.
+            </p>
+          </div>
+        ): (
+          <div style={{marginLeft: '15px'}}>
+            <h1>Reading Task</h1>
+            <h2>Browsing not frozen!</h2>
+            <p>
+              Add a book to your reading list by clicking the button below.
+            </p>
+          </div>
+        )
+      }
       <div className="book-cards-container">
         {books.map(book => (
           <BookCard
@@ -92,6 +109,29 @@ function ReadTask(props) {
       {selectedBook && <BookDetail book={selectedBook} onClose={handleClose} />}
       <DialogBox isOpen={openDialog} onClose={() => setOpenDialog(false)} addBook={AddBook} />
       <Notification message={'Book was added successfully!'} visible={visibleNotification} />
+      <div style={{
+        position: 'fixed',
+        bottom: 0,
+        width: '100%',
+        backgroundColor: 'rgba(224,220,220,0.7)',
+        padding: '10px',
+        borderTop: '1px solid #ccc',
+        display: 'flex',
+        justifyContent: 'flex-end'
+      }}>
+        <button onClick={()=>null} style={{
+          padding: '10px',
+          fontSize: '16px',
+          borderRadius: '5px',
+          border: 'none',
+          cursor: 'pointer',
+          backgroundColor: '#6e45e2',
+          color: 'white',
+          margin: '0 35px',
+        }}
+          >
+        Add Book</button>
+      </div>
     </div>
   );
 }

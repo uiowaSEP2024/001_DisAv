@@ -11,6 +11,7 @@ const Tasks = ({ assignedTask }) => {
   const [currentTask, setCurrentTask] = useState('break'); // Default task type
   const [taskCompleted, setTaskCompleted] = useState(false); // State to track task completion
   const [tasks, setTasks] = useState(null);
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const endFrozenBrowsing = async () => {
     const currentDate = new Date();
     await axios
@@ -56,7 +57,7 @@ const Tasks = ({ assignedTask }) => {
   }, [assignedTask]); // Only re-run the effect if assignedTask changes
   fetchTasks().then(r => null);
   useEffect(() => {
-    if (timer > 0) {
+    if (timer > 0 && user.frozenBrowsing) {
       setTaskCompleted(false); // Reset task completion state with each new timer
       const interval = setInterval(() => {
         setTimer(prevTimer => {
@@ -108,7 +109,7 @@ const Tasks = ({ assignedTask }) => {
         return <div>Reading task</div>;
     }
   };
-  if (tasks && currentTask === 'break') {
+  if (user.frozenBrowsing && currentTask === 'break') {
     return (
       <>
         <SubNavbar />
@@ -132,12 +133,15 @@ const Tasks = ({ assignedTask }) => {
       </>
     );
   }
-  if (!tasks && currentTask === 'break') {
+  if (!user.frozenBrowsing && currentTask === 'break') {
     return (
-      <div className="task-container">
+      <>
         <SubNavbar />
-        <h1>No tasks at this time</h1>
-      </div>
+        <div className="task-container">
+          <h1>Browsing is not frozen</h1>
+          <h2>No required tasks at this time</h2>
+        </div>
+      </>
     );
   }
   if (currentTask === 'reading') {
