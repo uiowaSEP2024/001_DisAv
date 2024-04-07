@@ -13,7 +13,7 @@ function ReadTask(props) {
   toast.configure();
   const [openDialog, setOpenDialog] = useState(false);
   const [visibleNotification, setVisibleNotification] = useState(false);
-  const [user,setUser] = useState(null)
+  const [user, setUser] = useState(null);
   const [books, setBooks] = useState([]);
 
   const [selectedBook, setSelectedBook] = useState(null);
@@ -28,17 +28,17 @@ function ReadTask(props) {
   function handleDialogOpen() {
     setOpenDialog(true);
   }
-  async function getUserData(){
+  async function getUserData() {
     const response = await axios.get('http://localhost:3002/user/get-by-username', {
       params: { username: localStorage.getItem('username') },
     });
     setUser(response.data.user);
-    console.log("USER",user)
-    return response.data.user
+    console.log('USER', user);
+    return response.data.user;
   }
 
   useEffect(() => {
-    getUserData().then(r=>{
+    getUserData().then(r => {
       axios
         .get('http://localhost:3002/book/get-by-username', {
           params: { username: r.username },
@@ -49,8 +49,8 @@ function ReadTask(props) {
         .catch(error => {
           console.error('Error fetching books:', error);
         });
-    })
-  }, []);
+    });
+  }, [openDialog, selectedBook]);
 
   async function showNotificationFor3Seconds() {
     setTimeout(() => {
@@ -60,7 +60,7 @@ function ReadTask(props) {
       setVisibleNotification(false); // Close the notification after 3 seconds
     }, 2000); // 3000 milliseconds = 3 seconds
   }
-  function AddBook({ title, googleId, imageLink, description, author, categories }) {
+  function AddBook({ title, googleId, imageLink, description = '', author = '', categories = [] }) {
     setOpenDialog(false);
     showNotificationFor3Seconds().then(r => console.log('Notification shown'));
     console.log(

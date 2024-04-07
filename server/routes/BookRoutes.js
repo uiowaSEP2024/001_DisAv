@@ -6,9 +6,7 @@ import path from 'path';
 import OpenAI from 'openai';
 const router = express.Router();
 // Load environment variables from .env
-const cwd = process.cwd();
-const parent = path.dirname(cwd);
-dotenv.config({ path: parent + '/.env' });
+
 // Access environment variables
 const apiKey = process.env.BOOKS_API_KEY;
 router.get('/get-by-google-title', (req, res) => {
@@ -41,7 +39,7 @@ router.post('/create', async (req, res) => {
   if (!user) {
     return res.status(401).json({ message: 'Invalid user' });
   }
-  const chapterSummaries = Array(100).fill('');
+  const chapterSummaries = Array(30).fill('');
   const newBook = new BooksModel({
     title,
     googleId,
@@ -107,6 +105,10 @@ router.put('/update-summary', async (req, res) => {
 });
 
 function searchBooksByTitle(title) {
+  const cwd = process.cwd();
+  const parent = path.dirname(cwd);
+  dotenv.config({ path: parent + '/.env' });
+  const apiKey = process.env.BOOKS_API_KEY;
   const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${title}&key=${apiKey}&langRestrict=en`;
   // Making a GET request to the Google Books API
   console.log(url, cwd);
@@ -164,7 +166,7 @@ async function checkValidBookSummary(summary, chapter, book) {
             chapter +
             'of the book' +
             book +
-            '. Consider the coherence, relevance, and accuracy of the summary in relation to the provided book chapter. Provide your assessment along with a brief explanation for your decision.',
+            '. Consider the coherence, relevance, and accuracy of the summary in relation to the provided book chapter. Provide your assessment along with a brief explanation for your decision. Remember if many details are correct consider it valid i dont need 100% accuracy and am more so looking for about 50%, people can forget or omit things from reports so you have to consider this when judging',
         },
         {
           role: 'user',
@@ -173,9 +175,11 @@ async function checkValidBookSummary(summary, chapter, book) {
             chapter +
             'of the book' +
             book +
-            " don't be excessively picky, if it seems like it could be valid say that it is. Summary: " +
+            " don't be excessively picky, if it seems like it could be valid say that it is keep in mind it is not possible to know with 100% accuracy but use the book description and make your best guess if even 50% possible, it should be valid. here is the book description:" +
+            book.description +
+            ' Here is the Summary: ' +
             summary +
-            ' Tell me if its accurate in very concise terms i want you to respond only with True or False.',
+            ' Tell me if its accurate in very concise terms i want you to respond only with True or False. if it is not accurate, please provide a brief explanation for your decision and say what actually happened. also tell me where you are getting this data from. Remember if many details are correct consider it valid i dont need 100% accuracy and am more so looking for about 50%, people can forget or omit things from reports so you have to consider this when judging',
         },
       ],
     });

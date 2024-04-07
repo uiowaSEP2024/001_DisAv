@@ -21,7 +21,7 @@ let interval;
 function openWebsite() {
   console.log('openWebsite called'); // This will log to the background page's console
   const website = 'http://localhost:3000/break-task';
-  chrome.tabs.update({ url: website, active: true  });
+  chrome.tabs.update({ url: website, active: true });
 }
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   // Perform actions based on the message

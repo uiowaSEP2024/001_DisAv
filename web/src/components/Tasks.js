@@ -51,12 +51,12 @@ const Tasks = ({ assignedTask }) => {
       console.error('Error fetching user tasks:', error);
     }
   };
-  async function getUserData(){
+  async function getUserData() {
     const response = await axios.get('http://localhost:3002/user/get-by-username', {
       params: { username: localStorage.getItem('username') },
     });
     setUser(response.data.user);
-    console.log("USER",user)
+    console.log('USER', user);
   }
 
   useEffect(() => {
@@ -74,10 +74,10 @@ const Tasks = ({ assignedTask }) => {
           if (prevTimer > 1) {
             return prevTimer - 1;
           } else {
-            user.frozenBrowsing = false
+            user.frozenBrowsing = false;
             sessionStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('user', JSON.stringify(user));
-            console.log("ENDING HERE",user)
+            console.log('ENDING HERE', user);
             clearInterval(interval);
             // Trigger confetti when the timer reaches 1 so it explodes right as the timer hits 0
             triggerConfetti();
@@ -147,8 +147,7 @@ const Tasks = ({ assignedTask }) => {
         </div>
       </>
     );
-  }
-  else {
+  } else {
     return (
       <>
         <SubNavbar />

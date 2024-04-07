@@ -13,7 +13,7 @@ import { toast } from 'react-toastify'; // Make sure to create a corresponding C
 function BookDetail({ book, onClose }) {
   const numberOfChapters = 10; // This is hardcoded for now
   console.log(book.chapterSummaries);
-  const [summaries, setSummaries] = useState(Array(numberOfChapters).fill('')); // Initialize state for summaries
+  const [summaries, setSummaries] = useState(book.chapterSummaries); // Initialize state for summaries
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const handleSummaryChange = (text, index) => {
     // Update the summary for the specific chapter index

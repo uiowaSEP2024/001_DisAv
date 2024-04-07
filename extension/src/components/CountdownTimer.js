@@ -30,7 +30,7 @@ const CountdownTimer = ({ totalTime, timeLeft }) => {
       <div style={{ width: '300px', height: '300px' }}>
         <CircularProgressbar
           value={remainingTime && totalTime ? (remainingTime / totalTime) * 100 : 0}
-          text={remainingTime>0 ? formatTime(remainingTime) : formatTime(0)}
+          text={remainingTime > 0 ? formatTime(remainingTime) : formatTime(0)}
           styles={buildStyles({
             textColor: '#fff',
             pathColor: '#007bff',
