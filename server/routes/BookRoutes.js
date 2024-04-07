@@ -83,6 +83,7 @@ router.get('/get-by-title', async (req, res) => {
 router.put('/update-summary', async (req, res) => {
   const { title, chapter, summary, username } = req.body;
   const r = await checkValidBookSummary(summary, chapter, title);
+  // TODO update frozen browsing here
   if (r.includes('False')) {
     return res
       .status(201)

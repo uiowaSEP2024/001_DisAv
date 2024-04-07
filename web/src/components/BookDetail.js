@@ -7,10 +7,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import '../styles/bookdetail.css';
-import axios from 'axios'; // Make sure to create a corresponding CSS file if you have additional styling
+import axios from 'axios';
+import { toast } from 'react-toastify'; // Make sure to create a corresponding CSS file if you have additional styling
 
 function BookDetail({ book, onClose }) {
   const numberOfChapters = 10; // This is hardcoded for now
+  console.log(book.chapterSummaries);
   const [summaries, setSummaries] = useState(Array(numberOfChapters).fill('')); // Initialize state for summaries
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const handleSummaryChange = (text, index) => {
@@ -29,7 +31,12 @@ function BookDetail({ book, onClose }) {
         username: user.username, // This should be the actual username
       })
       .then(response => {
-        console.log(response.data);
+        if (!response.data.validSummary) {
+          console.log(book.title, index + 1, summaries[index], user.username, user.username);
+          toast.error('Book summary is invalid');
+        } else {
+          toast.success('Summary accepted successfully');
+        }
       });
   };
 

@@ -6,9 +6,12 @@ import Notification from './Notification';
 import axios from 'axios';
 import BookCard from './BookCard';
 import BookDetail from './BookDetail';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ReadTask(props) {
-  const [openDialog, setOpenDialog] = useState(true);
+  toast.configure();
+  const [openDialog, setOpenDialog] = useState(false);
   const [visibleNotification, setVisibleNotification] = useState(false);
   const user = JSON.parse(sessionStorage.getItem('user'));
   const [books, setBooks] = useState([]);
@@ -118,7 +121,7 @@ function ReadTask(props) {
         }}
       >
         <button
-          onClick={() => null}
+          onClick={() => setOpenDialog(true)}
           style={{
             padding: '10px',
             fontSize: '16px',
