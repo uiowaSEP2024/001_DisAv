@@ -8,7 +8,6 @@ const router = express.Router();
 const cwd = process.cwd();
 const parent = path.dirname(cwd);
 dotenv.config({ path: parent + '/.env' });
-console.log(parent + '/.env');
 // Access environment variables
 const apiKey = process.env.BOOKS_API_KEY;
 router.get('/get-by-google-title', (req, res) => {

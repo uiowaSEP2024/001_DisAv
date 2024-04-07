@@ -27,9 +27,10 @@ function ReadTask(props) {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:3002/book/get-by-username', {
-      params: { username: user.username },
-    })
+    axios
+      .get('http://localhost:3002/book/get-by-username', {
+        params: { username: user.username },
+      })
       .then(response => {
         setBooks(response.data.books);
       })
@@ -37,7 +38,6 @@ function ReadTask(props) {
         console.error('Error fetching books:', error);
       });
   }, [user.username]);
-
 
   async function showNotificationFor3Seconds() {
     setTimeout(() => {
@@ -79,7 +79,7 @@ function ReadTask(props) {
       <h1>Reading Task</h1>
       <p>Read a book for 30 minutes</p>
       <div className="book-cards-container">
-        {books.map((book) => (
+        {books.map(book => (
           <BookCard
             key={book.id}
             title={book.title}
@@ -89,9 +89,7 @@ function ReadTask(props) {
           />
         ))}
       </div>
-      {selectedBook && (
-        <BookDetail book={selectedBook} onClose={handleClose} />
-      )}
+      {selectedBook && <BookDetail book={selectedBook} onClose={handleClose} />}
       <DialogBox isOpen={openDialog} onClose={() => setOpenDialog(false)} addBook={AddBook} />
       <Notification message={'Book was added successfully!'} visible={visibleNotification} />
     </div>

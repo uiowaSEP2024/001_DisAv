@@ -1,36 +1,36 @@
 .book-card {
-    display: flex;
-    flex-direction: column; /* Stack the image and the title vertically */
-    align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    background: white; /* Optional: for better visibility */
-  }
+  display: flex;
+  flex-direction: column; /* Stack the image and the title vertically */
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background: white; /* Optional: for better visibility */
+}
 
-  .book-image-container {
-    flex-grow: 1; /* Allows the image container to take up available space */
-    display: flex; /* Utilizes flexbox to center the image */
-    justify-content: center; /* Centers image horizontally */
-    align-items: center; /* Centers image vertically */
-    overflow: hidden; /* Ensures the image doesn't overflow the container */
-    background: #f7f7f7; /* Provides a background for images with transparency */
-  }
+.book-image-container {
+  flex-grow: 1; /* Allows the image container to take up available space */
+  display: flex; /* Utilizes flexbox to center the image */
+  justify-content: center; /* Centers image horizontally */
+  align-items: center; /* Centers image vertically */
+  overflow: hidden; /* Ensures the image doesn't overflow the container */
+  background: #f7f7f7; /* Provides a background for images with transparency */
+}
 
-  .book-cover {
-    max-width: 100%; /* Limits image width to the container size */
-    max-height: 100%; /* Limits image height to the container size */
-    object-fit: cover; /* Ensures the aspect ratio is maintained */
-  }
+.book-cover {
+  max-width: 100%; /* Limits image width to the container size */
+  max-height: 100%; /* Limits image height to the container size */
+  object-fit: cover; /* Ensures the aspect ratio is maintained */
+}
 
-  .book-info {
-    width: 100%;
-    text-align: center; /* Center-aligns the text for the title */
-    padding: 10px 0; /* Adds padding above and below the text */
-  }
+.book-info {
+  width: 100%;
+  text-align: center; /* Center-aligns the text for the title */
+  padding: 10px 0; /* Adds padding above and below the text */
+}
 
-  .book-title {
-    font-size: 1em;
-    margin: 0;
-    margin-bottom: 5px;
-  }
+.book-title {
+  font-size: 1em;
+  margin: 0;
+  margin-bottom: 5px;
+}

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Pedometer } from 'expo-sensors';
-import { Card, Modal, Portal, Provider } from 'react-native-paper';
+import { Card, Modal, Portal, Provider, Button, Text } from 'react-native-paper';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import { api } from '../config/Api';
 import { useSession } from '../context/SessionContext';
+import { width, height } from '../config/DeviceDimensions';
+import CustomAlert from '../components/CustomAlert';
 
 const exercises = [
   { key: 'walk', description: 'Walk 100 steps', target: 100, duration: 1 },
@@ -19,8 +22,59 @@ const ExerciseScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const isFocused = useIsFocused();
-  const { user, userExerciseTaskActive, saveUserExerciseTaskActive } = useSession();
-  const [currentTask, setCurrentTask] = useState(false);
+  const { user } = useSession();
+  const [currentTask, setCurrentTask] = useState(null);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertTitle, setAlertTitle] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
+  const [exerciseStartTime, setExerciseStartTime] = useState(null);
+
+  useEffect(() => {
+    const loadCurrentTask = async () => {
+      const storedTask = await AsyncStorage.getItem('currentTask');
+      console.log('Stored task:', storedTask);
+      if (storedTask) {
+        let task = JSON.parse(storedTask);
+        if (Object.prototype.hasOwnProperty.call(task, 'task')) {
+          task = task.task;
+        }
+        console.log('Parsed task:', task);
+        try {
+          console.log('Fetching task status:', task._id);
+          const response = await axios.get(`http://${api}/task/get-by-id?id=${task._id}`);
+          let fetchedTask = response.data;
+          if (Object.prototype.hasOwnProperty.call(fetchedTask, 'task')) {
+            fetchedTask = fetchedTask.task;
+          }
+          console.log('Fetched task:', fetchedTask);
+          if (fetchedTask && !fetchedTask.isCompleted) {
+            console.log('Setting current task:', fetchedTask);
+            setCurrentTask(fetchedTask);
+            setSelectedExercise(exercises.find(exercise => exercise.key === fetchedTask.taskType));
+            setModalVisible(true);
+          } else {
+            setCurrentTask(null);
+            setModalVisible(false);
+            AsyncStorage.removeItem('currentTask');
+          }
+        } catch (error) {
+          console.error('Failed to fetch task status:', error);
+        }
+      }
+    };
+
+    loadCurrentTask();
+  }, []);
+
+  useEffect(() => {
+    if (currentTask) {
+      console.log('Setting current task in AsyncStorage');
+      AsyncStorage.setItem('currentTask', JSON.stringify(currentTask));
+    } else {
+      console.log('Removing current task from AsyncStorage');
+      AsyncStorage.removeItem('currentTask');
+    }
+  }, [currentTask]);
 
   useEffect(() => {
     let stepCountSubscription = null;
@@ -42,30 +96,37 @@ const ExerciseScreen = () => {
     if (isFocused) {
       const interval = setInterval(() => {
         fetchTasks();
-      }, 10000); // Check for tasks every 10 second
+      }, 4000); // Adjusted to check for tasks every 4 seconds for demonstration
 
       return () => clearInterval(interval);
     }
   }, [isFocused]);
 
+  const setCurrentTaskAndModel = async task => {
+    setCurrentTask(task);
+    setModalVisible(true);
+  };
+
   const fetchTasks = async () => {
+    const storedTask = await AsyncStorage.getItem('currentTask');
+    if (storedTask) {
+      console.log('A task is already in progress. Exiting fetchTasks.');
+      return;
+    }
+
+    setIsLoading(true);
     try {
       const response = await axios.get(
         `http://${api}/task/get-by-username?username=${user.username}`
       );
-      console.log('Fetched tasks:', response.status);
       const tasks = response.data.tasks;
       const currentActiveTask = tasks.find(task => !task.isCompleted);
-      console.log('Current active task:', currentActiveTask);
-      console.log('Current userExerciseTaskActive:', userExerciseTaskActive);
-      if (currentActiveTask && userExerciseTaskActive === null) {
-        // Randomly select an exercise
-        // Randomly select an exercise
+
+      if (currentActiveTask) {
         const randomExercise = exercises[Math.floor(Math.random() * exercises.length)];
         console.log('Selected exercise:', randomExercise);
-        saveUserExerciseTaskActive(true);
         setSelectedExercise(randomExercise);
-        setModalVisible(true);
+        await setCurrentTaskAndModel(currentActiveTask);
       }
     } catch (error) {
       console.error('Failed to fetch tasks:', error);
@@ -75,28 +136,46 @@ const ExerciseScreen = () => {
   };
 
   const completeExercise = async () => {
-    // Ensure step goal is reached for walking tasks or minimum duration has passed for others
+    const now = new Date();
+    if (!exerciseStartTime) {
+      setExerciseStartTime(now);
+    }
+
+    const durationMillis = selectedExercise.duration * 60000; // Convert minutes to milliseconds
+    const timeElapsed = now - new Date(exerciseStartTime);
+
     if (selectedExercise.key === 'walk' && currentStepCount < selectedExercise.target) {
-      //   alert('Step goal not reached');
+      setAlertTitle('Incomplete Exercise');
+      setAlertMessage(`You haven't reached the step goal of ${selectedExercise.target} steps yet.`);
+      setAlertVisible(true);
+      return;
+    } else if (timeElapsed < durationMillis) {
+      setAlertTitle('Incomplete Exercise');
+      setAlertMessage(
+        `Please continue doing the exercise for at least ${selectedExercise.duration} minute(s).`
+      );
+      setAlertVisible(true);
       return;
     }
 
-    if (selectedExercise.key !== 'walk' && selectedExercise.duration > 0) {
-      setTimeout(async () => {
-        // Declare the callback as an async function
-        // alert('Exercise completed');
-        console.log('Exercise task completed:', currentTask);
-        await axios.put(`http://${api}/task/update-completed`, {
-          id: currentTask._id,
-          isCompleted: true,
-          endTime: new Date(),
-        });
-        setModalVisible(false);
-        setCurrentTask(false);
-        setSelectedExercise(null);
-        saveUserExerciseTaskActive(null);
-        // Here, update the task as completed in your backend
-      }, selectedExercise.duration * 1000); // Convert duration to milliseconds
+    // If the exercise is completed and the duration is met
+    setIsLoading(true);
+    try {
+      await axios.put(`http://${api}/task/update-completed`, {
+        id: currentTask._id,
+        isCompleted: true,
+        endTime: new Date(),
+      });
+      console.log('Exercise task completed:', currentTask);
+      setCurrentTask(null);
+      setSelectedExercise(null);
+      setModalVisible(false);
+      setExerciseStartTime(null); // Reset the start time for the next exercise
+      AsyncStorage.removeItem('currentTask');
+    } catch (error) {
+      console.error('Failed to mark task as completed:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -127,63 +206,83 @@ const ExerciseScreen = () => {
   return (
     <Provider>
       <View style={styles.container}>
-        <Card>
-          <Card.Title title="Exercise Task" />
-          <Card.Content>
-            <Text style={styles.text}>Current step count: {currentStepCount}</Text>
-          </Card.Content>
-        </Card>
+        {selectedExercise ? (
+          <Card style={styles.card}>
+            <Card.Title title={selectedExercise.description} />
+            <Card.Content style={styles.cardContent}>
+              {/* Display exercise details or progress */}
+              {selectedExercise.key === 'walk' ? (
+                <Text>
+                  Steps: {currentStepCount} / {selectedExercise.target}
+                </Text>
+              ) : (
+                <Text>Complete this exercise within {selectedExercise.duration} minute(s).</Text>
+              )}
+            </Card.Content>
+            <Card.Actions>
+              <Button onPress={completeExercise} style={styles.button}>
+                Complete Exercise
+              </Button>
+            </Card.Actions>
+          </Card>
+        ) : (
+          <Text>No exercise in progress</Text>
+        )}
         <Portal>
-          <Modal visible={modalVisible} dismissable={false} contentContainerStyle={styles.modal}>
-            {selectedExercise && selectedExercise.key === 'walk' ? (
-              <>
-                <Text style={styles.text}>{selectedExercise.description}</Text>
-                <Text style={styles.text}>Pedometer count: {currentStepCount}</Text>
-              </>
-            ) : (
-              <Text style={styles.text}>
-                {selectedExercise ? selectedExercise.description : 'Loading exercise...'}
-              </Text>
-            )}
-            <Button
-              title="Complete Exercise"
-              onPress={completeExercise}
-              testID="complete-exercise-button"
-              disabled={
-                isLoading ||
-                (selectedExercise?.key !== 'walk' &&
-                  selectedExercise?.duration * 1000 >
-                    new Date().getTime() - new Date(selectedExercise?.startTime).getTime())
-              }
-            />
+          <Modal
+            visible={modalVisible}
+            onDismiss={() => setModalVisible(false)}
+            contentContainerStyle={styles.modal}
+          >
+            <Text>Exercise in progress...</Text>
           </Modal>
         </Portal>
         <Button
-          title="Create Exercise Task (Test)"
           onPress={() =>
             createExerciseTask(exercises[Math.floor(Math.random() * exercises.length)])
           }
+          sx={{ margin: 10, color: 'white' }}
+        >
+          Create Exercise Task (Test)
+        </Button>
+        {isLoading && <Text>Loading...</Text>}
+        <CustomAlert
+          visible={alertVisible}
+          title={alertTitle}
+          message={alertMessage}
+          buttons={[{ text: 'OK', onPress: () => setAlertVisible(false) }]}
+          onClose={() => setAlertVisible(false)}
         />
       </View>
     </Provider>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  card: {
+    margin: 10,
+    width: width * 0.4,
+    height: height * 0.4,
   },
   modal: {
     backgroundColor: 'white',
     padding: 20,
-    marginLeft: 20,
-    marginRight: 20,
+    margin: 20,
   },
-  text: {
-    fontSize: 16,
-    color: 'black', // Changed from white to ensure readability
-    textAlign: 'center',
+  cardContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    color: 'white',
+  },
+  button: {
+    margin: 10,
+    color: 'white',
   },
 });
 export default ExerciseScreen;

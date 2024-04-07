@@ -223,6 +223,5 @@ router.put('/update-xp-points', async (req, res) => {
 //     }
 //   }
 // }
-console.log('asdsadsaasfgrde');
 // GPTcall().then(r=>null)
 export { router as UserRouter };
