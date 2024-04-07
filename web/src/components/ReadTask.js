@@ -6,9 +6,11 @@ import Notification from './Notification';
 import axios from 'axios';
 import BookCard from './BookCard';
 import BookDetail from './BookDetail';
+import Button from '@mui/material/Button';
+
 
 function ReadTask(props) {
-  const [openDialog, setOpenDialog] = useState(true);
+  const [openDialog, setOpenDialog] = useState(false);
   const [visibleNotification, setVisibleNotification] = useState(false);
   const user = JSON.parse(sessionStorage.getItem('user'));
   const [books, setBooks] = useState([]);
@@ -92,6 +94,9 @@ function ReadTask(props) {
       {selectedBook && (
         <BookDetail book={selectedBook} onClose={handleClose} />
       )}
+      <div className="add-button-container">
+        <Button className="add-book-button" onClick={handleDialogOpen}>Add a new Book</Button>
+      </div>
       <DialogBox isOpen={openDialog} onClose={() => setOpenDialog(false)} addBook={AddBook} />
       <Notification message={'Book was added successfully!'} visible={visibleNotification} />
     </div>
