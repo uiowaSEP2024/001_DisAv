@@ -19,7 +19,32 @@ function BookDetail({ book, onClose }) {
     // Update the summary for the specific chapter index
     setSummaries(summaries.map((summary, i) => (i === index ? text : summary)));
   };
-
+  const endFrozenBrowsing = async () => {
+    const currentDate = new Date();
+    await axios
+      .put('http://localhost:3002/user/update-frozen-browsing', {
+        username: localStorage.getItem('username'),
+        frozenBrowsing: false,
+        nextFrozen: new Date(currentDate.getTime() + localStorage.getItem('taskFrequency')),
+      })
+      .then(response => {
+        sessionStorage.setItem('user', JSON.stringify(response.data.user)); // Update current stored user
+        console.log('Success', response.data.user);
+        window.postMessage(
+          {
+            type: 'LOGIN_SUCCESS',
+            token: localStorage.getItem('token'),
+            user: sessionStorage.getItem('user'),
+          },
+          '*'
+        );
+        // user.frozenBrowsing = false
+        console.log('Success', user);
+      })
+      .catch(error => {
+        console.log('Unexpected error', error);
+      });
+  };
   const submitSummary = index => {
     console.log(`Summary for Chapter ${index + 1}:`, summaries[index]);
     // Api call to verify sumamry and save it to the database
@@ -36,6 +61,11 @@ function BookDetail({ book, onClose }) {
           toast.error('Book summary is invalid');
         } else {
           toast.success('Summary accepted successfully');
+          user.frozenBrowsing = false;
+          sessionStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('user', JSON.stringify(user));
+          endFrozenBrowsing().then(r => console.log('Browsing updated'));
+
         }
       });
   };
