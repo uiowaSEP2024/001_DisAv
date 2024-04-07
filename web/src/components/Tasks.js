@@ -11,7 +11,8 @@ const Tasks = ({ assignedTask }) => {
   const [currentTask, setCurrentTask] = useState('break'); // Default task type
   const [taskCompleted, setTaskCompleted] = useState(false); // State to track task completion
   const [tasks, setTasks] = useState(null);
-  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
+  const [user, setUser] = useState(null);
+
   const endFrozenBrowsing = async () => {
     const currentDate = new Date();
     await axios
@@ -31,7 +32,8 @@ const Tasks = ({ assignedTask }) => {
           },
           '*'
         );
-        console.log('Success', response.data.user);
+        // user.frozenBrowsing = false
+        console.log('Success', user);
       })
       .catch(error => {
         console.log('Unexpected error', error);
@@ -49,6 +51,13 @@ const Tasks = ({ assignedTask }) => {
       console.error('Error fetching user tasks:', error);
     }
   };
+  async function getUserData(){
+    const response = await axios.get('http://localhost:3002/user/get-by-username', {
+      params: { username: localStorage.getItem('username') },
+    });
+    setUser(response.data.user);
+    console.log("USER",user)
+  }
 
   useEffect(() => {
     if (assignedTask) {
@@ -57,13 +66,18 @@ const Tasks = ({ assignedTask }) => {
   }, [assignedTask]); // Only re-run the effect if assignedTask changes
   fetchTasks().then(r => null);
   useEffect(() => {
-    if (timer > 0 && user.frozenBrowsing) {
+    getUserData().then(r => null);
+    if (timer > 0) {
       setTaskCompleted(false); // Reset task completion state with each new timer
       const interval = setInterval(() => {
         setTimer(prevTimer => {
           if (prevTimer > 1) {
             return prevTimer - 1;
           } else {
+            user.frozenBrowsing = false
+            sessionStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(user));
+            console.log("ENDING HERE",user)
             clearInterval(interval);
             // Trigger confetti when the timer reaches 1 so it explodes right as the timer hits 0
             triggerConfetti();
@@ -109,7 +123,8 @@ const Tasks = ({ assignedTask }) => {
         return <div>Reading task</div>;
     }
   };
-  if (user.frozenBrowsing && currentTask === 'break') {
+
+  if (user?.frozenBrowsing && currentTask === 'break') {
     return (
       <>
         <SubNavbar />
@@ -133,7 +148,7 @@ const Tasks = ({ assignedTask }) => {
       </>
     );
   }
-  if (!user.frozenBrowsing && currentTask === 'break') {
+  else {
     return (
       <>
         <SubNavbar />

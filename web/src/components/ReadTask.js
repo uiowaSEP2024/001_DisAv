@@ -13,7 +13,7 @@ function ReadTask(props) {
   toast.configure();
   const [openDialog, setOpenDialog] = useState(false);
   const [visibleNotification, setVisibleNotification] = useState(false);
-  const user = JSON.parse(sessionStorage.getItem('user'));
+  const [user,setUser] = useState(null)
   const [books, setBooks] = useState([]);
 
   const [selectedBook, setSelectedBook] = useState(null);
@@ -28,19 +28,29 @@ function ReadTask(props) {
   function handleDialogOpen() {
     setOpenDialog(true);
   }
+  async function getUserData(){
+    const response = await axios.get('http://localhost:3002/user/get-by-username', {
+      params: { username: localStorage.getItem('username') },
+    });
+    setUser(response.data.user);
+    console.log("USER",user)
+    return response.data.user
+  }
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3002/book/get-by-username', {
-        params: { username: user.username },
-      })
-      .then(response => {
-        setBooks(response.data.books);
-      })
-      .catch(error => {
-        console.error('Error fetching books:', error);
-      });
-  }, [user.username]);
+    getUserData().then(r=>{
+      axios
+        .get('http://localhost:3002/book/get-by-username', {
+          params: { username: r.username },
+        })
+        .then(response => {
+          setBooks(response.data.books);
+        })
+        .catch(error => {
+          console.error('Error fetching books:', error);
+        });
+    })
+  }, []);
 
   async function showNotificationFor3Seconds() {
     setTimeout(() => {
@@ -61,7 +71,7 @@ function ReadTask(props) {
       description,
       author,
       categories,
-      user.username
+      localStorage.getItem('username')
     );
     axios
       .post('http://localhost:3002/book/create', {
@@ -70,7 +80,7 @@ function ReadTask(props) {
         description,
         author,
         categories,
-        username: user.username,
+        username: localStorage.getItem('username'),
       })
       .then(response => {
         console.log('Book added successfully', response.data);
@@ -79,7 +89,7 @@ function ReadTask(props) {
   return (
     <div className={'reading'}>
       <SubNavbar />
-      {user.frozenBrowsing ? (
+      {user?.frozenBrowsing ? (
         <div style={{ marginLeft: '15px' }}>
           <h1>Reading Task</h1>
           <h2>Sorry, your browsing is frozen!</h2>
