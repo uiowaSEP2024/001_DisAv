@@ -68,7 +68,7 @@ export const SessionProvider = ({ children }) => {
   };
 
   return (
-    <SessionContext.Provider value={{ user, currentTask, login, logout }}>
+    <SessionContext.Provider value={{ user, currentTask, login, logout, setCurrentTask }}>
       {children}
     </SessionContext.Provider>
   );

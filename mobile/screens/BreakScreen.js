@@ -3,22 +3,24 @@ import { View, StyleSheet, ImageBackground, Text, TouchableOpacity } from 'react
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { Audio } from 'expo-av';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { api } from '../config/Api';
+import { useSession } from '../context/SessionContext'; // Adjusted import
 import CustomAlert from '../components/CustomAlert';
 import { width, height } from '../config/DeviceDimensions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { api } from '../config/Api';
 
 const BreakScreen = () => {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const [sound, setSound] = useState(null);
   const timerKey = 0;
-  const time = 10; // 10 minutes break
-  const [currentTask, setCurrentTask] = useState(null);
+  const time = 10; // Adjusted time for demonstration
+  const { currentTask, setCurrentTask } = useSession(); // Adjusted to use currentTask from SessionContext
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-  let alertMessagePressed = false;
+
+  console.log('The current task is: ', currentTask);
 
   useEffect(() => {
     const loadAndPlaySound = async () => {
@@ -35,40 +37,6 @@ const BreakScreen = () => {
 
     return () => {
       sound?.unloadAsync();
-    };
-  }, [isFocused]);
-
-  useEffect(() => {
-    const checkForTasks = async () => {
-      const storedTask = await AsyncStorage.getItem('currentTask');
-      if (storedTask) {
-        const task = JSON.parse(storedTask);
-        setCurrentTask(task);
-      } else {
-        if (!alertVisible && !alertMessagePressed) {
-          setAlertMessage(
-            "You don't have any incomplete tasks, but stay for relaxation if you wish!"
-          );
-          setAlertVisible(true);
-          alertMessagePressed = true;
-        }
-      }
-    };
-
-    let intervalId;
-
-    if (isFocused) {
-      checkForTasks();
-      intervalId = setInterval(checkForTasks, 4000); // Check for tasks every 4 seconds
-    }
-
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-      // This part is crucial: it ensures that when the screen loses focus,
-      // any pending state updates, especially those related to showing alerts, are cancelled.
-      setAlertVisible(false);
     };
   }, [isFocused]);
 
