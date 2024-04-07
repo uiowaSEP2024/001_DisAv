@@ -19,8 +19,8 @@ const ExerciseScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const isFocused = useIsFocused();
-  const { user } = useSession();
-  const [currentTask, setCurrentTask] = useState(null);
+  const { user, userExerciseTaskActive, saveUserExerciseTaskActive } = useSession();
+  const [currentTask, setCurrentTask] = useState(false);
 
   useEffect(() => {
     let stepCountSubscription = null;
@@ -39,15 +39,16 @@ const ExerciseScreen = () => {
   }, [isFocused, selectedExercise]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchTasks();
-    }, 1000); // Check for tasks every 1 second
+    if (isFocused) {
+      const interval = setInterval(() => {
+        fetchTasks();
+      }, 10000); // Check for tasks every 10 second
 
-    return () => clearInterval(interval);
-  }, []);
+      return () => clearInterval(interval);
+    }
+  }, [isFocused]);
 
   const fetchTasks = async () => {
-    setIsLoading(true);
     try {
       const response = await axios.get(
         `http://${api}/task/get-by-username?username=${user.username}`
@@ -55,12 +56,16 @@ const ExerciseScreen = () => {
       console.log('Fetched tasks:', response.status);
       const tasks = response.data.tasks;
       const currentActiveTask = tasks.find(task => !task.isCompleted);
-      if (currentActiveTask && !currentTask && currentActiveTask._id !== currentTask?._id) {
+      console.log('Current active task:', currentActiveTask);
+      console.log('Current userExerciseTaskActive:', userExerciseTaskActive);
+      if (currentActiveTask && userExerciseTaskActive === null) {
+        // Randomly select an exercise
         // Randomly select an exercise
         const randomExercise = exercises[Math.floor(Math.random() * exercises.length)];
+        console.log('Selected exercise:', randomExercise);
+        saveUserExerciseTaskActive(true);
         setSelectedExercise(randomExercise);
         setModalVisible(true);
-        setCurrentTask(currentActiveTask);
       }
     } catch (error) {
       console.error('Failed to fetch tasks:', error);
@@ -76,47 +81,48 @@ const ExerciseScreen = () => {
       return;
     }
 
-    // if (selectedExercise.key !== 'walk' && selectedExercise.duration > 0) {
-    setTimeout(async () => {
-      // Declare the callback as an async function
-      // alert('Exercise completed');
-      console.log('Exercise task completed:', currentTask);
-      await axios.put(`http://${api}/task/update-completed`, {
-        id: currentTask._id,
-        isCompleted: true,
-        endTime: new Date(),
-      });
-      setModalVisible(false);
-      setCurrentTask(null);
-      // Here, update the task as completed in your backend
-    }, selectedExercise.duration * 1000); // Convert duration to milliseconds
+    if (selectedExercise.key !== 'walk' && selectedExercise.duration > 0) {
+      setTimeout(async () => {
+        // Declare the callback as an async function
+        // alert('Exercise completed');
+        console.log('Exercise task completed:', currentTask);
+        await axios.put(`http://${api}/task/update-completed`, {
+          id: currentTask._id,
+          isCompleted: true,
+          endTime: new Date(),
+        });
+        setModalVisible(false);
+        setCurrentTask(false);
+        setSelectedExercise(null);
+        saveUserExerciseTaskActive(null);
+        // Here, update the task as completed in your backend
+      }, selectedExercise.duration * 1000); // Convert duration to milliseconds
+    }
   };
 
-  //   const createExerciseTask = async exercise => {
-  //     setIsLoading(true);
-  //     try {
-  //       const response = await axios.post(`http://${api}/task/create`, {
-  //         username: user.username,
-  //         taskType: exercise.key,
-  //         description: exercise.description,
-  //         date: new Date(),
-  //         startTime: new Date().toLocaleTimeString('en-US', { hour12: false }),
-  //         endTime: new Date(new Date().getTime() + exercise.duration * 60000).toLocaleTimeString(
-  //           'en-US',
-  //           { hour12: false }
-  //         ),
-  //         duration: exercise.duration,
-  //         points: 10,
-  //         isCompleted: false,
-  //       });
-
-  //       setSelectedExercise({ ...exercise, _id: response.data.task._id });
-  //     } catch (error) {
-  //       console.error('Failed to create exercise task:', error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
+  const createExerciseTask = async exercise => {
+    setIsLoading(true);
+    try {
+      await axios.post(`http://${api}/task/create`, {
+        username: user.username,
+        taskType: exercise.key,
+        description: exercise.description,
+        date: new Date(),
+        startTime: new Date().toLocaleTimeString('en-US', { hour12: false }),
+        endTime: new Date(new Date().getTime() + exercise.duration * 60000).toLocaleTimeString(
+          'en-US',
+          { hour12: false }
+        ),
+        duration: exercise.duration,
+        points: 10,
+        isCompleted: false,
+      });
+    } catch (error) {
+      console.error('Failed to create exercise task:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Provider>
@@ -152,12 +158,12 @@ const ExerciseScreen = () => {
             />
           </Modal>
         </Portal>
-        {/* <Button
+        <Button
           title="Create Exercise Task (Test)"
           onPress={() =>
             createExerciseTask(exercises[Math.floor(Math.random() * exercises.length)])
           }
-        /> */}
+        />
       </View>
     </Provider>
   );
