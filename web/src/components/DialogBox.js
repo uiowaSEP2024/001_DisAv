@@ -38,6 +38,7 @@ function DialogBox({ isOpen, onClose, addBook }) {
               categories={book.categories}
               googleId={book.googleId}
               addBook={addBook}
+              data-testid="list-item"
             />
           ))}
         </div>
