@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { BooksModel } from '../models/BooksModel.js';
 import { UserModel } from '../models/UsersModel.js';
 import path from 'path';
+import OpenAI from 'openai';
 const router = express.Router();
 // Load environment variables from .env
 const cwd = process.cwd();
@@ -81,6 +82,12 @@ router.get('/get-by-title', async (req, res) => {
 });
 router.put('/update-summary', async (req, res) => {
   const { title, chapter, summary, username } = req.body;
+  const r = await checkValidBookSummary(summary, chapter, title);
+  if (r.includes('False')) {
+    return res
+      .status(201)
+      .json({ message: 'Invalid summary, failed to update summary', validSummary: false });
+  }
   const user = await UserModel.findOne({ username });
   if (!user) {
     return res.status(401).json({ message: 'Invalid user, failed to update summary' });
@@ -95,7 +102,7 @@ router.put('/update-summary', async (req, res) => {
     { title, associatedUser: user._id },
     { chapterSummaries: book.chapterSummaries }
   );
-  res.status(200).json({ message: 'Summary added successfully', book: book });
+  res.status(200).json({ message: 'Summary added successfully', book: book, validSummary: true });
 });
 
 function searchBooksByTitle(title) {
@@ -137,5 +144,50 @@ function searchBooksById(bookId) {
       console.error('There was a problem with your fetch operation:', error);
     });
 }
+async function checkValidBookSummary(summary, chapter, book) {
+  const cwd = process.cwd();
+  const envDirectory = path.resolve(cwd, '..') + '/.env';
+  console.log('asdksjklafksajfsal', envDirectory, process.env.GPT_KEY);
+  dotenv.config({ path: envDirectory });
+  const openai = new OpenAI({
+    apiKey: process.env.GPT_KEY, // This is also the default, can be omitted
+  });
+  try {
+    const chatCompletion = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: [
+        {
+          role: 'system',
+          content:
+            'Your task is to evaluate the plausibility of the following book summary for Chapter ' +
+            chapter +
+            'of the book' +
+            book +
+            '. Consider the coherence, relevance, and accuracy of the summary in relation to the provided book chapter. Provide your assessment along with a brief explanation for your decision.',
+        },
+        {
+          role: 'user',
+          content:
+            'Evaluate the plausibility of the following book summary for Chapter ' +
+            chapter +
+            'of the book' +
+            book +
+            " don't be excessively picky, if it seems like it could be valid say that it is. Summary: " +
+            summary +
+            ' Tell me if its accurate in very concise terms i want you to respond only with True or False.',
+        },
+      ],
+    });
 
+    console.log(chatCompletion.choices[0].message);
+    return chatCompletion.choices[0].message.content;
+  } catch (err) {
+    if (err.response) {
+      console.log(err.response.status);
+      console.log(err.response.data);
+    } else {
+      console.log(err.message);
+    }
+  }
+}
 export { router as bookRouter };

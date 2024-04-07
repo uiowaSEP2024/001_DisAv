@@ -6,12 +6,13 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import '../styles/bookdetail.css'; // Make sure to create a corresponding CSS file if you have additional styling
+import '../styles/bookdetail.css';
+import axios from 'axios'; // Make sure to create a corresponding CSS file if you have additional styling
 
 function BookDetail({ book, onClose }) {
   const numberOfChapters = 10; // This is hardcoded for now
   const [summaries, setSummaries] = useState(Array(numberOfChapters).fill('')); // Initialize state for summaries
-
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const handleSummaryChange = (text, index) => {
     // Update the summary for the specific chapter index
     setSummaries(summaries.map((summary, i) => (i === index ? text : summary)));
@@ -20,6 +21,16 @@ function BookDetail({ book, onClose }) {
   const submitSummary = index => {
     console.log(`Summary for Chapter ${index + 1}:`, summaries[index]);
     // Api call to verify sumamry and save it to the database
+    axios
+      .put('http://localhost:3002/book/update-summary', {
+        title: book.title,
+        chapter: index + 1,
+        summary: summaries[index],
+        username: user.username, // This should be the actual username
+      })
+      .then(response => {
+        console.log(response.data);
+      });
   };
 
   return (
