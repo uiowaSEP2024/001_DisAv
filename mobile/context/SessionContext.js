@@ -48,7 +48,7 @@ export const SessionProvider = ({ children }) => {
       }
     };
 
-    const intervalId = setInterval(fetchTasks, 10000); // Check for tasks every 10 seconds
+    const intervalId = setInterval(fetchTasks, 7000); // Check for tasks every 7 seconds
 
     fetchTasks(); // Initial fetch
 
