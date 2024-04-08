@@ -5,13 +5,13 @@ import { Card, Provider, Button, Text } from 'react-native-paper';
 import axios from 'axios';
 import { useIsFocused } from '@react-navigation/native';
 import { useSession } from '../context/SessionContext';
-import { width, height } from '../config/DeviceDimensions';
+import { width } from '../config/DeviceDimensions';
 import CustomAlert from '../components/CustomAlert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../config/Api';
 
 const exercises = [
-  { key: 'walk', description: 'Walk 500 steps', target: 500, duration: 1 },
+  { key: 'walk', description: 'Walk 100 steps', target: 100, duration: 1 },
   { key: 'pushups', description: 'Do 15 pushups', target: 15, duration: 1 },
   { key: 'jumpingJacks', description: 'Do 15 jumping jacks', target: 15, duration: 1 },
 ];
@@ -28,14 +28,22 @@ const ExerciseScreen = () => {
   const [exerciseStartTime, setExerciseStartTime] = useState(null);
 
   useEffect(() => {
-    if (isFocused && currentTask) {
-      const exercise = exercises[Math.floor(Math.random() * exercises.length)];
-      if (exercise) {
+    const fetchAndSetExercise = async () => {
+      if (isFocused && currentTask && !selectedExercise) {
+        // Check if there's no selectedExercise already
+        let exercise;
+        const storedExercise = await AsyncStorage.getItem('selectedExercise');
+        if (storedExercise) {
+          exercise = JSON.parse(storedExercise);
+        } else {
+          exercise = exercises[Math.floor(Math.random() * exercises.length)];
+          await AsyncStorage.setItem('selectedExercise', JSON.stringify(exercise));
+        }
         setSelectedExercise(exercise);
-        // Set the exercise start time as soon as the exercise is selected
-        setExerciseStartTime(new Date());
+        setExerciseStartTime(new Date()); // Set the start time only when a new exercise is selected
       }
-    }
+    };
+    fetchAndSetExercise();
   }, [isFocused, currentTask]);
 
   useEffect(() => {
@@ -63,40 +71,63 @@ const ExerciseScreen = () => {
     }
 
     const durationMillis = selectedExercise.duration * 60000; // Convert minutes to milliseconds
-    const timeElapsed = now - new Date(exerciseStartTime).getTime();
+    const timeElapsed = Math.floor((now - new Date(exerciseStartTime).getTime()) / 1000); // Convert to seconds
 
-    console.log('Time elapsed:', timeElapsed);
-    console.log('Duration:', durationMillis);
+    console.log('Time elapsed (seconds):', timeElapsed);
+    console.log('Duration (seconds):', durationMillis / 1000);
 
     if (selectedExercise.key === 'walk' && currentStepCount < selectedExercise.target) {
       setAlertTitle('Incomplete Exercise');
       setAlertMessage(`You haven't reached the step goal of ${selectedExercise.target} steps yet.`);
       setAlertVisible(true);
       return;
-    } else if (timeElapsed < durationMillis) {
+    } else if (timeElapsed * 1000 < durationMillis) {
+      // Compare milliseconds
       setAlertTitle('Incomplete Exercise');
       setAlertMessage(
-        `Please continue doing the exercise for at least ${selectedExercise.duration} minute(s).`
+        `Please continue doing the exercise for at least ${selectedExercise.duration} minute(s). You have only done it for ${Math.floor(
+          timeElapsed / 60
+        )} minute(s) and ${timeElapsed % 60} second(s) so far.`
       );
       setAlertVisible(true);
       return;
     }
 
-    // If the exercise is completed and the duration is met
+    // If the exercise is completed and the duration iscompleted and the duration is met, you can proceed with marking the exercise as complete. Here's how you might continue:
+
+    // Exercise completion logic
     setIsLoading(true);
     try {
-      await axios.put(`http://${api}/task/update-completed`, {
+      // Assuming you have an API endpoint to mark an exercise as complete
+      const response = await axios.put(`http://${api}/task/update-completed`, {
         id: currentTask._id,
         isCompleted: true,
         endTime: new Date(),
       });
-      console.log('Exercise task completed:', currentTask);
-      setCurrentTask(null);
-      setSelectedExercise(null);
-      setExerciseStartTime(null); // Reset the start time for the next exercise
-      AsyncStorage.removeItem('currentTask');
+
+      if (response.status === 200) {
+        setAlertTitle('Exercise Complete');
+        setAlertMessage('Congratulations on completing your exercise!');
+        setAlertVisible(true);
+
+        // Reset exercise state
+        setSelectedExercise(null);
+        setCurrentStepCount(0);
+        setExerciseStartTime(null);
+        setCurrentTask(null);
+        await AsyncStorage.removeItem('selectedExercise');
+        await AsyncStorage.removeItem('currentTask');
+      } else {
+        // Handle failure (e.g., API returned an error)
+        setAlertTitle('Error');
+        setAlertMessage('There was a problem completing your exercise. Please try again.');
+        setAlertVisible(true);
+      }
     } catch (error) {
-      console.error('Failed to mark task as completed:', error);
+      console.error('Complete exercise error:', error);
+      setAlertTitle('Error');
+      setAlertMessage('There was a problem completing your exercise. Please try again.');
+      setAlertVisible(true);
     } finally {
       setIsLoading(false);
     }
@@ -131,35 +162,42 @@ const ExerciseScreen = () => {
       <View style={styles.container}>
         {selectedExercise && currentTask ? (
           <Card style={styles.card}>
-            <Card.Title title={selectedExercise.description} />
+            <Card.Title title={selectedExercise.description} titleStyle={styles.cardTitle} />
             <Card.Content style={styles.cardContent}>
-              {/* Display exercise details or progress */}
               {selectedExercise.key === 'walk' ? (
-                <Text>
+                <Text style={styles.cardText}>
                   Steps: {currentStepCount} / {selectedExercise.target}
                 </Text>
               ) : (
-                <Text>Complete this exercise within {selectedExercise.duration} minute(s).</Text>
+                <Text style={styles.cardText}>
+                  Complete this exercise within {selectedExercise.duration} minute(s).
+                </Text>
               )}
             </Card.Content>
             <Card.Actions>
-              <Button onPress={completeExercise} style={styles.button}>
+              <Button
+                onPress={completeExercise}
+                style={[styles.button, { backgroundColor: 'black' }]} // Ensure background color is black
+                labelStyle={{ color: 'white' }} // Ensure text color is white
+              >
                 Complete Exercise
               </Button>
             </Card.Actions>
           </Card>
         ) : (
-          <Text>No exercise in progress</Text>
+          <Text style={styles.noExerciseText}>No exercise in progress</Text>
         )}
         <Button
           onPress={() =>
             createExerciseTask(exercises[Math.floor(Math.random() * exercises.length)])
           }
-          sx={{ margin: 10, color: 'white' }}
+          mode="contained"
+          style={[styles.button, { backgroundColor: 'black' }]} // Ensure background color is black
+          labelStyle={{ color: 'white' }} // Ensure text color is white
         >
           Create Exercise Task (Test)
         </Button>
-        {isLoading && <Text>Loading...</Text>}
+        {isLoading && <Text style={styles.loadingText}>Loading...</Text>}
         <CustomAlert
           visible={alertVisible}
           title={alertTitle}
@@ -181,22 +219,38 @@ const styles = StyleSheet.create({
   },
   card: {
     margin: 10,
-    width: width * 0.4,
-    height: height * 0.4,
+    width: width * 0.4, // Adjusted for better screen utilization
+    backgroundColor: 'white', // Ensuring card background is white
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   },
-  modal: {
-    backgroundColor: 'white',
-    padding: 20,
-    margin: 20,
+  cardTitle: {
+    color: 'black',
   },
   cardContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    color: 'white',
+  },
+  cardText: {
+    color: 'black',
   },
   button: {
     margin: 10,
-    color: 'white',
+    width: width * 0.3, // Adjusted for better screen utilization
+    backgroundColor: 'black', // Button background to black for contrast
+    color: 'white', // Button text color to white for readability
+  },
+  noExerciseText: {
+    color: 'black',
+  },
+  loadingText: {
+    color: 'black',
   },
 });
 export default ExerciseScreen;
