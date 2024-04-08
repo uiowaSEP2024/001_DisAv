@@ -15,12 +15,10 @@ const BreakScreen = () => {
   const isFocused = useIsFocused();
   const [sound, setSound] = useState(null);
   const timerKey = 0;
-  const time = 10; // Adjusted time for demonstration
+  const time = 120; // Adjusted time for demonstration
   const { currentTask, setCurrentTask } = useSession(); // Adjusted to use currentTask from SessionContext
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-
-  console.log('The current task is: ', currentTask);
 
   useEffect(() => {
     const loadAndPlaySound = async () => {
@@ -48,7 +46,8 @@ const BreakScreen = () => {
           isCompleted: true,
         });
         setCurrentTask(null);
-        AsyncStorage.removeItem('currentTask');
+        await AsyncStorage.removeItem('currentTask');
+        await AsyncStorage.removeItem('selectedExercise');
         setAlertMessage('Break is Over, Continue scrolling on web');
         setAlertVisible(true);
       } catch (error) {
