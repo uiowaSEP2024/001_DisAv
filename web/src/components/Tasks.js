@@ -164,7 +164,7 @@ const Tasks = ({ assignedTask }) => {
         <SubNavbar />
         {/*<div className={`overlay ${timer > 0 ? 'active' : ''}`}></div>*/}
         <div className="task-container">
-          {timer > 0 ? (
+          {timeDifference(user.frozenUntil) > 0 ? (
             <>
               <div>{renderTask()}</div>
               <div>Time remaining: {formatTime(timeDifference(user.frozenUntil))} seconds</div>
@@ -173,6 +173,7 @@ const Tasks = ({ assignedTask }) => {
             <>
               <div>Task completed!</div>
               {taskCompleted && <div className="confetti">🎉</div>}
+              {triggerConfetti()}
             </>
           )}
           <button onClick={skipTask} disabled={timer <= 0}>

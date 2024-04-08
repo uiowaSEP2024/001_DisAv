@@ -37,15 +37,15 @@ chrome.idle.onStateChanged.addListener(function (state) {
   if (state === 'active') {
     console.log('User is active!');
     const currentDate = new Date();
-    updateFrozenBrowsing({
-      username: user.username,
-      nextFrozen: new Date(currentDate.getTime() + user.taskFrequency),
-      frozenBrowsing: false,
-    });
-    user.frozenBrowsing = false;
+    // updateFrozenBrowsing({
+    //   username: user.username,
+    //   nextFrozen: new Date(currentDate.getTime() + user.taskFrequency),
+    //   frozenBrowsing: false,
+    // }); TODO UNCOMMENT THIS
+    // user.frozenBrowsing = false;
   } else {
     console.log('User is idle.'); //stop timer
-    updateFrozenBrowsing({ nextFrozen: null });
+    // updateFrozenBrowsing({ nextFrozen: null });
   }
 });
 
@@ -178,12 +178,12 @@ function createTask(data) {
 // redirect all search urls
 
 chrome.webNavigation.onBeforeNavigate.addListener(
-  function (details) {
-    console.log('CHEKING NAV', user);
+  async function (details) {
+    console.log('Checking navigation:', user.frozenBrowsing);
 
     const url = new URL(details.url);
-    if (url.pathname === '/' && url.searchParams.has('q') && user.frozenBrowsing) {
-      const redirectUrl = 'http://localhost:3000/tasks';
+    if (!url.href.startsWith('http://localhost:3000/') && user.frozenBrowsing) {
+      const redirectUrl = 'http://localhost:3000/break-task';
       chrome.tabs.update(details.tabId, { url: redirectUrl });
     }
   },

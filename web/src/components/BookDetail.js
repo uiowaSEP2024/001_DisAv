@@ -65,7 +65,6 @@ function BookDetail({ book, onClose }) {
           sessionStorage.setItem('user', JSON.stringify(user));
           localStorage.setItem('user', JSON.stringify(user));
           endFrozenBrowsing().then(r => console.log('Browsing updated'));
-
         }
       });
   };
