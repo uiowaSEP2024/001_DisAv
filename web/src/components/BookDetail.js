@@ -30,7 +30,7 @@ function BookDetail({ book, onClose }) {
                     <h2>{book.title}</h2>
                     <p>Author: {book.author}</p>
                     <p>ISBN: {book.isbn}</p>
-                    <Button variant="contained" color="primary" onClick={onClose}>
+                    <Button variant="contained" color="primary" onClick={onClose} data-testid="book-detail-close">
                         Close
                     </Button>
                 </div>
