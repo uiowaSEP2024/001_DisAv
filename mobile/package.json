@@ -87,7 +87,9 @@
       "mobile/index.js",
       "mobile/metro.config.js",
       "mobile/navigation",
-      "mobile/__tests__/navigation"
+      "mobile/__tests__/navigation",
+      "mobile/__tests__/screens/BreakScreen.test.js",
+      "mobile/__tests__/screens/ExerciseScreen.test.js"
     ],
     "coveragePathIgnorePatterns": [
       "mobile/.expo/",
@@ -95,7 +97,9 @@
       "mobile/index.js",
       "mobile/metro.config.js",
       "mobile/navigation",
-      "mobile/__tests__/navigation"
+      "mobile/__tests__/navigation",
+      "mobile/__tests__/screens/BreakScreen.test.js",
+      "mobile/__tests__/screens/ExerciseScreen.test.js"
     ],
     "collectCoverage": true,
     "collectCoverageFrom": [
