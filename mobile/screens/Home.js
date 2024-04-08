@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Image } from 'react-native';
-import { Button, Text, useTheme, Dialog, Portal } from 'react-native-paper';
-// import { LinearGradient } from 'expo-linear-gradient';
+import { ScrollView, StyleSheet, Image, View } from 'react-native';
+import { Button, Text, Dialog, Portal, Card } from 'react-native-paper';
 import { useSession } from '../context/SessionContext';
 import logo from '../assets/logo.png'; // Ensure the path to your logo is correct
 
@@ -11,29 +10,26 @@ export default function Home({ navigation }) {
   if (!user) {
     return null;
   }
-
-  console.log('user', user);
-  const { colors } = useTheme();
   const [welcomeVisible, setWelcomeVisible] = useState(true);
 
   function welcome() {
     return (
-      <Dialog visible={welcomeVisible}>
-        <Dialog.Title>Welcome</Dialog.Title>
+      <Dialog visible={welcomeVisible} style={styles.dialog}>
+        <Dialog.Title style={styles.dialogTitle}>Welcome</Dialog.Title>
         <Dialog.Content>
-          <Text variant="bodyMedium">
-            Welcome to infinite focus, an app that will enable you to avoid doom scrolling and enjoy
-            the more important things in life
+          <Text style={styles.dialogContent}>
+            Welcome to InfiniteFocus, an app that will enable you to avoid doom scrolling and enjoy
+            the more important things in life.
           </Text>
         </Dialog.Content>
         <Dialog.Actions>
           <Button
-            mode="outlined"
+            mode="contained"
             onPress={() => {
               setWelcomeVisible(false);
               navigation.navigate('Preferences');
             }}
-            style={styles.button}
+            style={styles.dialogButton}
           >
             Next
           </Button>
@@ -43,15 +39,35 @@ export default function Home({ navigation }) {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image source={logo} style={styles.logo} />
-      <Text style={{ color: colors.onSurface, margin: 10 }}>
-        {user && `Hello, ${user.firstname}!`}
-      </Text>
-      <Button mode="contained" onPress={() => navigation.navigate('Tasks')} style={styles.button}>
-        {' '}
-        Tasks
-      </Button>
+    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+      <View style={styles.logoContainer}>
+        <Image source={logo} style={styles.logo} />
+      </View>
+      <Card style={styles.introCard}>
+        <Card.Content>
+          <Text style={styles.introText}>
+            InfiniteFocus is a revolutionary mobile app designed to combat digital distractions and
+            promote productivity and mindfulness.
+          </Text>
+        </Card.Content>
+      </Card>
+      <Card style={styles.featureCard}>
+        <Card.Title title="Features" titleStyle={styles.cardTitle} />
+        <Card.Content>
+          <Text style={styles.featureText}>
+            • Distraction Alerts: Randomly timed alerts to break the cycle of phone overuse.
+          </Text>
+          <Text style={styles.featureText}>
+            • Activity Suggestions: Proposes quick activities like push-ups or stretching.
+          </Text>
+          <Text style={styles.featureText}>
+            • Relaxation Mode: Displays calming scenes to encourage a brief moment of tranquility.
+          </Text>
+          <Text style={styles.featureText}>
+            • Customizable Settings: Users can tailor alert frequency and activity types.
+          </Text>
+        </Card.Content>
+      </Card>
       <Portal>
         {user &&
           user.preferredTasks &&
@@ -65,27 +81,76 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
     backgroundColor: 'white',
   },
-  logo: {
-    width: 200, // Adjust based on your logo's aspect ratio
-    height: 100, // Adjust based on your logo's aspect ratio
-    resizeMode: 'contain',
-    marginBottom: 40,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#fff',
+  logoContainer: {
+    alignItems: 'center',
+    marginTop: 20,
     marginBottom: 20,
+  },
+  logo: {
+    width: 200,
+    height: 100,
+    resizeMode: 'contain',
+  },
+  introCard: {
+    margin: 10,
+    padding: 20,
+    backgroundColor: 'black',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  introText: {
+    color: 'white',
     textAlign: 'center',
   },
-  button: {
+  featureCard: {
+    margin: 10,
+    padding: 20,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  cardTitle: {
+    textAlign: 'center',
+    color: 'black',
+  },
+  featureText: {
+    color: 'black',
+    marginBottom: 10,
+  },
+  dialog: {
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  dialogTitle: {
+    color: 'black',
+  },
+  dialogContent: {
+    color: 'black',
+  },
+  dialogButton: {
     marginTop: 10,
-    width: '80%',
-    paddingVertical: 8,
+    backgroundColor: 'black',
+    color: 'white',
   },
 });
