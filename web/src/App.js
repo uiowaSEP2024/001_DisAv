@@ -13,6 +13,7 @@ import Rewards from './components/Rewards';
 import Tasks from './components/Tasks';
 import Navbar from './components/Navbar';
 import ReadTask from './components/ReadTask';
+import ExerciseTask from './components/ExerciseTask';
 
 function App() {
   const { isLoggedIn, logout } = useContext(AuthContext);
@@ -69,6 +70,14 @@ function App() {
           element={
             <ProtectedRoute>
               <ReadTask />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/exercise-task"
+          element={
+            <ProtectedRoute>
+              <ExerciseTask />
             </ProtectedRoute>
           }
         />
