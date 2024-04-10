@@ -5,10 +5,10 @@ const BookSchema = new mongoose.Schema({
   googleId: { type: String },
   associatedUser: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
   chapterSummaries: [{ type: String, required: false }],
-  imageLink: { type: String, required: true },
-  description: { type: String, required: true },
-  authors: { type: Array, required: true },
-  categories: { type: Array, required: true },
+  imageLink: { type: String },
+  description: { type: String },
+  authors: { type: Array },
+  categories: { type: Array },
 });
 
 export const BooksModel = mongoose.model('books', BookSchema);

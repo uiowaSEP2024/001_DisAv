@@ -64,6 +64,7 @@ jobs:
         env:
           MONGO_UNAME: ${{ secrets.MONGO_UNAME }}
           MONGO_PWD: ${{ secrets.MONGO_PWD }}
+          GPT_KEY: ${{ secrets.GPT_KEY }}
         run: cd server && npm test --coverage --watchAll=false
       - name: Archive coverage report (Server)
         uses: actions/upload-artifact@v2

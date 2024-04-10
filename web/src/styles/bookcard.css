@@ -7,7 +7,10 @@
   padding: 10px;
   background: white; /* Optional: for better visibility */
 }
-
+.book-card:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.55); /* Add a subtle shadow on hover */
+  cursor: pointer;
+}
 .book-image-container {
   flex-grow: 1; /* Allows the image container to take up available space */
   display: flex; /* Utilizes flexbox to center the image */

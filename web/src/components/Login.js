@@ -73,6 +73,7 @@ const Login = () => {
             id="username"
             name="username"
             value={username}
+            required={true}
             onChange={e => setUsername(e.target.value)}
           />
         </div>
@@ -83,6 +84,7 @@ const Login = () => {
             id="password"
             name="password"
             value={password}
+            required={true}
             onChange={e => setPassword(e.target.value)}
           />
         </div>

@@ -20,8 +20,8 @@ let firstTime = true;
 let interval;
 function openWebsite() {
   console.log('openWebsite called'); // This will log to the background page's console
-  const website = 'http://localhost:3000/tasks';
-  chrome.tabs.update({ url: website });
+  const website = 'http://localhost:3000/break-task';
+  chrome.tabs.update({ url: website, active: true });
 }
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   // Perform actions based on the message
@@ -37,15 +37,15 @@ chrome.idle.onStateChanged.addListener(function (state) {
   if (state === 'active') {
     console.log('User is active!');
     const currentDate = new Date();
-    updateFrozenBrowsing({
-      username: user.username,
-      nextFrozen: new Date(currentDate.getTime() + user.taskFrequency),
-      frozenBrowsing: false,
-    });
-    user.frozenBrowsing = false;
+    // updateFrozenBrowsing({
+    //   username: user.username,
+    //   nextFrozen: new Date(currentDate.getTime() + user.taskFrequency),
+    //   frozenBrowsing: false,
+    // }); TODO UNCOMMENT THIS
+    // user.frozenBrowsing = false;
   } else {
     console.log('User is idle.'); //stop timer
-    updateFrozenBrowsing({ nextFrozen: null });
+    // updateFrozenBrowsing({ nextFrozen: null });
   }
 });
 
@@ -67,6 +67,7 @@ function checkIdleState() {
 function updateFrozenBrowsing(data) {
   user.nextFrozen = data.nextFrozen;
   console.log('nextFrozen updated for the user:', data.nextFrozen);
+
   fetch('http://localhost:3002/user/update-frozen-browsing', {
     method: 'PUT',
     headers: {
@@ -105,7 +106,7 @@ function handleStorageChange(changes, namespace) {
           updateFrozenBrowsing({
             username: user.username,
             nextFrozen: new Date(currentDate.getTime() + user.taskFrequency),
-            frozenBrowsing: false,
+            frozenBrowsing: false, //TODO Check here if setting automatically to false
           });
         } else {
           user = null;
@@ -130,7 +131,15 @@ function checkNextFrozen() {
       console.log('Current time is past nextFrozen:', user.nextFrozen);
       openWebsite();
       user.frozenBrowsing = true;
-      updateFrozenBrowsing({ username: user.username, nextFrozen: null, frozenBrowsing: true }); //Update the nextFrozen time on firststate query because there would be no state change since you arent idle
+      let currentDate = new Date();
+      updateFrozenBrowsing({
+        username: user.username,
+        nextFrozen: null,
+        frozenBrowsing: true,
+        frozenUntil: new Date(currentDate.getTime() + 300000),
+      }); //Update the nextFrozen time on firststate query because there would be no state change since you arent idle
+      const userString = JSON.stringify(user);
+      sessionStorage.setItem('user', userString);
       createTask({
         username: user.username,
         taskType: 'break',
@@ -169,12 +178,12 @@ function createTask(data) {
 // redirect all search urls
 
 chrome.webNavigation.onBeforeNavigate.addListener(
-  function (details) {
-    console.log('CHEKING NAV', user);
+  async function (details) {
+    console.log('Checking navigation:', user?.frozenBrowsing);
 
     const url = new URL(details.url);
-    if (url.pathname === '/' && url.searchParams.has('q') && user.frozenBrowsing) {
-      const redirectUrl = 'http://localhost:3000/tasks';
+    if (!url.href.startsWith('http://localhost:3000/') && user?.frozenBrowsing) {
+      const redirectUrl = 'http://localhost:3000/break-task';
       chrome.tabs.update(details.tabId, { url: redirectUrl });
     }
   },
