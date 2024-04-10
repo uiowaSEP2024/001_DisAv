@@ -179,10 +179,10 @@ function createTask(data) {
 
 chrome.webNavigation.onBeforeNavigate.addListener(
   async function (details) {
-    console.log('Checking navigation:', user.frozenBrowsing);
+    console.log('Checking navigation:', user?.frozenBrowsing);
 
     const url = new URL(details.url);
-    if (!url.href.startsWith('http://localhost:3000/') && user.frozenBrowsing) {
+    if (!url.href.startsWith('http://localhost:3000/') && user?.frozenBrowsing) {
       const redirectUrl = 'http://localhost:3000/break-task';
       chrome.tabs.update(details.tabId, { url: redirectUrl });
     }

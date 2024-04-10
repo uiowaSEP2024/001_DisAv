@@ -52,8 +52,10 @@ function Signup() {
         //toast.success('Account has been created successfully');
         console.log('Account has been created successfully');
         // Log in the user after successful signup
+
         login({ username, password, firstname, lastname, email }); // Adjust the object to match what your login function expects
         openModal(); // Open the modal for preference selection
+
       }
     } catch (err) {
       if (err.response) {
@@ -73,11 +75,11 @@ function Signup() {
     <div className="signup">
       <form onSubmit={handleSubmit} data-testid="signup-form">
         <h2>Sign up</h2>
-        <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)} />
-        <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
-        <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
-        <input type="text" placeholder="First Name" onChange={e => setFirstname(e.target.value)} />
-        <input type="text" placeholder="Last Name" onChange={e => setLastname(e.target.value)} />
+        <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)} required={true} />
+        <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} required={true}/>
+        <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} required={true}/>
+        <input type="text" placeholder="First Name" onChange={e => setFirstname(e.target.value)} required={true}/>
+        <input type="text" placeholder="Last Name" onChange={e => setLastname(e.target.value)} required={true}/>
         <button className={'submit'} type="submit">
           Sign Up
         </button>
