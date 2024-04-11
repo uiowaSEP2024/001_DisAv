@@ -11,7 +11,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify'; // Make sure to create a corresponding CSS file if you have additional styling
 
 function BookDetail({ book, onClose }) {
-  const numberOfChapters = 10; // This is hardcoded for now
+  // const numberOfChapters = 10; // This is hardcoded for now
   console.log(book.chapterSummaries);
   const [summaries, setSummaries] = useState(book.chapterSummaries); // Initialize state for summaries
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
@@ -42,7 +42,8 @@ function BookDetail({ book, onClose }) {
         console.log('Success', user);
       })
       .catch(error => {
-        console.log('Unexpected error', error);
+        // console.log('Unexpected error', error);
+        toast.error('Unexpected error: ', error);
       });
   };
   const submitSummary = index => {
@@ -61,7 +62,7 @@ function BookDetail({ book, onClose }) {
           toast.error('Book summary is invalid');
         } else {
           toast.success('Summary accepted successfully');
-          user.frozenBrowsing = false;
+          setUser({ ...user, frozenBrowsing: false });
           sessionStorage.setItem('user', JSON.stringify(user));
           localStorage.setItem('user', JSON.stringify(user));
           endFrozenBrowsing().then(r => console.log('Browsing updated'));
@@ -69,49 +70,49 @@ function BookDetail({ book, onClose }) {
       });
   };
 
-    return (
-        <div className="book-detail-overlay">
-            <div className="book-detail-modal">
-                <div className="book-info">
-                    <img src={book.imageLink} alt={book.title} className="book-detail-cover" />
-                    <h2>{book.title}</h2>
-                    <p>Author: {book.author}</p>
-                    <p>ISBN: {book.isbn}</p>
-                    <Button variant="contained" color="primary" onClick={onClose} data-testid="book-detail-close">
-                        Close
-                    </Button>
-                </div>
-                <div className="chapters-container">
-                    {summaries.map((summary, index) => (
-                        <Accordion key={index}>
-                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                <h3>Chapter {index + 1}</h3>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <TextField
-                                    label={`Summary for Chapter ${index + 1}`}
-                                    multiline
-                                    rows={4}
-                                    variant="outlined"
-                                    fullWidth
-                                    value={summary}
-                                    onChange={(e) => handleSummaryChange(e.target.value, index)}
-                                />
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => submitSummary(index)}
-                                    data-testid={`submit-summary-${index}`}
-                                >
-                                    Submit Summary
-                                </Button>
-                            </AccordionDetails>
-                        </Accordion>
-                    ))}
-                </div>
-            </div>
+  return (
+    <div className="book-detail-overlay">
+      <div className="book-detail-modal">
+        <div className="book-info">
+          <img src={book.imageLink} alt={book.title} className="book-detail-cover" />
+          <h2>{book.title}</h2>
+          <p>Author: {book.author}</p>
+          <p>ISBN: {book.isbn}</p>
+          <Button variant="contained" color="primary" onClick={onClose} data-testid="book-detail-close">
+            Close
+          </Button>
         </div>
-    );
+        <div className="chapters-container">
+          {summaries.map((summary, index) => (
+            <Accordion key={index}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <h3>Chapter {index + 1}</h3>
+              </AccordionSummary>
+              <AccordionDetails>
+                <TextField
+                  label={`Summary for Chapter ${index + 1}`}
+                  multiline
+                  rows={4}
+                  variant="outlined"
+                  fullWidth
+                  value={summary}
+                  onChange={(e) => handleSummaryChange(e.target.value, index)}
+                />
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => submitSummary(index)}
+                  data-testid={`submit-summary-${index}`}
+                >
+                  Submit Summary
+                </Button>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 BookDetail.propTypes = {
