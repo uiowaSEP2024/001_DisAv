@@ -46,7 +46,6 @@ router.put('/update', async (req, res) => {
 
 router.put('/update-completed', async (req, res) => {
   const { id, isCompleted, endTime } = req.body;
-  console.log('Updating task:', id);
   const task = await TaskModel.findOneAndUpdate({ _id: id }, { isCompleted, endTime });
   if (!task) {
     console.log('Invalid task');
@@ -63,12 +62,17 @@ router.get('/get-all', async (req, res) => {
 
 // Get task by id route
 router.get('/get-by-id', async (req, res) => {
-  const { id } = req.query;
-  const task = await TaskModel.findOne({ _id: id });
-  if (!task) {
-    return res.status(401).json({ message: 'Invalid task' });
+  try {
+    const { id } = req.query;
+    const task = await TaskModel.findOne({ _id: id });
+    if (!task) {
+      return res.status(401).json({ message: 'Invalid task' });
+    }
+    return res.status(200).json({ task });
+  } catch (error) {
+    console.log('Error:', error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
-  return res.status(200).json({ task });
 });
 
 // Get task by type route

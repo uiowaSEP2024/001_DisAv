@@ -17,9 +17,7 @@ const Rewards = () => {
           History
         </button>
       </div>
-      <div className="tab-content">
-        {activeTab === 'history' && <RewardHistory setTotalPoints={setTotalPoints} />}
-      </div>
+      <div className="tab-content">{<RewardHistory setTotalPoints={setTotalPoints} />}</div>
     </div>
   );
 };

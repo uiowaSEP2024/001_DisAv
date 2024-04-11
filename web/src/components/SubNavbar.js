@@ -6,7 +6,7 @@ function SubNavbar() {
     <div className="task-navbar">
       <div className="">
         <Link className="taskNames" to="/break-task">
-          Break{' '}
+          Timer{' '}
         </Link>
       </div>
       <div>

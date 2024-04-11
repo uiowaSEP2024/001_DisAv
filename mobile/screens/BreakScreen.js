@@ -1,27 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ImageBackground, Text, TouchableOpacity } from 'react-native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
-import { useNavigation, useIsFocused } from '@react-navigation/native'; // Import useIsFocused
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { Audio } from 'expo-av';
+import { useSession } from '../context/SessionContext'; // Adjusted import
+import CustomAlert from '../components/CustomAlert';
 import { width, height } from '../config/DeviceDimensions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { api } from '../config/Api';
 
 const BreakScreen = () => {
   const navigation = useNavigation();
-  const isFocused = useIsFocused(); // This hook returns true if the screen is focused, false otherwise.
+  const isFocused = useIsFocused();
   const [sound, setSound] = useState(null);
-  const [timerKey, setTimerKey] = useState(0);
-  const time = 20; // 5 minutes break
-  const isPlaying = true;
+  const timerKey = 0;
+  const time = 10; // Adjusted time for demonstration
+  const { currentTask, setCurrentTask } = useSession(); // Adjusted to use currentTask from SessionContext
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
+  console.log('The current task is: ', currentTask);
 
   useEffect(() => {
-    let soundObject;
-
     const loadAndPlaySound = async () => {
       const { sound: newSound } = await Audio.Sound.createAsync(
         require('../assets/breakSound.mp3'),
         { shouldPlay: true }
       );
-      soundObject = newSound;
       setSound(newSound);
     };
 
@@ -30,52 +36,70 @@ const BreakScreen = () => {
     }
 
     return () => {
-      // This cleanup function gets called when the component unmounts or before the effect runs again.
-      if (soundObject) {
-        soundObject.unloadAsync();
-      }
+      sound?.unloadAsync();
     };
-  }, [isFocused]); // Depend on isFocused so this effect runs every time the screen is entered or left.
+  }, [isFocused]);
 
-  const handleSkip = async () => {
-    if (sound) {
-      await sound.unloadAsync();
+  const markTaskAsCompleted = async () => {
+    if (currentTask) {
+      try {
+        await axios.put(`http://${api}/task/update-completed`, {
+          id: currentTask._id,
+          isCompleted: true,
+        });
+        setCurrentTask(null);
+        AsyncStorage.removeItem('currentTask');
+        setAlertMessage('Break is Over, Continue scrolling on web');
+        setAlertVisible(true);
+      } catch (error) {
+        console.error('Failed to mark task as completed:', error);
+      }
     }
-    setTimerKey(prevKey => prevKey + 1);
-    navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../assets/calmingWater.gif')} // Replace with your relaxing image/video
+        source={require('../assets/calmingWater.gif')}
         style={styles.background}
         resizeMode="cover"
       >
-        <CountdownCircleTimer
-          key={timerKey} // Use the timerKey here
-          isPlaying={isPlaying}
-          duration={time} // 5 minutes break
-          colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-          colorsTime={[7, 5, 2, 0]}
-          onComplete={() => {
-            // Stop the music and navigate back when the timer completes
-            if (sound) {
-              sound.unloadAsync();
-            }
-            navigation.goBack();
-          }}
-        >
-          {({ remainingTime }) => (
-            <Text style={styles.timerText}>
-              {Math.floor(remainingTime / 60)}:{String(remainingTime % 60).padStart(2, '0')}
-            </Text>
-          )}
-        </CountdownCircleTimer>
-        <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-          <Text style={styles.skipButtonText}>Skip</Text>
+        {currentTask ? (
+          <>
+            <CountdownCircleTimer
+              key={timerKey}
+              isPlaying={true}
+              duration={time}
+              colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+              colorsTime={[450, 300, 150, 0]}
+              onComplete={() => {
+                markTaskAsCompleted();
+                return [false, 0]; // Stop the timer
+              }}
+            >
+              {({ remainingTime }) => (
+                <Text style={styles.timerText}>
+                  {Math.floor(remainingTime / 60)}:{String(remainingTime % 60).padStart(2, '0')}
+                </Text>
+              )}
+            </CountdownCircleTimer>
+          </>
+        ) : (
+          <Text style={styles.relaxationText}>
+            You don`t have any incomplete tasks, but stay for relaxation if you wish!
+          </Text>
+        )}
+        <TouchableOpacity style={styles.skipButton} onPress={() => navigation.goBack()}>
+          <Text style={styles.skipButtonText}>Skip Break</Text>
         </TouchableOpacity>
       </ImageBackground>
+      <CustomAlert
+        visible={alertVisible}
+        title="Relaxation Time"
+        message={alertMessage}
+        buttons={[{ text: 'OK', onPress: () => setAlertVisible(false) }]}
+        onClose={() => setAlertVisible(false)}
+      />
     </View>
   );
 };
@@ -92,12 +116,22 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    overflow: 'hidden', // Ensure the image does not overflow the container
+    overflow: 'hidden',
   },
   timerText: {
     fontSize: 48,
     color: '#fff',
     fontWeight: 'bold',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+  },
+  relaxationText: {
+    fontSize: 24,
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingHorizontal: 20,
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
