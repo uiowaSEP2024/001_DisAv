@@ -118,11 +118,11 @@ function ReadTask(props) {
         <BookDetail book={selectedBook} onClose={handleClose} />
       )}
       <div className="add-button-container">
-        <Button className="add-book-button" onClick={handleDialogOpen}>Add a new Book</Button>
+        <Button className="add-book-button" onClick={() => setOpenDialog(true)}>Add a new Book</Button>
       </div>
       <DialogBox isOpen={openDialog} onClose={() => setOpenDialog(false)} addBook={AddBook} />
       <Notification message={'Book was added successfully!'} visible={visibleNotification} />
-      <div
+      {/* <div
         style={{
           position: 'fixed',
           bottom: 0,
@@ -149,7 +149,7 @@ function ReadTask(props) {
         >
           Add Book
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }
