@@ -80,13 +80,7 @@ router.get('/get-by-title', async (req, res) => {
 });
 router.put('/update-summary', async (req, res) => {
   const { title, chapter, summary, username } = req.body;
-  const r = await checkValidBookSummary(summary, chapter, title);
-  // TODO update frozen browsing here
-  if (r.includes('False')) {
-    return res
-      .status(201)
-      .json({ message: 'Invalid summary, failed to update summary', validSummary: false });
-  }
+
   const user = await UserModel.findOne({ username });
   if (!user) {
     return res.status(401).json({ message: 'Invalid user, failed to update summary' });
@@ -94,6 +88,13 @@ router.put('/update-summary', async (req, res) => {
   const book = await BooksModel.findOne({ title, associatedUser: user._id });
   if (!book) {
     return res.status(401).json({ message: 'Invalid book, failed to update summary' });
+  }
+  const r = await checkValidBookSummary(summary, chapter, title);
+  // TODO update frozen browsing here
+  if (r.includes('False')) {
+    return res
+      .status(201)
+      .json({ message: 'Invalid summary, failed to update summary', validSummary: false });
   }
   // update the array summaries in the book model at index chapter
   book.chapterSummaries[chapter - 1] = summary;

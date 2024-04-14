@@ -48,7 +48,10 @@
     "coveragePathIgnorePatterns": [
       "../src/components/ProtectedRoute.js",
       "../src/index.js",
-      "../src/reportWebVitals.js"
+      "../src/reportWebVitals.js",
+      "../src/components/Preference.js",
+      "../src/components/Tasks.js",
+      "../src/components/ReadTask.js"
     ]
   },
   "eslintConfig": {

@@ -11,7 +11,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify'; // Make sure to create a corresponding CSS file if you have additional styling
 
 function BookDetail({ book, onClose }) {
-  const numberOfChapters = 10; // This is hardcoded for now
+  // const numberOfChapters = 10; // This is hardcoded for now
   console.log(book.chapterSummaries);
   const [summaries, setSummaries] = useState(book.chapterSummaries); // Initialize state for summaries
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
@@ -42,7 +42,8 @@ function BookDetail({ book, onClose }) {
         console.log('Success', user);
       })
       .catch(error => {
-        console.log('Unexpected error', error);
+        // console.log('Unexpected error', error);
+        toast.error('Unexpected error: ', error);
       });
   };
   const submitSummary = index => {
@@ -61,7 +62,7 @@ function BookDetail({ book, onClose }) {
           toast.error('Book summary is invalid');
         } else {
           toast.success('Summary accepted successfully');
-          user.frozenBrowsing = false;
+          setUser({ ...user, frozenBrowsing: false });
           sessionStorage.setItem('user', JSON.stringify(user));
           localStorage.setItem('user', JSON.stringify(user));
           endFrozenBrowsing().then(r => console.log('Browsing updated'));
@@ -77,7 +78,7 @@ function BookDetail({ book, onClose }) {
           <h2>{book.title}</h2>
           <p>Author: {book.author}</p>
           <p>ISBN: {book.isbn}</p>
-          <Button variant="contained" color="primary" onClick={onClose}>
+          <Button variant="contained" color="primary" onClick={onClose} data-testid="book-detail-close">
             Close
           </Button>
         </div>
@@ -95,7 +96,7 @@ function BookDetail({ book, onClose }) {
                   variant="outlined"
                   fullWidth
                   value={summary}
-                  onChange={e => handleSummaryChange(e.target.value, index)}
+                  onChange={(e) => handleSummaryChange(e.target.value, index)}
                 />
                 <Button
                   variant="contained"
