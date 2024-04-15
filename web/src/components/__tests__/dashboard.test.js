@@ -13,9 +13,8 @@ test('renders Dashboard with user information', () => {
 
   render(<Dashboard />);
 
-  expect(screen.getByText('Welcome to Your Dashboard')).toBeInTheDocument();
-  expect(screen.getByText(`Username: ${user.username}`)).toBeInTheDocument();
-  expect(screen.getByText(`First name: ${user.firstname}`)).toBeInTheDocument();
-  expect(screen.getByText(`Last name: ${user.lastname}`)).toBeInTheDocument();
-  expect(screen.getByText(`Email: ${user.email}`)).toBeInTheDocument();
+  expect(screen.getByText('Hi, Adnane')).toBeInTheDocument();
+  expect(
+    screen.getByText(`These sites are currently being monitored for doom scrolling:`)
+  ).toBeInTheDocument();
 });

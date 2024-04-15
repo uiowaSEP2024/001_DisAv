@@ -48,17 +48,14 @@ const Login = () => {
         // Handle HTTP errors here
         toast.error('User does not exist');
         console.error(err.response.data.message);
-      }
-      else if (err.response.status === 401) {
+      } else if (err.response.status === 401) {
         // Handle HTTP errors here
         toast.error('Password incorrect');
         console.error(err.response.data.message);
-      }
-      else {
+      } else {
         // Handle other errors here
         console.error('Login failed. Please try again later.');
         toast.error('Login failed. Please try again later.');
-
       }
     }
   };

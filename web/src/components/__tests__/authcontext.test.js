@@ -6,11 +6,11 @@ import { AuthProvider, AuthContext } from '../AuthContext.js';
 const mockSessionStorage = (() => {
   let store = {};
   return {
-    getItem: jest.fn((key) => store[key] || null),
+    getItem: jest.fn(key => store[key] || null),
     setItem: jest.fn((key, value) => {
       store[key] = value.toString();
     }),
-    removeItem: jest.fn((key) => {
+    removeItem: jest.fn(key => {
       delete store[key];
     }),
     clear: jest.fn(() => {
@@ -28,10 +28,7 @@ describe('AuthProvider', () => {
   });
 
   it('should initialize with loading state and not render children', () => {
-    const { queryByText } = render(
-      <AuthProvider>
-      </AuthProvider>
-    );
+    const { queryByText } = render(<AuthProvider></AuthProvider>);
     expect(queryByText('Child component')).not.toBeInTheDocument();
   });
 
@@ -52,7 +49,7 @@ describe('AuthProvider', () => {
     render(
       <AuthProvider>
         <AuthContext.Consumer>
-          {(context) => {
+          {context => {
             auth = context;
             return null;
           }}
@@ -64,7 +61,10 @@ describe('AuthProvider', () => {
       auth.login({ username: 'testUser' });
     });
 
-    expect(window.sessionStorage.setItem).toHaveBeenCalledWith('user', JSON.stringify({ username: 'testUser' }));
+    expect(window.sessionStorage.setItem).toHaveBeenCalledWith(
+      'user',
+      JSON.stringify({ username: 'testUser' })
+    );
     expect(auth.isLoggedIn).toBeTruthy();
   });
 
@@ -74,7 +74,7 @@ describe('AuthProvider', () => {
     render(
       <AuthProvider>
         <AuthContext.Consumer>
-          {(context) => {
+          {context => {
             auth = context;
             return null;
           }}
@@ -96,7 +96,7 @@ describe('AuthProvider', () => {
     render(
       <AuthProvider>
         <AuthContext.Consumer>
-          {(context) => {
+          {context => {
             auth = context;
             return null;
           }}
