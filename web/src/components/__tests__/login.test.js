@@ -6,7 +6,6 @@ import Login from '../Login';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../AuthContext';
 
-
 jest.mock('axios');
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
@@ -38,7 +37,8 @@ describe('Login', () => {
         <MemoryRouter>
           <Login />
         </MemoryRouter>
-      </AuthContext.Provider>);
+      </AuthContext.Provider>
+    );
     expect(getByTestId('login-form')).toBeInTheDocument();
   });
 
@@ -52,7 +52,8 @@ describe('Login', () => {
         <MemoryRouter>
           <Login />
         </MemoryRouter>
-      </AuthContext.Provider>);
+      </AuthContext.Provider>
+    );
     const usernameInput = getByLabelText('Username:');
     const passwordInput = getByLabelText('Password:');
 
@@ -168,7 +169,8 @@ describe('Login', () => {
         <MemoryRouter>
           <Login />
         </MemoryRouter>
-      </AuthContext.Provider>);
+      </AuthContext.Provider>
+    );
     const usernameInput = getByLabelText('Username:');
     const passwordInput = getByLabelText('Password:');
     const submitButton = getByTestId('submit-button');
@@ -202,7 +204,8 @@ describe('Login', () => {
         <MemoryRouter>
           <Login />
         </MemoryRouter>
-      </AuthContext.Provider>);
+      </AuthContext.Provider>
+    );
     const usernameInput = getByLabelText('Username:');
     const passwordInput = getByLabelText('Password:');
     const submitButton = getByTestId('submit-button');
@@ -229,14 +232,15 @@ describe('Login', () => {
           message: 'Login failed. Please try again later.',
         },
       },
-    },);
+    });
 
     const { getByLabelText, getByTestId } = render(
       <AuthContext.Provider value={mockAuthContextValue}>
         <MemoryRouter>
           <Login />
         </MemoryRouter>
-      </AuthContext.Provider>);
+      </AuthContext.Provider>
+    );
     const usernameInput = getByLabelText('Username:');
     const passwordInput = getByLabelText('Password:');
     const submitButton = getByTestId('submit-button');
@@ -250,5 +254,4 @@ describe('Login', () => {
       expect(toast.error).toHaveBeenCalledWith('Login failed. Please try again later.'); // Ensure this message matches exactly what your component uses
     });
   });
-
 });
