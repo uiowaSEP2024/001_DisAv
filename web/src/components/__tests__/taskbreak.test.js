@@ -7,6 +7,8 @@ describe('TaskBreak', () => {
     render(<TaskBreak />);
 
     expect(screen.getByText('Break Time')).toBeInTheDocument();
-    expect(screen.getByText('Read a book, exercise or wait out timer to continue browsing')).toBeInTheDocument();
+    expect(
+      screen.getByText('Read a book, exercise or wait out timer to continue browsing')
+    ).toBeInTheDocument();
   });
 });

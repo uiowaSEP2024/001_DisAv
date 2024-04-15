@@ -29,6 +29,7 @@ const UserSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   xpPoints: { type: Number, default: 0 },
   whitelistedWebsites: [{ type: String, required: false }],
+  blacklistedWebsites: [{ type: String, required: false }],
 });
 
 export const UserModel = mongoose.model('users', UserSchema);

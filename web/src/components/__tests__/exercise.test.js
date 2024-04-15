@@ -17,10 +17,14 @@ describe('ExerciseTask', () => {
     expect(SubNavbar).toHaveBeenCalled();
 
     // Check if the message is displayed
-    expect(screen.getByText(/To unblock browsing with exercise, use mobile app/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/To unblock browsing with exercise, use mobile app/i)
+    ).toBeInTheDocument();
 
     // Check for styling
-    const divElement = screen.getByText(/To unblock browsing with exercise, use mobile app/i).parentElement;
+    const divElement = screen.getByText(
+      /To unblock browsing with exercise, use mobile app/i
+    ).parentElement;
     expect(divElement).toHaveStyle({
       backgroundColor: '#fff',
       borderRadius: '8px',

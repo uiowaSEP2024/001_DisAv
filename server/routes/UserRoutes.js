@@ -135,19 +135,28 @@ router.put('/update-all-preferences', async (req, res) => {
     workPreferences,
     readingPreferences,
     whitelistedWebsites,
+    blacklistedWebsites,
   } = req.body;
   const user = await UserModel.findOne({ username });
   if (!user) {
     return res.status(401).json({ message: 'Invalid user, failed to update all preferences' });
   }
   user.whitelistedWebsites = whitelistedWebsites;
+  user.blacklistedWebsites = blacklistedWebsites;
   user.taskFrequency = taskFrequency;
   user.workPreferences = workPreferences;
   user.readingPreferences = readingPreferences;
   user.preferredTasks = preferredTasks;
   await UserModel.findOneAndUpdate(
     { username },
-    { preferredTasks, taskFrequency, workPreferences, readingPreferences, whitelistedWebsites }
+    {
+      preferredTasks,
+      taskFrequency,
+      workPreferences,
+      readingPreferences,
+      whitelistedWebsites,
+      blacklistedWebsites,
+    }
   );
   return res.status(200).json({ message: 'User updated with all preferences', user });
 });

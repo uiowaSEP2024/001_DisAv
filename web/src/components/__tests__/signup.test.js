@@ -30,7 +30,7 @@ jest.mock('axios');
 
 global.console = {
   error: jest.fn(),
-  log : jest.fn()
+  log: jest.fn(),
 };
 
 describe('Signup', () => {
@@ -74,7 +74,7 @@ describe('Signup', () => {
     await waitFor(() => expect(axios.post).toHaveBeenCalled());
   });
 
-  it ('logs in the user after successful signup', async () => {
+  it('logs in the user after successful signup', async () => {
     render(
       <MemoryRouter>
         <AuthProvider>
@@ -105,10 +105,9 @@ describe('Signup', () => {
     // Check that login function was called with the correct arguments
 
     // Check that openModal function was called
-
   });
 
-  it ('handles signup failure', async () => {
+  it('handles signup failure', async () => {
     render(
       <MemoryRouter>
         <AuthProvider>
@@ -135,10 +134,9 @@ describe('Signup', () => {
 
     await waitFor(() => expect(axios.post).toHaveBeenCalled());
     // Check that error message is displayed
-
   });
 
-  it ('handles user already exists scenario', async () => {
+  it('handles user already exists scenario', async () => {
     render(
       <MemoryRouter>
         <AuthProvider>
@@ -169,7 +167,7 @@ describe('Signup', () => {
     expect(console.log).toHaveBeenCalledWith('Username is already used');
   });
 
-  it ('handles signup failure due to server error, no response message', async () => {
+  it('handles signup failure due to server error, no response message', async () => {
     render(
       <MemoryRouter>
         <AuthProvider>
@@ -191,7 +189,7 @@ describe('Signup', () => {
     fireEvent.change(lastnameInput, { target: { value: 'User' } });
 
     // Mock a server error
-    axios.post.mockRejectedValue({ });
+    axios.post.mockRejectedValue({});
 
     // Simulate form submission
     fireEvent.submit(screen.getByTestId('signup-form'));
@@ -202,7 +200,7 @@ describe('Signup', () => {
     expect(console.error).toHaveBeenCalledWith('Signup failed. Please try again later.');
   });
 
-  it ('handles signup failure due to server error', async () => {
+  it('handles signup failure due to server error', async () => {
     render(
       <MemoryRouter>
         <AuthProvider>
@@ -224,7 +222,7 @@ describe('Signup', () => {
     fireEvent.change(lastnameInput, { target: { value: 'User' } });
 
     // Mock a server error
-    axios.post.mockRejectedValue({ response: { data: { message: 'An error occurred' } }});
+    axios.post.mockRejectedValue({ response: { data: { message: 'An error occurred' } } });
 
     // Simulate form submission
     fireEvent.submit(screen.getByTestId('signup-form'));
@@ -235,7 +233,7 @@ describe('Signup', () => {
     expect(console.error).toHaveBeenCalledWith('An error occurred');
   });
 
-  it ('navigates to dashboard and closes modal after successful signup', async () => {
+  it('navigates to dashboard and closes modal after successful signup', async () => {
     const navigate = require('react-router-dom').useNavigate();
 
     render(
@@ -258,7 +256,6 @@ describe('Signup', () => {
     fireEvent.change(firstnameInput, { target: { value: 'Test' } });
     fireEvent.change(lastnameInput, { target: { value: 'User' } });
 
-
     // Mock successful form submission
     axios.post.mockResolvedValue({ data: { message: 'Account has been created successfully' } });
 
@@ -270,5 +267,4 @@ describe('Signup', () => {
     // Check that navigate was called with '/dashboard'
     //expect(navigate).toHaveBeenCalledWith('/dashboard');
   });
-
 });

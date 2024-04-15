@@ -18,7 +18,11 @@ describe('Tasks', () => {
   });
 
   it('renders without crashing', () => {
-    render(<MemoryRouter><Tasks assignedTask="break" /></MemoryRouter>);
+    render(
+      <MemoryRouter>
+        <Tasks assignedTask="break" />
+      </MemoryRouter>
+    );
   });
 
   // it('renders break task when assignedTask is break', () => {
