@@ -50,9 +50,16 @@ router.put('/update', async (req, res) => {
   }
   // Check if password is being updated and encrypt it if so
 
-  if (password && !(await bcrypt.compare(password, foundUser.password))) {
-    password = await bcrypt.hash(password, 10);
+  if (password) {
+    const passwordMatch = await bcrypt.compare(password, foundUser.password);
+    if (!passwordMatch) {
+      password = await bcrypt.hash(password, 10);
+    } else {
+      // If the password hasn't changed, we keep it the same
+      password = foundUser.password;
+    }
   } else {
+    // If no new password was provided, we shouldn't update the password field
     password = foundUser.password;
   }
   await UserModel.findOneAndUpdate(
@@ -67,7 +74,8 @@ router.put('/update', async (req, res) => {
       accountabilityPartners,
       phoneNumber,
       preferredTasks,
-    }
+    },
+    { new: true }
   );
   return res.status(200).json({ message: 'User updated' });
 });
