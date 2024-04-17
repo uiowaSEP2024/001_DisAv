@@ -70,7 +70,7 @@ const BreakScreen = () => {
               isPlaying={true}
               duration={time}
               colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-              colorsTime={[450, 300, 150, 0]}
+              colorsTime={[300, 150, 60, 0]}
               onComplete={() => {
                 markTaskAsCompleted();
                 return [false, 0]; // Stop the timer

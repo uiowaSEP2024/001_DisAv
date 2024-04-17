@@ -37,9 +37,12 @@ export default function Rewards({ navigation }) {
         }
       });
       setTotalPoints(points);
-      // Sort completed tasks by date, most recent first
-      completed.sort((a, b) => new Date(b.dateCompleted) - new Date(a.dateCompleted));
-      console.log('Completed tasks:', completed);
+      // Sort completed tasks by date, oldest first
+      completed.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateB - dateA; // Sort from most recent to oldest
+      });
       setCompletedTasks(completed);
       confettiRef.current.start();
       // Start animations
