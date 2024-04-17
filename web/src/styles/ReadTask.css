@@ -13,3 +13,20 @@
   overflow-y: auto; /* Makes the container vertically scrollable if needed */
   max-height: 90vh; /* Adjust the height as needed */
 }
+
+/* Increase specificity by using a custom class name */
+.add-book-button {
+  background-color: blue !important; /* Using !important to ensure override */
+  color: white !important;
+}
+
+/* To target the hover state */
+.add-book-button:hover {
+  background-color: darkblue !important;
+}
+
+.add-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 25px;
+}

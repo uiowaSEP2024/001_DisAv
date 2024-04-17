@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import ListItem from './ListItem';
 import axios from 'axios';
 import '../assets/ListItem.css';
-function DialogBox({ isOpen, onClose, addBook }) {
+function DialogBox({ isOpen, onClose, addBook, dashboard, addSite }) {
   const [bookTitle, setBookTitle] = useState();
   const [booksList, setBooksList] = useState([]);
-
+  const [text, setText] = useState();
   async function onSearch(title) {
     const response = await axios
       .get('http://localhost:3002/book/get-by-google-title', { params: { title } })
@@ -15,7 +15,53 @@ function DialogBox({ isOpen, onClose, addBook }) {
       });
   }
   if (!isOpen) return null;
-
+  if (dashboard) {
+    return (
+      <div style={overlayStyles}>
+        <div
+          style={{
+            backgroundColor: '#fff',
+            padding: '20px',
+            color: 'black',
+            borderRadius: '5px',
+            display: 'flex',
+            width: '500px',
+            height: '200px',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <h2>Enter website to track</h2>
+          <input
+            type="text"
+            placeholder="www.example.com"
+            style={textInput}
+            onChange={event => setText(event.target.value)}
+          />
+          <div
+            style={{
+              flexDirection: 'row',
+              display: 'flex',
+              marginLeft: '-20%',
+            }}
+          >
+            <button className="btn btn-success" onClick={() => addSite(text)}>
+              Add
+            </button>
+            <button
+              onClick={onClose}
+              className="btn btn-success"
+              style={{
+                marginLeft: '3%',
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div style={overlayStyles}>
       <div style={dialogStyles}>
@@ -38,6 +84,7 @@ function DialogBox({ isOpen, onClose, addBook }) {
               categories={book.categories}
               googleId={book.googleId}
               addBook={addBook}
+              data-testid="list-item"
             />
           ))}
         </div>
@@ -80,6 +127,7 @@ const overlayStyles = {
 const dialogStyles = {
   backgroundColor: '#fff',
   padding: '20px',
+  color: 'black',
   borderRadius: '5px',
   display: 'flex',
   width: '500px',

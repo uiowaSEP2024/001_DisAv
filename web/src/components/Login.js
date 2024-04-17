@@ -21,21 +21,14 @@ const Login = () => {
         password: password,
       });
 
-      if (response.data.message === 'Username or Password incorrect') {
-        toast.error('Invalid password');
-        // console.log('Invalid username or password');
-      } else if (response.data.message === 'User does not exist') {
-        toast.error('User does not exist');
-      } else {
+      if (response.status === 200) {
         toast.success('Login successful');
-        // console.log('Login successful');
-        // Store the token in localStorage
+        // Store the token in local storage
         localStorage.setItem('token', response.data.token);
         // Store user information in session storage
-        sessionStorage.setItem('user', JSON.stringify(response.data.user));
+        // sessionStorage.setItem('user', JSON.stringify(response.data.user));
         localStorage.setItem('user', JSON.stringify(response.data.user));
-        sessionStorage.setItem('username', response.data.user.username);
-
+        // sessionStorage.setItem('username', response.data.user.username);
         localStorage.setItem('username', response.data.user.username); // sessionStorage does not persist when opening a new tab, and need to grab username values on task redirect
         localStorage.setItem('taskFrequency', response.data.user.taskFrequency); // sessionStorage does not persist when opening a new tab, and need to grab taskFrequency values on task redirect
         window.postMessage(
@@ -51,14 +44,19 @@ const Login = () => {
         navigate('/dashboard');
       }
     } catch (err) {
-      if (err.response) {
+      if (err.response.status === 404) {
         // Handle HTTP errors here
+        toast.error('User does not exist');
+        console.error(err.response.data.message);
+      } else if (err.response.status === 401) {
+        // Handle HTTP errors here
+        toast.error('Password incorrect');
         console.error(err.response.data.message);
       } else {
         // Handle other errors here
         console.error('Login failed. Please try again later.');
+        toast.error('Login failed. Please try again later.');
       }
-      console.error(err);
     }
   };
 
@@ -73,6 +71,7 @@ const Login = () => {
             id="username"
             name="username"
             value={username}
+            required={true}
             onChange={e => setUsername(e.target.value)}
           />
         </div>
@@ -83,6 +82,7 @@ const Login = () => {
             id="password"
             name="password"
             value={password}
+            required={true}
             onChange={e => setPassword(e.target.value)}
           />
         </div>

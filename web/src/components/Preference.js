@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../styles/preference.css';
 import DurationPicker from 'react-duration-picker';
+import { toast } from 'react-toastify';
 
 const defaultTasks = {
   Work: false,
@@ -12,6 +13,7 @@ const defaultTasks = {
 };
 
 const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }) => {
+  toast.configure();
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const [initialUser, setInitialUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const [preferredTasks, setPreferences] = useState(initialPreferredTasks); // Initialize as empty object
@@ -51,14 +53,14 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
     }
   }, [initialUser]);
 
-  const handleToggle = preference => {
-    const updatedPreferences = {
-      ...preferredTasks,
-      [preference]: preferredTasks[preference] === true ? false : true, // Toggle the value
-    };
-
-    setPreferences(updatedPreferences);
-  };
+  // const handleToggle = preference => {
+  //   const updatedPreferences = {
+  //     ...preferredTasks,
+  //     [preference]: preferredTasks[preference] === true ? false : true, // Toggle the value
+  //   };
+  //
+  //   setPreferences(updatedPreferences);
+  // };
 
   // Inside the Preference component
 
@@ -71,6 +73,7 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
       })
       .then(response => {
         // Update user data in sessionStorage with new preferences
+        toast.success('Updated successfuly');
         sessionStorage.setItem(
           'user',
           JSON.stringify({ ...user, preferredTasks: preferredTasks, taskFrequency: taskFrequency })
@@ -79,6 +82,7 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
       })
       .catch(error => {
         console.error('Failed to update preferences', error);
+        toast.error('Error: could not update');
       });
 
     // Convert HH:mm to milliseconds
@@ -146,48 +150,16 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
   return (
     <div className="preferences">
       <h2>User Preferences</h2>
-      <label>What kind of tasks would you like to use?</label>
       <ul>
-        {Object.keys(preferredTasks).map(preference => (
-          <li key={preference} className={'left-aligned-list'}>
-            <div className="preference-item">
-              <label htmlFor={preference}>
-                {preference.charAt(0).toUpperCase() + preference.slice(1)}
-              </label>{' '}
-              <label className="switch">
-                <input
-                  id={preference}
-                  type="checkbox"
-                  checked={preferredTasks[preference] === true}
-                  onChange={() => handleToggle(preference)}
-                />
-                <span className="slider round"></span>
-              </label>
-              {preference === 'Work' && preferredTasks[preference] === true && (
-                <div>
-                  <p>Describe your Work preference</p>
-                  <input
-                    type="text"
-                    placeholder="Describe your work"
-                    value={workPreferences}
-                    onChange={e => setWorkPreferences(e.target.value)}
-                  />
-                </div>
-              )}
-              {preference === 'Reading' && preferredTasks[preference] === true && (
-                <div>
-                  <p>Describe your Reading preference</p>
-                  <input
-                    type="text"
-                    placeholder="Describe your readings"
-                    value={readingPreferences}
-                    onChange={e => setReadingPreferences(e.target.value)}
-                  />
-                </div>
-              )}
-            </div>
-          </li>
-        ))}
+        <div>
+          <p>What kind of work do you typically do</p>
+          <input
+            type="text"
+            placeholder="Describe your work"
+            value={workPreferences}
+            onChange={e => setWorkPreferences(e.target.value)}
+          />
+        </div>
         <br />
         <li>
           <label htmlFor="taskFrequency">How often should tasks be triggered?</label>
