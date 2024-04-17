@@ -49,3 +49,24 @@
     width: 100%; /* One card per row on very small screens */
   }
 }
+
+.btn-add-website {
+  background-color: rgba(77,36,238,0.8);
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  margin-left: 80%;
+}
+
+.lists-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.blacklist-container, .whitelist-container {
+  flex: 1;
+  color: #333;
+}
