@@ -58,32 +58,22 @@ function UserInfo({ user: initialUser }) {
           onChange={handleChange}
           disabled={!isEditing}
         />
-        {/* <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={user.username || ''}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                /> */}
         <input
           type="password"
           name="password"
-          placeholder=" New Password"
+          placeholder="New Password"
           value={user.password || ''}
           onChange={handleChange}
           disabled={!isEditing}
         />
-        {/* <input
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="Confirm New Password"
-                    value={user.confirmPassword || ''}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                /> */}
-
-        {/* Add other inputs as necessary */}
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter email address"
+          value={user.email || ''}
+          onChange={handleChange}
+          disabled={!isEditing}
+        />
         {isEditing && (
           <>
             <input
