@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ImageBackground, Text, TouchableOpacity } from 'react-native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import { Audio } from 'expo-av';
 import { useSession } from '../context/SessionContext'; // Adjusted import
 import CustomAlert from '../components/CustomAlert';
@@ -11,7 +11,6 @@ import axios from 'axios';
 import { api } from '../config/Api';
 
 const BreakScreen = () => {
-  const navigation = useNavigation();
   const isFocused = useIsFocused();
   const [sound, setSound] = useState(null);
   const timerKey = 0;
@@ -88,7 +87,7 @@ const BreakScreen = () => {
             You don`t have any incomplete tasks, but stay for relaxation if you wish!
           </Text>
         )}
-        <TouchableOpacity style={styles.skipButton} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={styles.skipButton} onPress={() => markTaskAsCompleted()}>
           <Text style={styles.skipButtonText}>Skip Break</Text>
         </TouchableOpacity>
       </ImageBackground>

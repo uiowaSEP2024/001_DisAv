@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, Image, View } from 'react-native';
 import { Button, Text, Dialog, Portal, Card } from 'react-native-paper';
 import { useSession } from '../context/SessionContext';
 import logo from '../assets/logo.png'; // Ensure the path to your logo is correct
+import * as Notifications from 'expo-notifications';
 
 export default function Home({ navigation }) {
   const { user } = useSession();
@@ -11,6 +12,21 @@ export default function Home({ navigation }) {
     return null;
   }
   const [welcomeVisible, setWelcomeVisible] = useState(true);
+
+  useEffect(() => {
+    const registerForNotifications = async () => {
+      const { status } = await Notifications.getPermissionsAsync();
+      if (status !== 'granted') {
+        await Notifications.requestPermissionsAsync();
+      } else {
+        console.log('Notification permissions already granted');
+      }
+    };
+
+    if (user) {
+      registerForNotifications();
+    }
+  }, [user]);
 
   function welcome() {
     return (

@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios'; // Make sure to import axios
-import { api } from '../config/Api'; // Adjust the path as necessary
+import axios from 'axios';
+import * as Notifications from 'expo-notifications';
+import { api } from '../config/Api';
 
 const SessionContext = createContext();
 
@@ -42,6 +43,10 @@ export const SessionProvider = ({ children }) => {
         if (activeTask) {
           setCurrentTask(activeTask);
           await AsyncStorage.setItem('currentTask', JSON.stringify(activeTask));
+          // Send a notification if the task is not completed
+          if (!activeTask.isCompleted) {
+            await sendNotification();
+          }
         }
       } catch (error) {
         console.error('Failed to fetch tasks:', error);
@@ -64,7 +69,18 @@ export const SessionProvider = ({ children }) => {
     setUser(null);
     await AsyncStorage.removeItem('user');
     setCurrentTask(null);
-    AsyncStorage.removeItem('currentTask');
+    await AsyncStorage.removeItem('currentTask');
+  };
+
+  // Function to send a notification
+  const sendNotification = async () => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Task Reminder',
+        body: 'You have incomplete tasks. Open the app to complete them.',
+      },
+      trigger: null, // sends it immediately
+    });
   };
 
   return (
