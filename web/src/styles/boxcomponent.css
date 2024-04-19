@@ -1,0 +1,48 @@
+.box {
+  background-color: rgba(77, 36, 238, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.box ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.box p {
+  color: #fff;
+  font-size: 1.2rem;
+  /* margin-bottom: 10px; */
+}
+
+.box li {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.box .siteName {
+  word-break: break-all;
+}
+
+.box .removeButton {
+  background-color: #ff4d4f;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.box .removeButton:hover {
+  background-color: #ff7875;
+}

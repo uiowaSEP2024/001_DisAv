@@ -1,0 +1,71 @@
+.textInput {
+  padding: 10px;
+  width: calc(100% - 20px); /* Subtract padding */
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.scrollView {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  overflow: auto;
+  width: 100%;
+  border: 1px solid #aaa;
+}
+
+.overlayStyles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialogStyles {
+  background-color: #fff;
+  padding: 20px;
+  color: black;
+  border-radius: 5px;
+  display: flex;
+  width: 80%; /* Adjust as needed */
+  max-width: 500px; /* Adjust as needed */
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: stretch; /* Align items to stretch to the container's width */
+}
+
+.flexRow {
+  display: flex;
+  justify-content: space-between; /* This will place some space between the buttons */
+  margin-top: 10px; /* Add some space between the input and the buttons */
+}
+
+.btn-success {
+  background-color: rgba(98, 63, 238, 0.8); /* Example color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btn-success:hover {
+  background-color: rgba(77, 36, 238, 0.8); /* Darker shade for hover effect */
+}
+
+.marginLeft3 {
+  margin-left: 0; /* Removed, as the flexRow class handles spacing now */
+}

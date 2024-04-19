@@ -78,7 +78,12 @@ function BookDetail({ book, onClose }) {
           <h2>{book.title}</h2>
           <p>Author: {book.author}</p>
           <p>ISBN: {book.isbn}</p>
-          <Button variant="contained" color="primary" onClick={onClose} data-testid="book-detail-close">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onClose}
+            data-testid="book-detail-close"
+          >
             Close
           </Button>
         </div>
@@ -96,7 +101,7 @@ function BookDetail({ book, onClose }) {
                   variant="outlined"
                   fullWidth
                   value={summary}
-                  onChange={(e) => handleSummaryChange(e.target.value, index)}
+                  onChange={e => handleSummaryChange(e.target.value, index)}
                 />
                 <Button
                   variant="contained"
