@@ -35,7 +35,6 @@ afterEach(() => {
   sessionStorage.clear();
 });
 
-
 test('fetches and displays blacklisted and whitelisted sites', async () => {
   render(<Dashboard />);
 
@@ -64,7 +63,6 @@ test('opens the dialog box to add a whitelisted site', () => {
   expect(screen.getByText('Site to Whitelist')).toBeInTheDocument();
 });
 
-
 test('adds a blacklisted site', async () => {
   axios.put.mockResolvedValueOnce({}); // Mock the API call for adding a site
 
@@ -73,10 +71,14 @@ test('adds a blacklisted site', async () => {
   fireEvent.click(screen.getByText('Add Blacklisted Site'));
 
   // You'll need to adjust the query based on your dialog box content
-  fireEvent.change(screen.getByPlaceholderText('Enter website URL'), { target: { value: 'www.new-blacklisted-site.com' } });
+  fireEvent.change(screen.getByPlaceholderText('Enter website URL'), {
+    target: { value: 'www.new-blacklisted-site.com' },
+  });
 
   await waitFor(() => {
-    expect(screen.getByPlaceholderText('Enter website URL').value).toBe('www.new-blacklisted-site.com');
+    expect(screen.getByPlaceholderText('Enter website URL').value).toBe(
+      'www.new-blacklisted-site.com'
+    );
   });
 
   fireEvent.click(screen.getByText('Add'));
@@ -94,7 +96,7 @@ test('removes a blacklisted site', async () => {
   axios.get.mockResolvedValue({
     data: {
       user: {
-        blacklistedWebsites: ["www.new-blacklisted-site.com"],
+        blacklistedWebsites: ['www.new-blacklisted-site.com'],
         whitelistedWebsites: [],
       },
     },
@@ -123,7 +125,9 @@ test('adds a whitelisted site', async () => {
   fireEvent.click(screen.getByText('Add Whitelisted Site'));
 
   // You'll need to adjust the query based on your dialog box content
-  fireEvent.change(screen.getByPlaceholderText('Enter website URL'), { target: { value: 'www.new-whitelisted-site.com' } });
+  fireEvent.change(screen.getByPlaceholderText('Enter website URL'), {
+    target: { value: 'www.new-whitelisted-site.com' },
+  });
   fireEvent.click(screen.getByText('Add'));
 
   // Verify the API was called and the new site is displayed
@@ -139,12 +143,11 @@ test('removes a whitelisted site', async () => {
     data: {
       user: {
         blacklistedWebsites: [],
-        whitelistedWebsites: ["www.new-whitelisted-site.com"],
+        whitelistedWebsites: ['www.new-whitelisted-site.com'],
       },
     },
   });
   render(<Dashboard />);
-
 
   // Wait for blacklisted sites to be loaded
   await waitFor(() => {
@@ -234,7 +237,7 @@ describe('Dashboard error handling', () => {
     // No specific UI element to assert the error, but we can check console.error
     expect(console.error).toHaveBeenCalledWith(
       'Failed to update preferences:',
-      new Error(errorMessage)// Match the actual error object passed to console.error
+      new Error(errorMessage) // Match the actual error object passed to console.error
     );
   });
 });

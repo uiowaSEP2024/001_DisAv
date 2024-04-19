@@ -19,14 +19,16 @@ function DialogBox({ isOpen, onClose, addBook, dashboard, onSave, title }) {
   }
 
   const handleAddClick = () => {
-    if (text) { // Check if text is not empty
+    if (text) {
+      // Check if text is not empty
       onSave(text); // Call the addSite function passed in as a prop
       setText(''); // Clear the text field after adding
     }
   };
 
   const handleCloseClick = () => {
-    if (text) { // Check if text is not empty
+    if (text) {
+      // Check if text is not empty
       setText(''); // Clear the text field after adding
     }
     onClose();
@@ -38,7 +40,7 @@ function DialogBox({ isOpen, onClose, addBook, dashboard, onSave, title }) {
     return (
       <div className="overlayStyles">
         <div className="dialogStyles">
-        <h2>{title}</h2>
+          <h2>{title}</h2>
           <input
             type="text"
             placeholder="Enter website URL"

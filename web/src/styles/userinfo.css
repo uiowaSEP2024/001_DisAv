@@ -1,0 +1,43 @@
+.user-info {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.user-info form {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-info input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.user-info .btn-edit-profile {
+  background-color: #6200ee;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.user-info button[type='submit'] {
+  background-color: #32cd32; /* Lime Green for visibility */
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.user-info button[type='submit']:hover {
+  background-color: #228b22; /* A darker green for hover effect */
+}

@@ -8,7 +8,6 @@ import BookCard from './BookCard';
 import BookDetail from './BookDetail';
 import Button from '@mui/material/Button';
 
-
 function ReadTask(props) {
   const [openDialog, setOpenDialog] = useState(false);
   const [visibleNotification, setVisibleNotification] = useState(false);
@@ -114,11 +113,11 @@ function ReadTask(props) {
           />
         ))}
       </div>
-      {selectedBook && (
-        <BookDetail book={selectedBook} onClose={handleClose} />
-      )}
+      {selectedBook && <BookDetail book={selectedBook} onClose={handleClose} />}
       <div className="add-button-container">
-        <Button className="add-book-button" onClick={() => setOpenDialog(true)}>Add a new Book</Button>
+        <Button className="add-book-button" onClick={() => setOpenDialog(true)}>
+          Add a new Book
+        </Button>
       </div>
       <DialogBox isOpen={openDialog} onClose={() => setOpenDialog(false)} addBook={AddBook} />
       <Notification message={'Book was added successfully!'} visible={visibleNotification} />

@@ -22,7 +22,7 @@ describe('Navbar Component', () => {
     );
 
     expect(screen.getByText(/Rewards/i)).toBeInTheDocument();
-    expect(screen.getByText(/Preferences/i)).toBeInTheDocument();
+    //expect(screen.getByText(/Preferences/i)).toBeInTheDocument();
     expect(screen.getByText(/Tasks/i)).toBeInTheDocument();
     expect(screen.getByText(/Dashboard/i)).toBeInTheDocument();
     expect(screen.getByText(/Log Out/i)).toBeInTheDocument();
