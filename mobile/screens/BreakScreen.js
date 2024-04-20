@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ImageBackground, Text, TouchableOpacity } from 'react-native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import { Audio } from 'expo-av';
 import { useSession } from '../context/SessionContext'; // Adjusted import
 import CustomAlert from '../components/CustomAlert';
@@ -11,16 +11,13 @@ import axios from 'axios';
 import { api } from '../config/Api';
 
 const BreakScreen = () => {
-  const navigation = useNavigation();
   const isFocused = useIsFocused();
   const [sound, setSound] = useState(null);
   const timerKey = 0;
-  const time = 10; // Adjusted time for demonstration
+  const time = 120; // Adjusted time for demonstration
   const { currentTask, setCurrentTask } = useSession(); // Adjusted to use currentTask from SessionContext
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-
-  console.log('The current task is: ', currentTask);
 
   useEffect(() => {
     const loadAndPlaySound = async () => {
@@ -48,7 +45,8 @@ const BreakScreen = () => {
           isCompleted: true,
         });
         setCurrentTask(null);
-        AsyncStorage.removeItem('currentTask');
+        await AsyncStorage.removeItem('currentTask');
+        await AsyncStorage.removeItem('selectedExercise');
         setAlertMessage('Break is Over, Continue scrolling on web');
         setAlertVisible(true);
       } catch (error) {
@@ -71,7 +69,7 @@ const BreakScreen = () => {
               isPlaying={true}
               duration={time}
               colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-              colorsTime={[450, 300, 150, 0]}
+              colorsTime={[300, 150, 60, 0]}
               onComplete={() => {
                 markTaskAsCompleted();
                 return [false, 0]; // Stop the timer
@@ -89,7 +87,7 @@ const BreakScreen = () => {
             You don`t have any incomplete tasks, but stay for relaxation if you wish!
           </Text>
         )}
-        <TouchableOpacity style={styles.skipButton} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={styles.skipButton} onPress={() => markTaskAsCompleted()}>
           <Text style={styles.skipButtonText}>Skip Break</Text>
         </TouchableOpacity>
       </ImageBackground>

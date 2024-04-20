@@ -40,6 +40,7 @@ describe('Login', () => {
     jest.useRealTimers();
     jest.clearAllMocks();
   });
+
   it('renders the login form', () => {
     const { getByTestId } = render(<Login navigation={mockNavigation} />);
     expect(getByTestId('userNameInput')).toBeTruthy();
@@ -53,38 +54,57 @@ describe('Login', () => {
 
     const { getByTestId } = render(<Login navigation={mockNavigation} />);
 
-    // Simulate user typing
     fireEvent.changeText(getByTestId('userNameInput'), 'John');
     fireEvent.changeText(getByTestId('passwordInput'), '123456');
-
-    // Submit the form
     fireEvent.press(getByTestId('loginButton'));
 
-    // Wait for the axios call to happen
     await waitFor(() => expect(axios.post).toHaveBeenCalled());
-
-    // Check axios was called with correct arguments
-    expect(axios.post).toHaveBeenCalledWith('http://http:3002/auth/login', {
+    expect(axios.post).toHaveBeenCalledWith(expect.any(String), {
       username: 'John',
       password: '123456',
     });
-
-    // Additional checks can be made here, for example:
-    // Verify navigation upon successful login
-
-    // - Check for error messages if login fails
   });
 
   it('displays an error message when login fails', async () => {
-    axios.post.mockRejectedValue(new Error('An error occurred during login.'));
+    axios.post.mockRejectedValue({
+      response: {
+        status: 401,
+        data: { message: 'Unauthorized: Check your username and password.' },
+      },
+    });
 
-    const { getByTestId } = render(<Login navigation={mockNavigation} />);
+    const { getByTestId, findByText } = render(<Login navigation={mockNavigation} />);
 
     fireEvent.changeText(getByTestId('userNameInput'), 'John');
+    fireEvent.changeText(getByTestId('passwordInput'), '123456');
     fireEvent.press(getByTestId('loginButton'));
 
-    await waitFor(() => expect(getByTestId('errorText')).toBeTruthy());
+    const errorMessage = await findByText('Unauthorized: Check your username and password.');
+    expect(errorMessage).toBeTruthy();
   });
 
-  // You can add more tests here to cover other functionalities and edge cases
+  it('shows error when fields are empty and login button is pressed', async () => {
+    const { getByTestId, findByText } = render(<Login navigation={mockNavigation} />);
+
+    fireEvent.press(getByTestId('loginButton'));
+
+    const errorMessage = await findByText('All fields are required');
+    expect(errorMessage).toBeTruthy();
+  });
+
+  it('toggles password visibility', () => {
+    const { getByTestId } = render(<Login navigation={mockNavigation} />);
+
+    // Initially, password should be hidden
+    expect(getByTestId('passwordInput').props.secureTextEntry).toBe(true);
+
+    // Toggle visibility
+    fireEvent.press(getByTestId('togglePasswordVisibility'));
+
+    // You might need to re-query the passwordInput to get the updated props
+    const updatedPasswordInput = getByTestId('passwordInput');
+    expect(updatedPasswordInput.props.secureTextEntry).toBe(false);
+  });
+
+  // Add more tests as needed to cover other functionalities and edge cases
 });

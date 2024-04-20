@@ -29,14 +29,19 @@ const ExerciseScreen = () => {
 
   useEffect(() => {
     const fetchAndSetExercise = async () => {
+      console.log('Current task:', currentTask);
+      console.log('Selected exercise:', selectedExercise);
       if (isFocused && currentTask && !selectedExercise) {
         // Check if there's no selectedExercise already
+        console.log('Current task:', currentTask);
         let exercise;
         const storedExercise = await AsyncStorage.getItem('selectedExercise');
         if (storedExercise) {
+          console.log('Stored exercise:', storedExercise);
           exercise = JSON.parse(storedExercise);
         } else {
           exercise = exercises[Math.floor(Math.random() * exercises.length)];
+          console.log('Random exercise:', exercise);
           await AsyncStorage.setItem('selectedExercise', JSON.stringify(exercise));
         }
         setSelectedExercise(exercise);
@@ -138,7 +143,7 @@ const ExerciseScreen = () => {
     try {
       await axios.post(`http://${api}/task/create`, {
         username: user.username,
-        taskType: exercise.key,
+        taskType: 'Exercise',
         description: exercise.description,
         date: new Date(),
         startTime: new Date().toLocaleTimeString('en-US', { hour12: false }),

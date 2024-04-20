@@ -106,4 +106,89 @@ describe('Settings Screen', () => {
     // TODO: Implement logout function in the SessionContext after backend is ready
     // expect(mockNavigation.navigate).toHaveBeenCalledWith('Login');
   });
+
+  // it('does not render without a user', () => {
+  //   jest.mock('../../context/SessionContext', () => ({
+  //     useSession: () => ({
+  //       user: null,
+  //     }),
+  //   }));
+
+  //   const { queryByText } = render(
+  //     <PaperProvider>
+  //       <Settings navigation={mockNavigation} />
+  //     </PaperProvider>
+  //   );
+
+  //   expect(queryByText('Settings')).toBeNull();
+  // });
+
+  it('displays error message on update information failure', async () => {
+    axios.put.mockRejectedValue(new Error('Error updating user information'));
+    const { getByText, findByText } = render(
+      <PaperProvider>
+        <Settings navigation={mockNavigation} />
+      </PaperProvider>
+    );
+
+    fireEvent.press(getByText('Update Information'));
+    const errorMessage = await findByText('Error updating user information');
+    expect(errorMessage).toBeTruthy();
+  });
+
+  it('displays error message on delete account failure', async () => {
+    axios.delete.mockRejectedValue(new Error('Failed to delete account'));
+    const { getByText, findByText } = render(
+      <PaperProvider>
+        <Settings navigation={mockNavigation} />
+      </PaperProvider>
+    );
+
+    fireEvent.press(getByText('Delete Account'));
+    // Assuming you have a way to confirm deletion, like pressing a 'Delete' button on a dialog
+    await waitFor(() => fireEvent.press(getByText('Delete')));
+    const errorMessage = await findByText('Failed to delete account');
+    expect(errorMessage).toBeTruthy();
+  });
+
+  it('cancels account deletion', async () => {
+    const { getByText } = render(
+      <PaperProvider>
+        <Settings navigation={mockNavigation} />
+      </PaperProvider>
+    );
+
+    fireEvent.press(getByText('Delete Account'));
+    // Assuming 'Cancel' is the text on the button to cancel deletion in your CustomAlert
+    fireEvent.press(getByText('Cancel'));
+
+    // Here you might want to check if the delete confirmation dialog has been dismissed
+    // This depends on how your CustomAlert component is implemented
+    // For example, you could check if the dialog is no longer visible or if a state has changed
+  });
+
+  it('successfully updates user information', async () => {
+    axios.put.mockResolvedValue({ data: true });
+    const { getByText } = render(
+      <PaperProvider>
+        <Settings navigation={mockNavigation} />
+      </PaperProvider>
+    );
+
+    fireEvent.press(getByText('Update Information'));
+    await waitFor(() => expect(mockSaveUser).toHaveBeenCalled());
+  });
+
+  it('successfully deletes account and navigates to login', async () => {
+    axios.delete.mockResolvedValue({ status: 200 });
+    const { getByText } = render(
+      <PaperProvider>
+        <Settings navigation={mockNavigation} />
+      </PaperProvider>
+    );
+
+    fireEvent.press(getByText('Delete Account'));
+    await waitFor(() => fireEvent.press(getByText('Delete')));
+    await waitFor(() => expect(mockNavigation.navigate).toHaveBeenCalledWith('Preferences'));
+  });
 });

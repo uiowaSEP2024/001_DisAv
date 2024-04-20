@@ -83,11 +83,10 @@ export default function Login({ navigation }) {
             <TextInput.Icon
               icon={passwordVisibility ? 'eye-off' : 'eye'}
               onPress={togglePasswordVisibility}
-              style={{ marginTop: 10, zIndex: 1 }}
+              testID="togglePasswordVisibility" // Ensure this matches what you use in the test
             />
           }
         />
-
         <Button testID="loginButton" mode="contained" onPress={signIn} style={styles.button}>
           Login
         </Button>

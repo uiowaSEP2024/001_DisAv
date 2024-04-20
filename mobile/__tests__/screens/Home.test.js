@@ -13,6 +13,13 @@ jest.mock('@react-navigation/native', () => ({
 // Mock `useSession` at the top level but without specifying the implementation
 jest.mock('../../context/SessionContext');
 
+// Mock expo-notifications
+jest.mock('expo-notifications', () => ({
+  getPermissionsAsync: jest.fn(() => Promise.resolve({ status: 'granted' })),
+  requestPermissionsAsync: jest.fn(() => Promise.resolve({ status: 'granted' })),
+  scheduleNotificationAsync: jest.fn(),
+}));
+
 const mockNavigation = {
   navigate: jest.fn(),
 };
@@ -23,7 +30,7 @@ describe('Home', () => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly with a user having preferred tasks', () => {
+  it('renders correctly with a user having preferred tasks', async () => {
     // Dynamically set the mock implementation for this test
     const useSessionMock = require('../../context/SessionContext').useSession;
     useSessionMock.mockImplementation(() => ({
@@ -41,12 +48,14 @@ describe('Home', () => {
       </PaperProvider>
     );
 
-    expect(queryByText('Welcome')).toBeNull();
-    expect(
-      getByText(
-        'InfiniteFocus is a revolutionary mobile app designed to combat digital distractions and promote productivity and mindfulness.'
-      )
-    ).toBeTruthy();
+    await waitFor(() => {
+      expect(queryByText('Welcome')).toBeNull();
+      expect(
+        getByText(
+          'InfiniteFocus is a revolutionary mobile app designed to combat digital distractions and promote productivity and mindfulness.'
+        )
+      ).toBeTruthy();
+    });
   });
 
   it('shows the welcome dialog on first render when preferredTasks is empty', async () => {
@@ -67,7 +76,10 @@ describe('Home', () => {
       </PaperProvider>
     );
 
-    expect(getByText('Welcome')).toBeTruthy();
+    await waitFor(() => {
+      expect(getByText('Welcome')).toBeTruthy();
+    });
+
     const nextButton = getByText('Next');
     fireEvent.press(nextButton);
 

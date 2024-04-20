@@ -20,6 +20,7 @@ router.post('/create', async (req, res) => {
     points,
   });
   await newTask.save().then(r => {});
+  console.log('Task created with id:', newTask._id);
   return res.status(200).json({ message: 'Task successfully created', task: newTask });
 });
 
