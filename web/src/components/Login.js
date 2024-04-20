@@ -35,7 +35,7 @@ const Login = () => {
           {
             type: 'LOGIN_SUCCESS',
             token: localStorage.getItem('token'),
-            user: sessionStorage.getItem('user'),
+            user: localStorage.getItem('user'),
           },
           '*'
         );
