@@ -99,8 +99,12 @@
       "mobile/metro.config.js",
       "mobile/navigation",
       "mobile/__tests__/navigation",
+      "mobile/screens/BreakScreen.test.js",
       "mobile/__tests__/screens/BreakScreen.test.js",
-      "mobile/__tests__/screens/ExerciseScreen.test.js"
+      "mobile/__tests__/screens/ExerciseScreen.test.js",
+      "mobile/screens/ExerciseScreen.test.js",
+      "mobile/screens/BreakScreen.js",
+      "mobile/screens/ExerciseScreen.js"
     ],
     "collectCoverage": true,
     "collectCoverageFrom": [
