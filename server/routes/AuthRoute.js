@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 const router = express.Router();
 
-// Define a constant for the bcrypt salt rounds for consistency
+// Define a constant for the bcrypt salt rounds for consistency and reusability
 const SALT_ROUNDS = 10;
 
 // Register API
