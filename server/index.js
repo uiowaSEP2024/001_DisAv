@@ -36,7 +36,7 @@ mongoose
   .then(r => console.log('db connected'))
   .catch(e => console.log('DB not connected check IP'));
 
-const PORT = process.env.PORT || 3002; // Fallback to 3002 if process.env.PORT is not defined
+const PORT = process.env.PORT || 3004; // Fallback to 3002 if process.env.PORT is not defined
 app
   .listen(PORT, () => console.log(`SERVER STARTED on port ${PORT}`))
   .on('error', err => {

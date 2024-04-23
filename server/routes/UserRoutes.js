@@ -1,6 +1,6 @@
 import express from 'express';
-import OpenAI from 'openai';
-import dotenv from 'dotenv';
+// import OpenAI from 'openai';
+// import dotenv from 'dotenv';
 import { UserModel } from '../models/UsersModel.js';
 import bcrypt from 'bcrypt';
 const router = express.Router();
@@ -198,55 +198,55 @@ router.put('/update-xp-points', async (req, res) => {
 });
 
 // Get url Type
-router.get('/get-browsing-type', async (req, res) => {
-  const { url, work } = req.query;
-  const browsingType = await GPTcall(url, work);
-  if (browsingType === 'entertainment' || browsingType === 'work') {
-    return res.status(200).json({ browsingType });
-  }
-  return res.status(400).json({ message: 'Invalid browsing type' });
-});
-async function GPTcall(url, work) {
-  const cwd = process.cwd();
-  const envDirectory = cwd + '/.env';
-  console.log('asd', envDirectory);
-  dotenv.config({ path: envDirectory });
-  const openai = new OpenAI({
-    apiKey: process.env.GPT_KEY, // This is also the default, can be omitted
-  });
-  try {
-    const chatCompletion = await openai.chat.completions.create({
-      model: 'gpt-4',
-      messages: [
-        {
-          role: 'system',
-          content:
-            'Your task is to classify a given URL as either primarily for entertainment or work-related purposes. Consider the context in which a user might visit this URL, such as their profession or personal interests. Provide your classification along with a brief explanation for your decision.return the answer as a single word being entertainment or work. Keep in mind that this user says their work is as follows: ' +
-            work +
-            ' This is important because for example a social media influencer might use social media for work purposes',
-        },
-        {
-          role: 'user',
-          content:
-            ' Keep in mind that this user says their work is as follows: ' +
-            work +
-            '. Classify the following URL: ' +
-            url +
-            ' Keep in mind, the work information is very important when making the decision. for example while social media could typically be considered entertainment, a social media influencer might use social media for work purposes. Similarly, a game developer might use gaming websites for work purposes. If the user is on youtube it is also very important to look at what video they are watching to know if it is relavent for their work',
-        },
-      ],
-    });
+// router.get('/get-browsing-type', async (req, res) => {
+//   const { url, work } = req.query;
+//   const browsingType = await GPTcall(url, work);
+//   if (browsingType === 'entertainment' || browsingType === 'work') {
+//     return res.status(200).json({ browsingType });
+//   }
+//   return res.status(400).json({ message: 'Invalid browsing type' });
+// });
+// async function GPTcall(url, work) {
+//   const cwd = process.cwd();
+//   const envDirectory = cwd + '/.env';
+//   console.log('asd', envDirectory);
+//   dotenv.config({ path: envDirectory });
+//   const openai = new OpenAI({
+//     apiKey: process.env.GPT_KEY, // This is also the default, can be omitted
+//   });
+//   try {
+//     const chatCompletion = await openai.chat.completions.create({
+//       model: 'gpt-4',
+//       messages: [
+//         {
+//           role: 'system',
+//           content:
+//             'Your task is to classify a given URL as either primarily for entertainment or work-related purposes. Consider the context in which a user might visit this URL, such as their profession or personal interests. Provide your classification along with a brief explanation for your decision.return the answer as a single word being entertainment or work. Keep in mind that this user says their work is as follows: ' +
+//             work +
+//             ' This is important because for example a social media influencer might use social media for work purposes',
+//         },
+//         {
+//           role: 'user',
+//           content:
+//             ' Keep in mind that this user says their work is as follows: ' +
+//             work +
+//             '. Classify the following URL: ' +
+//             url +
+//             ' Keep in mind, the work information is very important when making the decision. for example while social media could typically be considered entertainment, a social media influencer might use social media for work purposes. Similarly, a game developer might use gaming websites for work purposes. If the user is on youtube it is also very important to look at what video they are watching to know if it is relavent for their work',
+//         },
+//       ],
+//     });
 
-    console.log(chatCompletion.choices[0].message);
-    return chatCompletion.choices[0].message.content;
-  } catch (err) {
-    if (err.response) {
-      console.log(err.response.status);
-      console.log(err.response.data);
-    } else {
-      console.log(err.message);
-    }
-  }
-}
-GPTcall('https://www.youtube.com/watch?v=UrcwDOEBzZE', 'I am a software engineer').then(r => null);
+//     console.log(chatCompletion.choices[0].message);
+//     return chatCompletion.choices[0].message.content;
+//   } catch (err) {
+//     if (err.response) {
+//       console.log(err.response.status);
+//       console.log(err.response.data);
+//     } else {
+//       console.log(err.message);
+//     }
+//   }
+// }
+// GPTcall('https://www.youtube.com/watch?v=UrcwDOEBzZE', 'I am a software engineer').then(r => null);
 export { router as UserRouter };
