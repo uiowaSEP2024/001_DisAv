@@ -8,12 +8,13 @@ let interval;
 function openWebsite() {
   console.log('openWebsite called'); // This will log to the background page's console
   const website = 'http://localhost:3000/break-task';
-  chrome.tabs.update({ url: website, active: true })
+  chrome.tabs
+    .update({ url: website, active: true })
     .then(() => {
-      console.log("Opened website");
+      console.log('Opened website');
     })
     .catch(error => {
-      console.error("Error updating tab:", error);
+      console.error('Error updating tab:', error);
     });
 }
 
@@ -46,18 +47,22 @@ function handleStorageChange(changes, namespace) {
     for (let key in changes) {
       if (key === 'user') {
         const newUserValue = changes[key].newValue;
-        console.log(user?.username, newUserValue?.username, user?.username !== newUserValue?.username)
-      //  if (user?.username !== newUserValue?.username) { // Only happens on new user
-        if (interval){
-          console.log("Clearing interval")
+        console.log(
+          user?.username,
+          newUserValue?.username,
+          user?.username !== newUserValue?.username
+        );
+        //  if (user?.username !== newUserValue?.username) { // Only happens on new user
+        if (interval) {
+          console.log('Clearing interval');
           clearInterval(interval); // stop existing interval on new login
         }
         user = newUserValue;
-        console.log("Updating user to",user)
+        console.log('Updating user to', user);
         interval = setInterval(checkNextFrozen, user.taskFrequency);
-        console.log("Set new interval")
+        console.log('Set new interval');
         let currentDate = new Date();
-        console.log("User info changed, updating frozen browsing")
+        console.log('User info changed, updating frozen browsing');
         updateFrozenBrowsing({
           username: user.username,
           nextFrozen: new Date(currentDate.getTime() + user.taskFrequency),
@@ -98,7 +103,9 @@ function checkNextFrozen() {
         endTime: currentTime,
         duration: 20000,
         points: 10,
-      }).then(r => console.log("Done")).catch(e=>console.log("Error",e)); //TODO specify task duration
+      })
+        .then(r => console.log('Done'))
+        .catch(e => console.log('Error', e)); //TODO specify task duration
     }
   }
 }

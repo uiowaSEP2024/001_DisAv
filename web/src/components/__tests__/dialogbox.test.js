@@ -31,7 +31,7 @@ const mockedBooksData = {
 describe('DialogBox', () => {
   it('should not render when isOpen is false', () => {
     const { queryByText } = render(
-      <DialogBox isOpen={false} onClose={() => { }} addBook={() => { }} />
+      <DialogBox isOpen={false} onClose={() => {}} addBook={() => {}} />
     );
     expect(queryByText(/enter book title/i)).not.toBeInTheDocument();
   });
