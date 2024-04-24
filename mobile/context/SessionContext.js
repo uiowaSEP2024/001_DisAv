@@ -34,9 +34,13 @@ export const SessionProvider = ({ children }) => {
       }
 
       try {
+        console.log(
+          `Fetching tasks via url http://${api}/task/get-by-username?username=${user.username}`
+        );
         const response = await axios.get(
           `http://${api}/task/get-by-username?username=${user.username}`
         );
+        console.log('Fetched tasks:', response.data.tasks);
         const tasks = response.data.tasks;
         const activeTask = tasks.find(task => !task.isCompleted);
 
