@@ -35,6 +35,8 @@ function App() {
   const [currentUrl, setCurrentUrl] = useState('');
   const [userInfo, setUserInfo] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
+  const [monitoredSites, setMonitoredSites] = useState([]);
+
   const fetchUserInfo = () => {
     console.log('fetchUserInfo called');
     chrome.storage.local.get(['user', 'token'], async function (result) {
@@ -46,6 +48,7 @@ function App() {
           .then(response => {
             setUserInfo(response.data.user);
             setLoggedIn(true);
+            setMonitoredSites(response.data.user.blacklistedWebsites);
             console.log('User info:', response.data);
           });
       }
@@ -76,11 +79,61 @@ function App() {
     }
   }
   function Settings(props) {
+      const [userStats, setUserStats] = useState({
+        skippedTasks: 10,
+        readBooks: 25,
+        waited: 76,
+        exercised: 0
+      });
+    console.log("HEllo THERE", monitoredSites)
+    if(!loggedIn){
+      return null
+    }
+
+    const calculatePercentage = (value, total) => {
+      return total > 0 ? (value / total) * 100 : 0;
+    };
+
+    const totalTasks = 100;
+    const totalBooks = 50;
+
     return (
       <div className="App">
-        <h1>This will be a settings page</h1>
+        <h1 className="settings-header">Settings</h1>
+        <div className="monitored-sites-section">
+          <h2>Monitored Sites</h2>
+          <div className="monitored-sites-list">
+            {monitoredSites.map((site, index) => (
+              <div key={index} className="site-item">
+                <span className="site-name">{site}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="user-stats">
+          <h2>Stats</h2>
+          <div className="stat-item">
+            <label>Tasks Skipped</label>
+            <div className="progress-bar">
+              <div
+                className="progress"
+                style={{ width: `${calculatePercentage(userStats.skippedTasks, totalTasks)}%` }}
+              ></div>
+            </div>
+          </div>
+          <div className="stat-item">
+            <label>Books Read</label>
+            <div className="progress-bar">
+              <div
+                className="progress"
+                style={{ width: `${calculatePercentage(userStats.readBooks, totalBooks)}%` }}
+              ></div>
+            </div>
+          </div>
+          {/* Add more stats with progress bars as needed */}
+        </div>
       </div>
-        )
+    );
   }
   const clearStorage = () => {
     chrome.storage.local.clear(function () {

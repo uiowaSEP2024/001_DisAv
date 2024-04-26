@@ -1,6 +1,6 @@
 body, html {
-  width: 450px;
-  height: 450px;
+  width: 500px;
+  height: 500px;
   margin: 0;
   padding: 0;
   overflow: scroll;
@@ -126,4 +126,108 @@ button {
 .logo{
   height: 10vh;
   margin-top: 15px;
+}
+
+.settings-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+.settings-header {
+  text-align: left;
+  margin-bottom: 30px;
+  color: #333; /* Dark text for contrast */
+}
+
+.monitored-sites-section {
+  background-color: #f9f9f9; /* Very light background for this section */
+  border-radius: 8px;
+  padding: 15px;
+  width: 80vw;
+  margin-bottom: 30px;
+}
+
+.monitored-sites-list {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.site-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.site-item:last-child {
+  border-bottom: none;
+}
+
+.site-name {
+  color: #555; /* Darker text for readability */
+  flex-grow: 1; /* Ensures name takes up available space */
+}
+
+.edit-button {
+  padding: 8px 16px;
+  background-color: #007bff; /* Blue color for edit button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+}
+
+.user-stats {
+  padding: 20px;
+  border-radius: 8px;
+  width: 80vw;
+  background-color: #f9f9f9; /* Same light background as the sites section */
+}
+
+.stat-item {
+  margin: 10px 0;
+}
+
+/* Custom progress bar styles */
+.progress-bar-container {
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  padding: 3px;
+  margin: 10px 0;
+}
+
+.progress-bar {
+  background-color: #007bff;
+  height: 20px;
+  border-radius: 15px;
+  width: 20; /* Dynamically update this in your JS based on stats */
+  transition: width 0.5s ease-in-out;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.progress-bar-label {
+  position: absolute;
+  white-space: nowrap;
+  color: white;
+  font-weight: bold;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .settings-container {
+    width: 95%;
+  }
 }
