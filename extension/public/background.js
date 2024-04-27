@@ -59,7 +59,7 @@ function handleStorageChange(changes, namespace) {
         }
         user = newUserValue;
         console.log('Updating user to', user);
-        interval = setInterval(checkNextFrozen, user.taskFrequency);
+        interval = setInterval(checkNextFrozen, 5);
         console.log('Set new interval');
         let currentDate = new Date();
         console.log('User info changed, updating frozen browsing');
@@ -135,9 +135,16 @@ async function createTask(data) {
 // redirect all search urls
 chrome.webNavigation.onBeforeNavigate.addListener(
   async function (details) {
-    console.log('Checking navigation:', user?.frozenBrowsing);
-
     const url = new URL(details.url);
+
+    console.log('Checking navigation:', user.blacklistedWebsites);
+    for (const site of user?.blacklistedWebsites) {
+      if(isSignificantPartContained(site, url.href)){
+       // interval = setInterval(checkNextFrozen, user.taskFrequency);
+        console.log("website blocked")
+      }
+    }
+
     if (!url.href.startsWith('http://localhost:3000/') && user?.frozenBrowsing) {
       const redirectUrl = 'http://localhost:3000/break-task';
       chrome.tabs.update(details.tabId, { url: redirectUrl });
@@ -145,3 +152,18 @@ chrome.webNavigation.onBeforeNavigate.addListener(
   },
   { url: [{ schemes: ['http', 'https'] }] }
 );
+
+function isSignificantPartContained(str1, str2) {
+  const [smaller, larger] = str1.length < str2.length ? [str1, str2] : [str2, str1];
+
+  let i = 0, j = 0;
+
+  while (i < smaller.length && j < larger.length) {
+    if (smaller[i] === larger[j]) {
+      i++;
+    }
+    j++;
+  }
+  const matchThreshold = 0.7;
+  return (i >= smaller.length * matchThreshold);
+}
