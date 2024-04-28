@@ -14,15 +14,19 @@ InfiniteFocus is a revolutionary mobile app designed to combat digital distracti
 
 To install InfiniteFocus, clone the repo and install the dependencies:
 
-- "git clone (https://github.com/uiowaSEP2024/001_DisAv.git)"
-- "cd 001_DisAv"
-- "cd Mobile"
-- "yarn install"
+- `git clone (https://github.com/uiowaSEP2024/001_DisAv.git)`
+- `cd 001_DisAv`
+- `cd Mobile`
+- `yarn install`
+- `cd .. && cd server`
+- `yarn install`
 
 ## Usage
 
-To run InfiniteFocus, execute the following command in the terminal:
-"yarn start"
+To run InfiniteFocus, run the server first in the /server directory using the following command:
+- `yarn start`
+Then navigate to the /mobile directory and run the mobile expo:
+- `npx expo start`
 
 ## Contributing
 
