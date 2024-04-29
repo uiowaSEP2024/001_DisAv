@@ -1,4 +1,4 @@
-package com.infinitefocus
+package org.name.infiniteFocus
 
 import android.app.Application
 import android.content.res.Configuration

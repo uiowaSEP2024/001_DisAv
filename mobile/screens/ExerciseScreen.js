@@ -104,7 +104,7 @@ const ExerciseScreen = () => {
     setIsLoading(true);
     try {
       // Assuming you have an API endpoint to mark an exercise as complete
-      const response = await axios.put(`http://${api}/task/update-completed`, {
+      const response = await axios.put(`https://${api}/task/update-completed`, {
         id: currentTask._id,
         isCompleted: true,
         endTime: new Date(),
@@ -141,7 +141,7 @@ const ExerciseScreen = () => {
   const createExerciseTask = async exercise => {
     setIsLoading(true);
     try {
-      await axios.post(`http://${api}/task/create`, {
+      await axios.post(`https://${api}/task/create`, {
         username: user.username,
         taskType: 'Exercise',
         description: exercise.description,

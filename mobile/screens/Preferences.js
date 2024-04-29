@@ -86,28 +86,28 @@ export default function Preferences({ navigation }) {
     }
     try {
       const responseUpdatePreferredTasks = await axios.put(
-        `http://${api}/user/update-preferred-tasks`,
+        `https://${api}/user/update-preferred-tasks`,
         {
           username: user.username,
           preferredTasks,
         }
       );
       const responseUpdateTaskFrequency = await axios.put(
-        `http://${api}/user/update-task-frequency`,
+        `https://${api}/user/update-task-frequency`,
         {
           username: user.username,
           taskFrequency: taskFrequencyInMs,
         }
       );
       const responseUpdateWorkPreferences = await axios.put(
-        `http://${api}/user/update-work-preferences`,
+        `https://${api}/user/update-work-preferences`,
         {
           username: user.username,
           workPreferences: workDescription,
         }
       );
       const responseUpdateReadingPreferences = await axios.put(
-        `http://${api}/user/update-reading-preferences`,
+        `https://${api}/user/update-reading-preferences`,
         {
           username: user.username,
           readingPreferences: readingDescription,

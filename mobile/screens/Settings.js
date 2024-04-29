@@ -35,7 +35,7 @@ export default function Settings({ navigation }) {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.put(`http://${api}/user/update`, {
+      const response = await axios.put(`https://${api}/user/update`, {
         user: { ...user, ...formData },
       });
       if (response.data) {
@@ -50,7 +50,7 @@ export default function Settings({ navigation }) {
 
   const deleteAccount = async () => {
     try {
-      const response = await axios.delete(`http://${api}/user/delete-account`, {
+      const response = await axios.delete(`https://${api}/user/delete-account`, {
         data: { userId: user.id },
       });
       if (response.status === 200) {

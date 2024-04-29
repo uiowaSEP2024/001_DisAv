@@ -25,7 +25,7 @@ export default function Rewards({ navigation }) {
     }
     try {
       const response = await axios.get(
-        `http://${api}/task/get-by-username?username=${user.username}`
+        `https://${api}/task/get-by-username?username=${user.username}`
       );
       const userTasks = response.data.tasks;
       let points = 0;

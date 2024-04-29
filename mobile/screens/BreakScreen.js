@@ -40,7 +40,7 @@ const BreakScreen = () => {
   const markTaskAsCompleted = async () => {
     if (currentTask) {
       try {
-        await axios.put(`http://${api}/task/update-completed`, {
+        await axios.put(`https://${api}/task/update-completed`, {
           id: currentTask._id,
           isCompleted: true,
         });
