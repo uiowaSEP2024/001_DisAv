@@ -36,7 +36,8 @@ function App() {
   const [userInfo, setUserInfo] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [monitoredSites, setMonitoredSites] = useState([]);
-
+  const [visible, setVisible] = useState(false);
+  const [blockedSite, setBlockedSite] = useState();
   const fetchUserInfo = () => {
     console.log('fetchUserInfo called');
     chrome.storage.local.get(['user', 'token'], async function (result) {
@@ -56,11 +57,12 @@ function App() {
     });
   };
   function BrowserStatus(props) {
-    if(loggedIn) {
+    if(loggedIn && visible) {
       return (
         <div className="App">
           {/*<button onClick={clearStorage}>good Current URL</button>*/}
           <div>
+            <h2 style={{ color: 'red' }}>Browsing detected on {blockedSite}</h2>
             <div className={'timer'}>
               <CountdownTimer
                 totalTime={userInfo.taskFrequency / 1000}
@@ -147,11 +149,40 @@ function App() {
       }
     });
   };
-
+  console.log("HELLO THERE I AM STARTING")
   // Use useEffect to fetch user info when the component mounts
   useEffect(() => {
     console.log('testing');
     fetchUserInfo();
+    const checkVisibleVariable = () => {
+      // Continuously check Chrome storage for the "visible" variable
+      chrome.storage.local.get(['visible'], function(result) {
+        if (result.visible) {
+          console.log('Website is blocked. Continue workflow...');
+          setVisible(true);
+        } else {
+          console.log('Website is not blocked. Waiting...');
+          setVisible(false);
+        }
+      });
+      chrome.storage.local.get(['site'], function(result) {
+        if (result.site) {
+          console.log('Website is blocked. Continue workflow...');
+          setBlockedSite(result.site);
+        }
+      });
+    };
+
+    // Check the "visible" variable initially
+    checkVisibleVariable();
+
+    // Set interval to continuously check the "visible" variable
+    const interval = setInterval(checkVisibleVariable, 1000); // Check every 5 seconds
+
+    // Clean up function to clear interval when component unmounts
+    return () => {
+      clearInterval(interval);
+    };
   }, []); // Empty dependency array means this effect runs once on mount
 
   // Function to get the current tab URL

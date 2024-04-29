@@ -2,7 +2,7 @@
 console.log('Background script is running.'); // This will log to the background page's console
 // Grab user data from the API
 let user;
-let interval;
+let interval = null;
 // Retrieve user data from Chrome storage
 
 function openWebsite() {
@@ -59,15 +59,6 @@ function handleStorageChange(changes, namespace) {
         }
         user = newUserValue;
         console.log('Updating user to', user);
-        interval = setInterval(checkNextFrozen, 5);
-        console.log('Set new interval');
-        let currentDate = new Date();
-        console.log('User info changed, updating frozen browsing');
-        updateFrozenBrowsing({
-          username: user.username,
-          nextFrozen: new Date(currentDate.getTime() + user.taskFrequency),
-          frozenBrowsing: false, //TODO Check here if setting automatically to false
-        });
         //}
       }
     }
@@ -84,9 +75,11 @@ function checkNextFrozen() {
     console.log('checking again1', user.nextFrozen);
     const nextFrozenTime = new Date(user.nextFrozen).getTime();
     const currentTime = new Date().getTime();
-    console.log('checking again2', nextFrozenTime, currentTime, nextFrozenTime <= currentTime);
+    console.log('checking again2', nextFrozenTime, currentTime, nextFrozenTime <= currentTime,currentTime-nextFrozenTime);
     if (user.nextFrozen && currentTime >= nextFrozenTime) {
       console.log('Current time is past nextFrozen:', user.nextFrozen);
+      clearInterval(interval);
+      interval = null;
       openWebsite();
       let currentDate = new Date();
       updateFrozenBrowsing({
@@ -137,10 +130,24 @@ chrome.webNavigation.onBeforeNavigate.addListener(
   async function (details) {
     const url = new URL(details.url);
 
-    console.log('Checking navigation:', user.blacklistedWebsites);
+    console.log('Checking navigation:', interval === null,url);
     for (const site of user?.blacklistedWebsites) {
-      if(isSignificantPartContained(site, url.href)){
+      if(isSignificantPartContained(site, url.href) && !interval){
        // interval = setInterval(checkNextFrozen, user.taskFrequency);
+        chrome.tabs.sendMessage(details.tabId, { type: 'WEBSITE_BLOCKED', site: site });
+        console.log('Set new interval',user.taskFrequency);
+        let currentDate = new Date();
+        console.log('User info changed, updating frozen browsing');
+        updateFrozenBrowsing({
+          username: user.username,
+          nextFrozen: new Date(currentDate.getTime() + user.taskFrequency),
+          frozenBrowsing: false, //TODO Check here if setting automatically to false
+        });
+        if (interval){
+          clearInterval(interval)
+          interval = null;
+        }
+        interval = setInterval(checkNextFrozen, 1000);
         console.log("website blocked")
       }
     }
