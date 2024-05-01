@@ -3,15 +3,14 @@
   "name": "Infinite Focus",
   "description": "A doom scrolling solution that helps you regain focus with helpful tasks",
   "version": "0.0.1",
-  "permissions": ["activeTab", "storage", "idle", "webNavigation", "tabs"],
-  "host_permissions": ["https://infinitefocus.tech/*"],
+  "permissions": ["storage", "webNavigation"],
   "action": {
     "default_icon": "logo192.png",
     "default_popup": "index.html"
   },
   "content_scripts": [
     {
-      "matches": ["https://infinitefocus.tech/*"],
+      "matches": ["http://localhost:3000/*", "https://infinitefocus.tech/*"],
       "js": ["contentScript.js"]
     }
   ],

@@ -32,8 +32,8 @@ describe('Rewards Component', () => {
     // Since RewardHistory is a child component that fetches tasks and updates total points,
     // you might want to wait for those updates to propagate.
     // This assumes RewardHistory calls the setTotalPoints function passed as a prop.
-    await screen.findByText(/You have earned 30 points/);
-    expect(screen.getByText(/You have earned 30 points/i)).toBeInTheDocument();
+    await screen.findByText(/You have earned -10 points/);
+    expect(screen.getByText(/You have earned -10 points/i)).toBeInTheDocument();
   });
 
   it('activates the history tab and shows RewardHistory', async () => {
@@ -44,6 +44,6 @@ describe('Rewards Component', () => {
     expect(historyTab).toHaveClass('active');
     // Since RewardHistory's rendering is based on activeTab's state, check for an element unique to RewardHistory
     // Example: Check for a specific task being rendered
-    await screen.findByText(/Completed: Task 1 on/i);
+    await screen.findByText(/Task 1 on/i);
   });
 });

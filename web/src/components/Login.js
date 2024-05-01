@@ -79,7 +79,7 @@ const Login = () => {
                   value={username}
                   required={true}
                   onChange={e => setUsername(e.target.value)}
-                  style={{width: '90%'}}
+                  style={{ width: '90%' }}
                 />
               </div>
               <div className="input-group">
@@ -91,22 +91,19 @@ const Login = () => {
                   value={password}
                   required={true}
                   onChange={e => setPassword(e.target.value)}
-                  style={{width: '90%'}}
-
+                  style={{ width: '90%' }}
                 />
               </div>
               <input type="submit" value="Submit" data-testid="submit-button" />
             </form>
           </div>
         </div>
-        <img src={leftWave} className="image-fixed-left"/>
+        <img src={leftWave} className="image-fixed-left" />
         <img src={timeImg} className="section-image2" />
       </div>
       <img src={wave} className="wave" />
-
     </div>
   );
-
 };
 
 export default Login;

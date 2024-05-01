@@ -23,8 +23,11 @@ const RewardHistory = ({ setTotalPoints }) => {
         });
         return { ...task, date: formattedDate };
       });
-      setUserTasks(formattedTasks);
-      const totalPoints = formattedTasks.reduce((total, task) => total + task.points, 0);
+      setUserTasks(formattedTasks.reverse());
+      let totalPoints = formattedTasks.reduce(
+        (total, task) => (task.isCompleted ? total + task.points : total - 5),
+        0
+      );
       setTotalPoints(totalPoints);
     } catch (error) {
       console.error('Error fetching user tasks:', error);
@@ -38,10 +41,19 @@ const RewardHistory = ({ setTotalPoints }) => {
   return (
     <div className="reward-history">
       {userTasks.map((task, index) => (
-        <div key={index} className="history-item">
-          <p>
-            Completed: {task.taskType} on {task.date}: Earned {task.points} points
-          </p>
+        <div
+          key={index}
+          className={task.isCompleted ? 'history-item completed' : 'history-item not-completed'}
+        >
+          {task.isCompleted ? (
+            <p>
+              Completed: {task.taskType} on {task.date}: Earned {task.points} points
+            </p>
+          ) : (
+            <p>
+              Skipped: {task.taskType} on {task.date}: lost 5 points
+            </p>
+          )}
         </div>
       ))}
     </div>

@@ -10,7 +10,7 @@ import '../styles/bookdetail.css';
 import axios from 'axios';
 import { toast } from 'react-toastify'; // Make sure to create a corresponding CSS file if you have additional styling
 
-function BookDetail({ book, onClose }) {
+function BookDetail({ book, onClose, frozen }) {
   // const numberOfChapters = 10; // This is hardcoded for now
   console.log(book.chapterSummaries);
   const [summaries, setSummaries] = useState(book.chapterSummaries); // Initialize state for summaries
@@ -19,6 +19,20 @@ function BookDetail({ book, onClose }) {
     // Update the summary for the specific chapter index
     setSummaries(summaries.map((summary, i) => (i === index ? text : summary)));
   };
+  async function updateTask(type, isCompleted) {
+    await axios
+      .get('http://localhost:3002/task/get-most-recent-task', {
+        params: { username: localStorage.getItem('username') },
+      })
+      .then(r => {
+        axios.put('http://localhost:3002/task/update', {
+          id: r.data.task._id,
+          type: type,
+          isCompleted: isCompleted,
+          username: localStorage.getItem('username'),
+        });
+      });
+  }
   const endFrozenBrowsing = async () => {
     const currentDate = new Date();
     await axios
@@ -28,6 +42,7 @@ function BookDetail({ book, onClose }) {
         nextFrozen: new Date(currentDate.getTime() + localStorage.getItem('taskFrequency')),
       })
       .then(response => {
+        updateTask('Reading', true);
         sessionStorage.setItem('user', JSON.stringify(response.data.user)); // Update current stored user
         console.log('Success', response.data.user);
         window.postMessage(
@@ -65,7 +80,9 @@ function BookDetail({ book, onClose }) {
           setUser({ ...user, frozenBrowsing: false });
           sessionStorage.setItem('user', JSON.stringify(user));
           localStorage.setItem('user', JSON.stringify(user));
-          endFrozenBrowsing().then(r => console.log('Browsing updated'));
+          if (frozen) {
+            endFrozenBrowsing().then(r => console.log('Browsing updated'));
+          }
         }
       });
   };

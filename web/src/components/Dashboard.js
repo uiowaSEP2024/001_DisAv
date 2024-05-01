@@ -73,13 +73,23 @@ const Dashboard = () => {
         <div className="list-panel">
           <div className="blacklist-container">
             <h2>Blacklisted Sites</h2>
-            <BoxComponent content={trackedSites} onRemove={index => removeSite(index, 'blacklist')} />
-            <button className="btn-add-website" onClick={() => setBlacklistDialogVisible(true)}>Add Blacklisted Site</button>
+            <BoxComponent
+              content={trackedSites}
+              onRemove={index => removeSite(index, 'blacklist')}
+            />
+            <button className="btn-add-website" onClick={() => setBlacklistDialogVisible(true)}>
+              Add Blacklisted Site
+            </button>
           </div>
           <div className="whitelist-container">
             <h2>Whitelisted Sites</h2>
-            <BoxComponent content={whitelistedSites} onRemove={index => removeSite(index, 'whitelist')} />
-            <button className="btn-add-website" onClick={() => setWhitelistDialogVisible(true)}>Add Whitelisted Site</button>
+            <BoxComponent
+              content={whitelistedSites}
+              onRemove={index => removeSite(index, 'whitelist')}
+            />
+            <button className="btn-add-website" onClick={() => setWhitelistDialogVisible(true)}>
+              Add Whitelisted Site
+            </button>
           </div>
         </div>
         <div className="user-info-panel">
@@ -112,7 +122,6 @@ const Dashboard = () => {
       )}
     </div>
   );
-
 };
 
 export default Dashboard;

@@ -73,25 +73,24 @@ jobs:
           path: server/coverage
           # Set the output for coverage report URL
           id: upload_coverage
-
-#  test-extension:
-#    runs-on: ubuntu-latest
-#    outputs:
-#      coverageReportUrl: ${{ steps.upload_coverage.outputs.artifact_url }}
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Set up Node.js
-#        uses: actions/setup-node@v1
-#        with:
-#          node-version: '16.x'
-#      - name: Install dependencies (Extension)
-#        run: cd extension && npm install
-#      - name: Run tests with coverage (Extension)
-#        run: cd extension && npm test --coverage --watchAll=false
-#      - name: Archive coverage report (Extension)
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: coverage-extension
-#          path: extension/coverage
-#          # Set the output for coverage report URL
-#          id: upload_coverage
+  test-extension:
+    runs-on: ubuntu-latest
+    outputs:
+      coverageReportUrl: ${{ steps.upload_coverage.outputs.artifact_url }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - name: Install dependencies (Extension)
+        run: cd extension && npm install
+      - name: Run tests with coverage (Extension)
+        run: cd extension && npm test --coverage --watchAll=false
+      - name: Archive coverage report (Extension)
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-extension
+          path: extension/coverage
+          # Set the output for coverage report URL
+          id: upload_coverage
