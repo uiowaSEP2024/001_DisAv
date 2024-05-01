@@ -27,6 +27,7 @@ const Tasks = ({ assignedTask }) => {
         setTimer(prevTimer => {
           if (prevTimer > 1) return prevTimer - 1;
           clearInterval(interval);
+          updateTask('break', true);
           completeTask();
           return 0;
         });
@@ -77,16 +78,33 @@ const Tasks = ({ assignedTask }) => {
     confetti({
       particleCount: 1000,
       spread: 100,
-      origin: { y: 0.6 }
+      origin: { y: 0.6 },
     });
   };
-
+  async function updateTask(type, isCompleted) {
+    await axios
+      .get('http://localhost:3002/task/get-most-recent-task', {
+        params: { username: localStorage.getItem('username') },
+      })
+      .then(r => {
+        axios
+          .put('http://localhost:3002/task/update', {
+            id: r.data.task._id,
+            type: type,
+            isCompleted: isCompleted,
+            username: localStorage.getItem('username'),
+          })
+          .catch(e => console.log('Error here', e));
+      })
+      .catch(e => console.log('ERROR', e));
+  }
   const skipTask = () => {
     setTimer(0); // Stops the timer
+    updateTask('break', false);
     completeTask(); // Marks the task as completed and triggers confetti
   };
 
-  const formatTime = (time) => {
+  const formatTime = time => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;

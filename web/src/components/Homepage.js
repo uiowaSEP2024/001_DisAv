@@ -1,8 +1,8 @@
 import React from 'react';
 import '../styles/homepage.css';
 import timeImg from '../assets/file.png';
-import wave from "../assets/wave.svg";
-import leftWave from "../assets/leftWave.png";
+import wave from '../assets/wave.svg';
+import leftWave from '../assets/leftWave.png';
 import { Link } from 'react-router-dom';
 const Homepage = () => {
   return (
@@ -22,11 +22,10 @@ const Homepage = () => {
             Get Started
           </Link>
         </div>
-        <img src={leftWave} className="image-fixed-left"/>
+        <img src={leftWave} className="image-fixed-left" />
         <img src={timeImg} className="section-image" />
       </div>
       <img src={wave} className="wave" />
-
     </div>
   );
 };

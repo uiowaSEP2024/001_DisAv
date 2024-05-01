@@ -94,4 +94,25 @@ router.get('/get-by-username', async (req, res) => {
   return res.status(200).json({ tasks });
 });
 
+router.get('/get-most-recent-task', async (req, res) => {
+  const { username } = req.query;
+
+  try {
+    const user = await UserModel.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const tasks = await TaskModel.find({ associatedUser: user._id }).sort({ date: -1 }).limit(1);
+    // If no tasks found, return error
+    if (!tasks || tasks.length === 0) {
+      return res.status(404).json({ message: 'No tasks found for this user' });
+    }
+    // Return the most recent task
+    return res.status(200).json({ task: tasks[0] });
+  } catch (error) {
+    // Handle errors
+    console.error('Error fetching most recent task:', error);
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 export { router as taskRouter };

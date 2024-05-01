@@ -9,7 +9,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
       <div className="tabs">
         <div className="buttons">
           <Link to="/" className="">
-            <img style={{height: '10vh', marginTop: '1vh'}} src={LogoImage}/>
+            <img style={{ height: '10vh', marginTop: '1vh' }} src={LogoImage} />
           </Link>
         </div>
 

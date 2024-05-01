@@ -21,6 +21,8 @@ function App() {
 
   const handleLogout = () => {
     logout();
+    localStorage.clear();
+    sessionStorage.clear();
     navigate('/');
     console.log('Logged out successfully');
   };

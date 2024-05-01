@@ -113,7 +113,9 @@ function ReadTask(props) {
           />
         ))}
       </div>
-      {selectedBook && <BookDetail book={selectedBook} onClose={handleClose} />}
+      {selectedBook && (
+        <BookDetail book={selectedBook} onClose={handleClose} frozen={user?.frozenBrowsing} />
+      )}
       <div className="add-button-container">
         <Button className="add-book-button" onClick={() => setOpenDialog(true)}>
           Add a new Book
