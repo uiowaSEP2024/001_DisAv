@@ -109,7 +109,15 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
           />
         </li>
       </ul>
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleSubmit} style={{
+        zIndex: 20,
+        cursor: 'pointer',
+        backgroundColor: '#6210be',
+        color: 'white',
+        width: '90px',
+        height: '40px',
+        borderRadius: '10px'
+      }}>Submit</button>
     </div>
   );
 };

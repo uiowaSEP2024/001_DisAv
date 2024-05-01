@@ -1,10 +1,14 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { AuthContext } from './AuthContext'; // Import AuthContext
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/login.css';
+import leftWave from '../assets/leftWave.png';
+import timeImg from '../assets/file.png';
+import wave from '../assets/wave.svg';
+import '../styles/homepage.css';
 
 const Login = () => {
   toast.configure();
@@ -59,37 +63,50 @@ const Login = () => {
       }
     }
   };
-
   return (
-    <div className="login">
-      <form data-testid="login-form" onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <div className="input-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            required={true}
-            onChange={e => setUsername(e.target.value)}
-          />
+    <div className="homepage" data-testid="homepage">
+      <div className="welcome-section">
+        <div className="text">
+          <div className="login">
+            <form data-testid="login-form" onSubmit={handleSubmit}>
+              <h2>Login</h2>
+              <div className="input-group">
+                <label htmlFor="username">Username:</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={username}
+                  required={true}
+                  onChange={e => setUsername(e.target.value)}
+                  style={{width: '90%'}}
+                />
+              </div>
+              <div className="input-group">
+                <label htmlFor="password">Password:</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={password}
+                  required={true}
+                  onChange={e => setPassword(e.target.value)}
+                  style={{width: '90%'}}
+
+                />
+              </div>
+              <input type="submit" value="Submit" data-testid="submit-button" />
+            </form>
+          </div>
         </div>
-        <div className="input-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            required={true}
-            onChange={e => setPassword(e.target.value)}
-          />
-        </div>
-        <input type="submit" value="Submit" data-testid="submit-button" />
-      </form>
+        <img src={leftWave} className="image-fixed-left"/>
+        <img src={timeImg} className="section-image2" />
+      </div>
+      <img src={wave} className="wave" />
+
     </div>
   );
+
 };
 
 export default Login;

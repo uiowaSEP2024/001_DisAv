@@ -68,34 +68,29 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <h1>Welcome to Your Dashboard</h1>
-      {user && (
-        <div className="dashboard-content">
-          <p>Hi, {user.firstname}</p>
-          {/* Display user information */}
-          <p>These sites are currently being monitored for doom scrolling:</p>
+      <h1>Welcome to Your Dashboard, {user ? user.firstname : 'User'}!</h1>
+      <div className="grid-container">
+        <div className="list-panel">
+          <div className="blacklist-container">
+            <h2>Blacklisted Sites</h2>
+            <BoxComponent content={trackedSites} onRemove={index => removeSite(index, 'blacklist')} />
+            <button className="btn-add-website" onClick={() => setBlacklistDialogVisible(true)}>Add Blacklisted Site</button>
+          </div>
+          <div className="whitelist-container">
+            <h2>Whitelisted Sites</h2>
+            <BoxComponent content={whitelistedSites} onRemove={index => removeSite(index, 'whitelist')} />
+            <button className="btn-add-website" onClick={() => setWhitelistDialogVisible(true)}>Add Whitelisted Site</button>
+          </div>
         </div>
-      )}
-      <div className="lists-container">
-        <div className="blacklist-container">
-          <h2>Blacklisted Sites</h2>
-          <BoxComponent content={trackedSites} onRemove={index => removeSite(index, 'blacklist')} />
-          <br />
-          <button className="btn-add-website" onClick={() => setBlacklistDialogVisible(true)}>
-            Add Blacklisted Site
-          </button>
+        <div className="user-info-panel">
+          <UserInfo user={user} />
         </div>
-        <div className="whitelist-container">
-          <h2>Whitelisted Sites</h2>
-          <BoxComponent
-            content={whitelistedSites}
-            onRemove={index => removeSite(index, 'whitelist')}
-          />
-          <br />
-          <button className="btn-add-website" onClick={() => setWhitelistDialogVisible(true)}>
-            Add Whitelisted Site
-          </button>
+        <div className="preference-panel">
+          <Preference />
         </div>
+        {/* <div className="extra-panel">
+          <p>Additional Tools or Stats</p>
+        </div> */}
       </div>
       {isBlacklistDialogVisible && (
         <DialogBox
@@ -115,12 +110,9 @@ const Dashboard = () => {
           dashboard={true}
         />
       )}
-      <br />
-      <UserInfo user={user} />
-      <br />
-      <Preference />
     </div>
   );
+
 };
 
 export default Dashboard;

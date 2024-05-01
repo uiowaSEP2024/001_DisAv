@@ -1,15 +1,15 @@
 import React from 'react';
 import '../styles/navbar.css';
 import { Link } from 'react-router-dom';
-import LogoImage from '../assets/logo.png';
+import LogoImage from '../assets/logoImage.png';
 
 const Navbar = ({ isLoggedIn, onLogout }) => {
   return (
     <nav className="navbar" data-testid="navbar">
       <div className="tabs">
         <div className="buttons">
-          <Link to="/" className="link-style">
-            <h4>Infinite Focus</h4>
+          <Link to="/" className="">
+            <img style={{height: '10vh', marginTop: '1vh'}} src={LogoImage}/>
           </Link>
         </div>
 
