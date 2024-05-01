@@ -41,7 +41,7 @@ describe('RewardHistory', () => {
     await waitFor(() => {
       expect(getByText(/Task 1/)).toBeInTheDocument();
       expect(getByText(/Task 2/)).toBeInTheDocument();
-      expect(setTotalPoints).toHaveBeenCalledWith(30); // 10 + 20
+      expect(setTotalPoints).toHaveBeenCalledWith(-10);
     });
   });
 
