@@ -37,7 +37,7 @@ jobs:
         with:
           node-version: '16.x'
       - name: Install dependencies (Mobile)
-        run: cd mobile && npm install
+        run: cd mobile && npm install --force
       - name: Run tests with coverage (Mobile)
         run: cd mobile && npm test --coverage --watchAll=false
       - name: Archive coverage report (Mobile)
