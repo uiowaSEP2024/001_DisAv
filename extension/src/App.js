@@ -4,7 +4,7 @@ import { ExternalLink } from 'react-external-link';
 import CountdownTimer from './components/CountdownTimer';
 import axios from 'axios';
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import logo from './assets/logo.png';
+import logo from './logo.png';
 
 export function timeDifference(timeToCompare) {
   // get the difference in milliseconds between the current time and the time timeToCompare
