@@ -1,23 +1,26 @@
 .signup {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  width: 40vw; /* Fixed width */
+  padding: 20px;
+  border-radius: 8px;
+  position: absolute; /* Positioning relative to the viewport */
+  top: 30%; /* Center vertically */
+  left: 10%; /* Center horizontally */
 }
 
 .signup form {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 500px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  background: rgba(255, 255, 255, 0.16); /* Slightly transparent white background */
+  background: white; /* Slightly transparent white background */
   border-radius: 8px;
   color: black;
   position: absolute; /* Positioning relative to the viewport */
   top: 50%; /* Center vertically */
   left: 50%; /* Center horizontally */
   transform: translate(-50%, -50%); /* Adjust the centering with transform */
+  z-index: 20;
 }
 
 .signup form input {
@@ -32,6 +35,7 @@
   height: 50%;
   margin: auto;
   overflow: auto;
+  z-index: 9;
 }
 .signup form input[type='text'] {
   padding: 10px;
@@ -69,6 +73,10 @@
   transition: background-color 0.3s ease; /* Transition for button hover effect */
 }
 
+.signup form input[type='submit']:hover {
+  background-color: #7b5bea; /* Slightly lighter purple on hover */
+}
+
 .submit {
   margin-top: 20px;
   padding: 10px;
@@ -78,4 +86,9 @@
   cursor: pointer;
   border-radius: 4px; /* Rounded corners for button */
   transition: background-color 0.3s ease; /* Transition for button hover effect */
+}
+
+.submit:hover {
+  background-color: #7b5bea; /* Slightly lighter purple on hover */
+  cursor: pointer;
 }

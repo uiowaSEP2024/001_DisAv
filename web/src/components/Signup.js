@@ -5,7 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
 import '../styles/signup.css';
 import Modal from 'react-modal';
-import Preference from './Preference'; // Assuming the Preference component is in a separate file
+import Preference from './Preference';
+import leftWave from '../assets/leftWave.png';
+import timeImg from '../assets/file.png';
+import wave from '../assets/wave.svg'; // Assuming the Preference component is in a separate file
 
 function Signup() {
   //toast.configure();
@@ -69,51 +72,74 @@ function Signup() {
       console.error(err);
     }
   };
-
   return (
-    <div className="signup">
-      <form onSubmit={handleSubmit} data-testid="signup-form">
-        <h2>Sign up</h2>
-        <input
-          type="text"
-          placeholder="Username"
-          onChange={e => setUsername(e.target.value)}
-          required={true}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          onChange={e => setEmail(e.target.value)}
-          required={true}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={e => setPassword(e.target.value)}
-          required={true}
-        />
-        <input
-          type="text"
-          placeholder="First Name"
-          onChange={e => setFirstname(e.target.value)}
-          required={true}
-        />
-        <input
-          type="text"
-          placeholder="Last Name"
-          onChange={e => setLastname(e.target.value)}
-          required={true}
-        />
-        <button className={'submit'} type="submit">
-          Sign Up
-        </button>
-      </form>
-      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Select Preferences">
-        <Preference initialPreferredTasks={initialPreferredTasks} onClose={closeModal} />
-        {/* <button onClick={() => { closeModal(); navigate('/dashboard'); }}>Submit and Go to Dashboard</button> */}
-      </Modal>
+    <div className="homepage" data-testid="homepage">
+      <div className="welcome-section">
+        <div className="text">
+          <div className="signup">
+            {
+              !modalIsOpen ?
+                <form onSubmit={handleSubmit} data-testid="signup-form">
+                  <h2>Sign up</h2>
+                  <input
+                    type="text"
+                    placeholder="Username"
+                    onChange={e => setUsername(e.target.value)}
+                    required={true}
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    onChange={e => setEmail(e.target.value)}
+                    required={true}
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    onChange={e => setPassword(e.target.value)}
+                    required={true}
+                  />
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    onChange={e => setFirstname(e.target.value)}
+                    required={true}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    onChange={e => setLastname(e.target.value)}
+                    required={true}
+                  />
+                  <button className={'submit'} type="submit" onSubmit={() => console.log("Submitted")}>
+                    Sign Up
+                  </button>
+                </form>
+            :
+            <Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Select Preferences">
+              <Preference initialPreferredTasks={initialPreferredTasks} onClose={closeModal} />
+              {/* <button onClick={() => { closeModal(); navigate('/dashboard'); }}>Submit and Go to Dashboard</button> */}
+            </Modal>}
+          </div>
+        </div>
+        {
+          modalIsOpen?
+            null:
+            <>
+              <img src={leftWave} className="image-fixed-left"/>
+              <img src={timeImg} className="section-image2" />
+            </>
+        }
+      </div>
+      {
+        modalIsOpen?
+          null:
+          <img src={wave} className="wave" />
+      }
+
     </div>
   );
+
 }
 
 export default Signup;

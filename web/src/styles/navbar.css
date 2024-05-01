@@ -12,11 +12,12 @@
   margin-right: 5vw;
 }
 .navbar {
-  background: rgba(149, 117, 241, 0.18);
+  background: #2e005e;
 }
 
 h4 {
-  font-size: large;
+  font-size: 1.3em;
+  font-weight: 500;
   font-style: normal;
 }
 
@@ -28,23 +29,23 @@ h4 {
 
 .navbar .buttons {
   display: flex;
-  gap: 10px;
+  gap: 15px;
 }
 .link-style {
   text-decoration: none; /* Removes underline */
-  color: black; /* Sets the text color to black */
+  color: #fff;
   border: none;
   /*padding: 10px 20px;*/
   /*cursor: pointer;*/
   transition: background-color 0.3s ease;
   /* If you want to remove the color change on visited links: */
 }
-.link-style:visited {
-  color: black;
-}
+
 /* If you want the text to not change color on hover as well */
 .link-style:hover {
-  color: #676464;
+  color: #8a74c7;
+  border-radius: 20px;
+  height: 80%;
 }
 .navbar .buttons button {
   /*background-color: #88d3ce; !* Initial background color for buttons *!*/
