@@ -11,16 +11,14 @@ html {
 
 /* Ensure .login only styles the form area and not the entire page */
 .login {
-  width: 300px; /* Fixed width */
+  width: 500px; /* Fixed width */
   padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  background: rgba(255, 255, 255, 0.3); /* Slightly transparent white background */
+  box-shadow: 0 0 10px rgba(204, 203, 203, 0.3);
+  background: rgba(255, 252, 252, 0.94); /* Slightly transparent white background */
   border-radius: 8px;
-  color: black;
   position: absolute; /* Positioning relative to the viewport */
-  top: 50%; /* Center vertically */
-  left: 50%; /* Center horizontally */
-  transform: translate(-50%, -50%); /* Adjust the centering with transform */
+  top: 10%; /* Center vertically */
+  left: 10%; /* Center horizontally */
 }
 
 .login h2 {

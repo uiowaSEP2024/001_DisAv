@@ -26,7 +26,7 @@ const CountdownTimer = ({ totalTime, timeLeft }) => {
   };
   return (
     <div className="countdown-timer">
-      <h3 style={{ color: 'white' }}> Next task in:</h3>
+      <h3 style={{ color: 'white' }}> Browser will freeze in:</h3>
       <div style={{ width: '300px', height: '300px' }}>
         <CircularProgressbar
           value={remainingTime && totalTime ? (remainingTime / totalTime) * 100 : 0}

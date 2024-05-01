@@ -29,8 +29,15 @@ window.addEventListener('message', event => {
   if (message.type === 'LOGIN_SUCCESS') {
     const { token, user } = message;
 
-    // Do something with the token and user data
-    // For example, send it to the background script
     chrome.runtime.sendMessage({ type: 'LOGIN_SUCCESS', token: token, user: user });
+  }
+});
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  console.log('Message received:', message);
+  if (message.type === 'WEBSITE_BLOCKED') {
+    // Store a variable in Chrome storage indicating that a website is blocked
+    chrome.storage.local.set({ visible: true, site: message.site }, function() {
+      console.log('Variable "visible" set to true in Chrome storage.');
+    });
   }
 });
