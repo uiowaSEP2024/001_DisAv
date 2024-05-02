@@ -77,7 +77,7 @@ const Tasks = ({ assignedTask }) => {
     confetti({
       particleCount: 1000,
       spread: 100,
-      origin: { y: 0.6 }
+      origin: { y: 0.6 },
     });
   };
 
@@ -86,7 +86,7 @@ const Tasks = ({ assignedTask }) => {
     completeTask(); // Marks the task as completed and triggers confetti
   };
 
-  const formatTime = (time) => {
+  const formatTime = time => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;

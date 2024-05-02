@@ -11,6 +11,7 @@ import axios from 'axios';
 import { api } from '../config/Api';
 
 const BreakScreen = () => {
+  const { user } = useSession();
   const isFocused = useIsFocused();
   const [sound, setSound] = useState(null);
   const timerKey = 0;
@@ -37,12 +38,30 @@ const BreakScreen = () => {
     };
   }, [isFocused]);
 
-  const markTaskAsCompleted = async () => {
+  const markTaskAsCompleted = async skipped => {
     if (currentTask) {
+      let points = 0;
+      let taskType;
+      if (skipped) {
+        points = -5;
+        taskType = 'skipped';
+      } else {
+        points = 10;
+        taskType = 'Break';
+      }
       try {
-        await axios.put(`https://${api}/task/update-completed`, {
+        await axios.put(`https://${api}/task/update`, {
           id: currentTask._id,
+          username: user.username,
           isCompleted: true,
+          points: points,
+          taskType: taskType,
+        });
+
+        await axios.put(`https://${api}/user/update-frozen-browsing'`, {
+          username: user.username,
+          frozenBrowsing: false,
+          nextFrozen: new Date(new Date().getTime() + user.taskFrequency),
         });
         setCurrentTask(null);
         await AsyncStorage.removeItem('currentTask');
@@ -71,7 +90,7 @@ const BreakScreen = () => {
               colors={['#004777', '#F7B801', '#A30000', '#A30000']}
               colorsTime={[300, 150, 60, 0]}
               onComplete={() => {
-                markTaskAsCompleted();
+                markTaskAsCompleted(false);
                 return [false, 0]; // Stop the timer
               }}
             >
@@ -87,7 +106,7 @@ const BreakScreen = () => {
             You don`t have any incomplete tasks, but stay for relaxation if you wish!
           </Text>
         )}
-        <TouchableOpacity style={styles.skipButton} onPress={() => markTaskAsCompleted()}>
+        <TouchableOpacity style={styles.skipButton} onPress={() => markTaskAsCompleted(true)}>
           <Text style={styles.skipButtonText}>Skip Break</Text>
         </TouchableOpacity>
       </ImageBackground>

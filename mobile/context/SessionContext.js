@@ -44,6 +44,8 @@ export const SessionProvider = ({ children }) => {
         const tasks = response.data.tasks;
         const activeTask = tasks.find(task => !task.isCompleted);
 
+        console.log('Active task:', activeTask);
+
         if (activeTask) {
           setCurrentTask(activeTask);
           await AsyncStorage.setItem('currentTask', JSON.stringify(activeTask));
@@ -76,6 +78,11 @@ export const SessionProvider = ({ children }) => {
     await AsyncStorage.removeItem('currentTask');
   };
 
+  const saveUser = async userData => {
+    setUser(userData);
+    await AsyncStorage.setItem('user', JSON.stringify(userData));
+  };
+
   // Function to send a notification
   const sendNotification = async () => {
     await Notifications.scheduleNotificationAsync({
@@ -88,7 +95,7 @@ export const SessionProvider = ({ children }) => {
   };
 
   return (
-    <SessionContext.Provider value={{ user, currentTask, login, logout, setCurrentTask }}>
+    <SessionContext.Provider value={{ user, saveUser, currentTask, login, logout, setCurrentTask }}>
       {children}
     </SessionContext.Provider>
   );

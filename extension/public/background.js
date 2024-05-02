@@ -75,7 +75,13 @@ function checkNextFrozen() {
     console.log('checking again1', user.nextFrozen);
     const nextFrozenTime = new Date(user.nextFrozen).getTime();
     const currentTime = new Date().getTime();
-    console.log('checking again2', nextFrozenTime, currentTime, nextFrozenTime <= currentTime,currentTime-nextFrozenTime);
+    console.log(
+      'checking again2',
+      nextFrozenTime,
+      currentTime,
+      nextFrozenTime <= currentTime,
+      currentTime - nextFrozenTime
+    );
     if (user.nextFrozen && currentTime >= nextFrozenTime) {
       console.log('Current time is past nextFrozen:', user.nextFrozen);
       clearInterval(interval);
@@ -130,12 +136,12 @@ chrome.webNavigation.onBeforeNavigate.addListener(
   async function (details) {
     const url = new URL(details.url);
 
-    console.log('Checking navigation:', interval === null,url);
+    console.log('Checking navigation:', interval === null, url);
     for (const site of user?.blacklistedWebsites) {
-      if(isSignificantPartContained(site, url.href) && !interval){
-       // interval = setInterval(checkNextFrozen, user.taskFrequency);
+      if (isSignificantPartContained(site, url.href) && !interval) {
+        // interval = setInterval(checkNextFrozen, user.taskFrequency);
         chrome.tabs.sendMessage(details.tabId, { type: 'WEBSITE_BLOCKED', site: site });
-        console.log('Set new interval',user.taskFrequency);
+        console.log('Set new interval', user.taskFrequency);
         let currentDate = new Date();
         console.log('User info changed, updating frozen browsing');
         updateFrozenBrowsing({
@@ -143,12 +149,12 @@ chrome.webNavigation.onBeforeNavigate.addListener(
           nextFrozen: new Date(currentDate.getTime() + user.taskFrequency),
           frozenBrowsing: false, //TODO Check here if setting automatically to false
         });
-        if (interval){
-          clearInterval(interval)
+        if (interval) {
+          clearInterval(interval);
           interval = null;
         }
         interval = setInterval(checkNextFrozen, 1000);
-        console.log("website blocked")
+        console.log('website blocked');
       }
     }
 
@@ -163,7 +169,8 @@ chrome.webNavigation.onBeforeNavigate.addListener(
 function isSignificantPartContained(str1, str2) {
   const [smaller, larger] = str1.length < str2.length ? [str1, str2] : [str2, str1];
 
-  let i = 0, j = 0;
+  let i = 0,
+    j = 0;
 
   while (i < smaller.length && j < larger.length) {
     if (smaller[i] === larger[j]) {
@@ -172,5 +179,5 @@ function isSignificantPartContained(str1, str2) {
     j++;
   }
   const matchThreshold = 0.7;
-  return (i >= smaller.length * matchThreshold);
+  return i >= smaller.length * matchThreshold;
 }

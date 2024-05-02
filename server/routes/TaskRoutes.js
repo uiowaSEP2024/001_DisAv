@@ -46,8 +46,11 @@ router.put('/update', async (req, res) => {
 });
 
 router.put('/update-completed', async (req, res) => {
-  const { id, isCompleted, endTime } = req.body;
-  const task = await TaskModel.findOneAndUpdate({ _id: id }, { isCompleted, endTime });
+  const { id, isCompleted, frozenBrowsing, endTime } = req.body;
+  const task = await TaskModel.findOneAndUpdate(
+    { _id: id },
+    { frozenBrowsing, isCompleted, endTime }
+  );
   if (!task) {
     console.log('Invalid task');
     return res.status(401).json({ message: 'Invalid task' });

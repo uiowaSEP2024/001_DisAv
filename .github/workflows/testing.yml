@@ -73,7 +73,6 @@ jobs:
           path: server/coverage
           # Set the output for coverage report URL
           id: upload_coverage
-
 #  test-extension:
 #    runs-on: ubuntu-latest
 #    outputs:
