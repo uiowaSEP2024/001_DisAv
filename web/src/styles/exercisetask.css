@@ -1,0 +1,24 @@
+/* Styles for the entire page */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #6c35d9cc; /* Darker purple color for the background */
+    overflow-x: hidden; /* Disable horizontal scrolling */
+}
+
+/* Styles for the container */
+.container {
+    background-color: #E6E6FA; /* Light purple color for the container */
+    border-radius: 8px;
+    max-width: 800px;
+    padding: 20px;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto; /* Center horizontally */
+    height: 80vh; /* Center vertically and use viewport height */
+    box-sizing: border-box; /* Includes padding in the height and width */
+    overflow-y: auto; /* Enable vertical scrolling inside the container */
+}
