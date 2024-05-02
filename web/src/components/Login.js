@@ -20,7 +20,7 @@ const Login = () => {
   const handleSubmit = async event => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3002/auth/login', {
+      const response = await axios.post('https://distraction-avoider-bcd786e690c7.herokuapp.com/auth/login', {
         username: username,
         password: password,
       });

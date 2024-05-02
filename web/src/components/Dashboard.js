@@ -14,7 +14,7 @@ const Dashboard = () => {
   const user = JSON.parse(sessionStorage.getItem('user'));
 
   useEffect(() => {
-    axios.get(`http://localhost:3002/user/get-by-username?username=${user.username}`).then(res => {
+    axios.get(`https://distraction-avoider-bcd786e690c7.herokuapp.com/user/get-by-username?username=${user.username}`).then(res => {
       setTrackedSites(res.data.user.blacklistedWebsites);
       setWhitelistedSites(res.data.user.whitelistedWebsites || []);
     });
@@ -24,7 +24,7 @@ const Dashboard = () => {
     const updatedSites =
       listType === 'blacklist' ? [...trackedSites, text] : [...whitelistedSites, text];
     axios
-      .put('http://localhost:3002/user/update-all-preferences', {
+      .put('https://distraction-avoider-bcd786e690c7.herokuapp.com/user/update-all-preferences', {
         username: user.username,
         blacklistedWebsites: listType === 'blacklist' ? updatedSites : trackedSites,
         whitelistedWebsites: listType === 'whitelist' ? updatedSites : whitelistedSites,
@@ -48,7 +48,7 @@ const Dashboard = () => {
         ? trackedSites.filter((_, i) => i !== index)
         : whitelistedSites.filter((_, i) => i !== index);
     axios
-      .put('http://localhost:3002/user/update-all-preferences', {
+      .put('https://distraction-avoider-bcd786e690c7.herokuapp.com/user/update-all-preferences', {
         username: user.username,
         blacklistedWebsites: listType === 'blacklist' ? newSites : trackedSites,
         whitelistedWebsites: listType === 'whitelist' ? newSites : whitelistedSites,

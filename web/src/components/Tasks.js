@@ -50,7 +50,7 @@ const Tasks = ({ assignedTask }) => {
   const endFrozenBrowsing = async () => {
     const currentDate = new Date();
     await axios
-      .put('http://localhost:3002/user/update-frozen-browsing', {
+      .put('https://distraction-avoider-bcd786e690c7.herokuapp.com/user/update-frozen-browsing', {
         username: localStorage.getItem('username'),
         frozenBrowsing: false,
         nextFrozen: new Date(currentDate.getTime() + localStorage.getItem('taskFrequency')),
@@ -83,12 +83,12 @@ const Tasks = ({ assignedTask }) => {
   };
   async function updateTask(type, isCompleted) {
     await axios
-      .get('http://localhost:3002/task/get-most-recent-task', {
+      .get('https://distraction-avoider-bcd786e690c7.herokuapp.com/task/get-most-recent-task', {
         params: { username: localStorage.getItem('username') },
       })
       .then(r => {
         axios
-          .put('http://localhost:3002/task/update', {
+          .put('https://distraction-avoider-bcd786e690c7.herokuapp.com/task/update', {
             id: r.data.task._id,
             type: type,
             isCompleted: isCompleted,

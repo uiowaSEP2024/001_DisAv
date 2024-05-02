@@ -29,7 +29,7 @@ function UserInfo({ user: initialUser }) {
     const updateUser = { ...user };
     delete updateUser.confirmPassword; // Remove confirmPassword before sending to the server
     axios
-      .put('http://localhost:3002/user/update', { user: updateUser })
+      .put('https://distraction-avoider-bcd786e690c7.herokuapp.com/user/update', { user: updateUser })
       .then(response => {
         console.log('Profile updated', response);
         setIsEditing(false);

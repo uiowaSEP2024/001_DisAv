@@ -51,19 +51,19 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
         taskFrequency: milliseconds,
       };
 
-      await axios.put('http://localhost:3002/user/update-preferred-tasks', {
+      await axios.put('https://distraction-avoider-bcd786e690c7.herokuapp.com/user/update-preferred-tasks', {
         username: user.username,
         preferredTasks,
       });
-      await axios.put('http://localhost:3002/user/update-task-frequency', {
+      await axios.put('https://distraction-avoider-bcd786e690c7.herokuapp.com/user/update-task-frequency', {
         username: user.username,
         taskFrequency: milliseconds,
       });
-      await axios.put('http://localhost:3002/user/update-work-preferences', {
+      await axios.put('https://distraction-avoider-bcd786e690c7.herokuapp.com/user/update-work-preferences', {
         username: user.username,
         workPreferences,
       });
-      await axios.put('http://localhost:3002/user/update-reading-preferences', {
+      await axios.put('https://distraction-avoider-bcd786e690c7.herokuapp.com/user/update-reading-preferences', {
         username: user.username,
         readingPreferences,
       });

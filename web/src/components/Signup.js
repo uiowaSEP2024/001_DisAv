@@ -40,7 +40,7 @@ function Signup() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3002/auth/register', {
+      const response = await axios.post('https://distraction-avoider-bcd786e690c7.herokuapp.com/auth/register', {
         firstname: firstname,
         lastname: lastname,
         username: username,

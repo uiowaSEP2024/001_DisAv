@@ -27,7 +27,7 @@ function ReadTask(props) {
     setOpenDialog(true);
   }
   async function getUserData() {
-    const response = await axios.get('http://localhost:3002/user/get-by-username', {
+    const response = await axios.get('https://distraction-avoider-bcd786e690c7.herokuapp.com/user/get-by-username', {
       params: { username: localStorage.getItem('username') },
     });
     setUser(response.data.user);
@@ -38,7 +38,7 @@ function ReadTask(props) {
   useEffect(() => {
     getUserData().then(r => {
       axios
-        .get('http://localhost:3002/book/get-by-username', {
+        .get('https://distraction-avoider-bcd786e690c7.herokuapp.com/book/get-by-username', {
           params: { username: r.username },
         })
         .then(response => {
@@ -72,7 +72,7 @@ function ReadTask(props) {
       localStorage.getItem('username')
     );
     axios
-      .post('http://localhost:3002/book/create', {
+      .post('https://distraction-avoider-bcd786e690c7.herokuapp.com/book/create', {
         title,
         imageLink,
         description,
@@ -123,34 +123,6 @@ function ReadTask(props) {
       </div>
       <DialogBox isOpen={openDialog} onClose={() => setOpenDialog(false)} addBook={AddBook} />
       <Notification message={'Book was added successfully!'} visible={visibleNotification} />
-      {/* <div
-        style={{
-          position: 'fixed',
-          bottom: 0,
-          width: '100%',
-          backgroundColor: 'rgba(224,220,220,0.7)',
-          padding: '10px',
-          borderTop: '1px solid #ccc',
-          display: 'flex',
-          justifyContent: 'flex-end',
-        }}
-      >
-        <button
-          onClick={() => setOpenDialog(true)}
-          style={{
-            padding: '10px',
-            fontSize: '16px',
-            borderRadius: '5px',
-            border: 'none',
-            cursor: 'pointer',
-            backgroundColor: '#6e45e2',
-            color: 'white',
-            margin: '0 35px',
-          }}
-        >
-          Add Book
-        </button>
-      </div> */}
     </div>
   );
 }

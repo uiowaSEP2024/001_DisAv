@@ -11,7 +11,7 @@ function DialogBox({ isOpen, onClose, addBook, dashboard, onSave, title }) {
 
   async function onSearch(title) {
     const response = await axios
-      .get('http://localhost:3002/book/get-by-google-title', { params: { title } })
+      .get('https://distraction-avoider-bcd786e690c7.herokuapp.com/book/get-by-google-title', { params: { title } })
       .then(response => {
         console.log(response.data);
         setBooksList(response.data.books);
