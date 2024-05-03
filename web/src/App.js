@@ -31,6 +31,7 @@ function App() {
     <div>
       <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       <Routes>
+        <Route path="/" element={isLoggedIn ? <Navigate to="/break-task" replace /> : <Homepage />} />
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
