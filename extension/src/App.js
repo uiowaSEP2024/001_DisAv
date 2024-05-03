@@ -37,7 +37,7 @@ function App() {
     chrome.storage.local.get(['user', 'token'], async function (result) {
       if (result.user) {
         await axios
-          .get('http://localhost:3002/user/get-by-username', {
+          .get('https://distraction-avoider-bcd786e690c7.herokuapp.com/user/get-by-username', {
             params: { username: result.user.username },
           })
           .then(response => {
@@ -243,7 +243,7 @@ function App() {
             {/* Navigation */}
             <nav className="App-nav">
               <ul>
-                <ExternalLink href={'http://localhost:3000/login'}>
+                <ExternalLink href={'https://infinitefocus.tech/'}>
                   <button>Sign in</button>
                 </ExternalLink>{' '}
               </ul>

@@ -3,14 +3,18 @@
   "name": "Infinite Focus",
   "description": "A doom scrolling solution that helps you regain focus with helpful tasks",
   "version": "0.0.1",
-  "permissions": ["storage", "webNavigation"],
+  "permissions": [
+    "storage",
+    "webNavigation",
+    "https://distraction-avoider-bcd786e690c7.herokuapp.com/*"
+  ],
   "action": {
     "default_icon": "logo192.png",
     "default_popup": "index.html"
   },
   "content_scripts": [
     {
-      "matches": ["http://localhost:3000/*", "https://infinitefocus.tech/*"],
+      "matches": ["http://localhost:3000/*", "https://infinitefocus.tech/*", "https://distraction-avoider-bcd786e690c7.herokuapp.com/*"],
       "js": ["contentScript.js"]
     }
   ],
