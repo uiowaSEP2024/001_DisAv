@@ -66,9 +66,13 @@ function App() {
           </div>
         </div>
       );
-    } else {
+    }
+    else if(loggedIn){
+
+    }
+    else {
       return (
-        <div>
+        <div style={{}}>
           <h2>Log in to use extension</h2>
         </div>
       );
