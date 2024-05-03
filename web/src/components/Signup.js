@@ -53,9 +53,6 @@ function Signup() {
         console.log('Username is already used');
       } else {
         //toast.success('Account has been created successfully');
-        console.log('Account has been created successfully');
-        // Log in the user after successful signup
-
         login({ username, password, firstname, lastname, email }); // Adjust the object to match what your login function expects
         openModal(); // Open the modal for preference selection
       }

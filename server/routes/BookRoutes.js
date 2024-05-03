@@ -151,7 +151,6 @@ function searchBooksById(bookId) {
 async function checkValidBookSummary(summary, chapter, book) {
   const cwd = process.cwd();
   const envDirectory = path.resolve(cwd, '..') + '/.env';
-  console.log('asdksjklafksajfsal', envDirectory, process.env.GPT_KEY);
   dotenv.config({ path: envDirectory });
   const openai = new OpenAI({
     apiKey: process.env.GPT_KEY, // This is also the default, can be omitted

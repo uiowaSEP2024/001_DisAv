@@ -4,7 +4,7 @@ import { ExternalLink } from 'react-external-link';
 import CountdownTimer from './components/CountdownTimer';
 import axios from 'axios';
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import logo from './logo.png';
+import logo from './assets/logo.png';
 
 export function timeDifference(timeToCompare) {
   // get the difference in milliseconds between the current time and the time timeToCompare
@@ -37,7 +37,7 @@ function App() {
     chrome.storage.local.get(['user', 'token'], async function (result) {
       if (result.user) {
         await axios
-          .get('http://localhost:3002/user/get-by-username', {
+          .get('https://distraction-avoider-bcd786e690c7.herokuapp.com/user/get-by-username', {
             params: { username: result.user.username },
           })
           .then(response => {
@@ -66,9 +66,13 @@ function App() {
           </div>
         </div>
       );
-    } else {
+    }
+    else if(loggedIn){
+
+    }
+    else {
       return (
-        <div>
+        <div style={{}}>
           <h2>Log in to use extension</h2>
         </div>
       );
@@ -239,7 +243,7 @@ function App() {
             {/* Navigation */}
             <nav className="App-nav">
               <ul>
-                <ExternalLink href={'http://localhost:3000/login'}>
+                <ExternalLink href={'https://infinitefocus.tech/'}>
                   <button>Sign in</button>
                 </ExternalLink>{' '}
               </ul>

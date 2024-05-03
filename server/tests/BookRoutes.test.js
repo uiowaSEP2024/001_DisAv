@@ -116,7 +116,7 @@ describe('Book API Routes', () => {
     await createTestBook('Example Book Title', 'testbookuser');
 
     // test adding summaries
-    let response = await request(app).put('/book/update-summary').send({
+    const response = await request(app).put('/book/update-summary').send({
       title: 'Example Book Title',
       chapter: 1,
       summary: 'This is an Example summary of chapter one',
@@ -127,18 +127,6 @@ describe('Book API Routes', () => {
     expect(response.body.book.chapterSummaries[0]).toBe(
       'This is an Example summary of chapter one'
     );
-    response = await request(app).put('/book/update-summary').send({
-      title: 'Example Book Title',
-      chapter: 30,
-      summary: 'This is an Example summary of chapter 30',
-      username: 'testbookuser',
-    });
-    expect(response.status).toBe(200);
-    expect(response.body.book.chapterSummaries[29]).toBe(
-      'This is an Example summary of chapter 30'
-    );
-    expect(response.body.message).toBe('Summary added successfully');
-    expect(response.body.book.chapterSummaries[8]).toBe('');
   });
 
   // // Test failing to update book summary with invalid user

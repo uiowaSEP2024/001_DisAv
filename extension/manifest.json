@@ -4,7 +4,7 @@
   "description": "A doom scrolling solution that helps you regain focus with helpful tasks",
   "version": "0.0.1",
   "permissions": ["activeTab", "storage", "idle", "webNavigation", "tabs"],
-  "host_permissions": ["https://infinitefocus.tech/*"],
+  "host_permissions": ["<all_urls>"],
   "action": {
     "default_icon": "logo192.png",
     "default_popup": "index.html"

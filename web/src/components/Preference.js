@@ -67,7 +67,18 @@ const Preference = ({ initialPreferredTasks = defaultTasks, onClose = () => {} }
         username: user.username,
         readingPreferences,
       });
-
+      localStorage.setItem('taskFrequency', updatedUser.taskFrequency);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      console.log('Account has been created successfully');
+      // Log in the user after successful signup
+      localStorage.setItem('username', updatedUser.username);
+      window.postMessage(
+        {
+          type: 'LOGIN_SUCCESS',
+          user: localStorage.getItem('user'),
+        },
+        '*'
+      );
       sessionStorage.setItem('user', JSON.stringify(updatedUser));
       setUser(updatedUser);
       toast.success('Updated successfully');

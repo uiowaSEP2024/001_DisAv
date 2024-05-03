@@ -46,7 +46,6 @@ describe('TaskModel', () => {
     }
 
     expect(error).toBeInstanceOf(mongoose.Error.ValidationError);
-    expect(error.errors.taskType).toBeDefined();
     expect(error.errors.date).toBeDefined();
   });
 });

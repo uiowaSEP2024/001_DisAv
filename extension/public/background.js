@@ -7,7 +7,7 @@ let interval = null;
 
 function openWebsite() {
   console.log('openWebsite called'); // This will log to the background page's console
-  const website = 'http://localhost:3000/break-task';
+  const website = 'https://infinitefocus.tech/';
   chrome.tabs
     .update({ url: website, active: true })
     .then(() => {
@@ -20,7 +20,7 @@ function openWebsite() {
 
 function updateFrozenBrowsing(data) {
   console.log('nextFrozen updated for the user:', data.nextFrozen);
-  fetch('http://localhost:3002/user/update-frozen-browsing', {
+  fetch('https://distraction-avoider-bcd786e690c7.herokuapp.com/user/update-frozen-browsing', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ function checkNextFrozen() {
       }); //Update the nextFrozen time on firststate query because there would be no state change since you arent idle
       createTask({
         username: user.username,
-        taskType: 'break',
+        taskType: null,
         date: new Date(),
         startTime: currentTime,
         endTime: currentTime,
@@ -110,7 +110,7 @@ function checkNextFrozen() {
 }
 
 async function createTask(data) {
-  fetch('http://localhost:3002/task/create', {
+  fetch('https://distraction-avoider-bcd786e690c7.herokuapp.com/task/create', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -158,8 +158,8 @@ chrome.webNavigation.onBeforeNavigate.addListener(
       }
     }
 
-    if (!url.href.startsWith('http://localhost:3000/') && user?.frozenBrowsing) {
-      const redirectUrl = 'http://localhost:3000/break-task';
+    if (!url.href.startsWith('https://infinitefocus.tech/') && user?.frozenBrowsing) {
+      const redirectUrl = 'https://infinitefocus.tech/';
       chrome.tabs.update(details.tabId, { url: redirectUrl });
     }
   },
