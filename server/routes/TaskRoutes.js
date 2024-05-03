@@ -26,6 +26,7 @@ router.post('/create', async (req, res) => {
 
 // Update task route
 router.put('/update', async (req, res) => {
+  console.log('Updating task');
   const { id, username, taskType, date, startTime, endTime, duration, isCompleted, points } =
     req.body;
   const user = await UserModel.findOne({ username });

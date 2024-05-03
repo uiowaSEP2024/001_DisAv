@@ -26,10 +26,10 @@ export default function Login({ navigation }) {
       return;
     }
     console.log(
-      `Signing in with the api request of https://${api}/auth/login?username=${userName}&password=${password}`
+      `Signing in with the api request of ${api}/auth/login?username=${userName}&password=${password}`
     );
     await axios
-      .post(`https://${api}/auth/login`, {
+      .post(`${api}/auth/login`, {
         username: userName,
         password: password,
       })

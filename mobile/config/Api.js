@@ -18,11 +18,12 @@ if (apiType === 'development') {
     expoConfig.extra && expoConfig.extra.dev
       ? expoConfig.hostUri.split(`:`).shift().concat(`:3004`)
       : `api.example.com`;
+  api = 'http://' + api;
+} else {
+  console.log('Production API');
+  api = 'https://' + apiUrl;
 }
-// else {
-//   console.log('Production API');
-//   api = apiUrl;
-// }
+console.log('New API: ', api);
 
 // console.log(api);
 

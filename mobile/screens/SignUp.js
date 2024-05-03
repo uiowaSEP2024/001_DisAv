@@ -39,7 +39,7 @@ export default function SignUp({ navigation }) {
       setError('');
       console.log(api);
       await axios
-        .post('https://' + api + `/auth/register`, {
+        .post(api + `/auth/register`, {
           firstname,
           lastname,
           username,
