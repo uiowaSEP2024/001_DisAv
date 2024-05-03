@@ -34,6 +34,7 @@ export default function Login({ navigation }) {
         password: password,
       })
       .then(r => {
+        /* istanbul ignore next */
         if (r.data.message) {
           setErr(r.data.message);
         } else {

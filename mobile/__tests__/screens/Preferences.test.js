@@ -40,7 +40,7 @@ axios.put.mockImplementation(() => Promise.resolve(mockResponseData));
 
 // Mock the api variable from the config file
 jest.mock('../../config/Api', () => ({
-  api: 'localhost:3002',
+  api: 'http://localhost:3002',
 }));
 
 describe('Preferences', () => {
@@ -169,7 +169,11 @@ describe('Preferences', () => {
     });
   });
 
-  // Test updating task frequency
+  // Ensure the API URL is correctly prefixed with 'http://'
+  jest.mock('../../config/Api', () => ({
+    api: 'http://localhost:3002',
+  }));
+
   it('updates task frequency correctly', async () => {
     const { getByTestId, getByText } = render(
       <PaperProvider>
@@ -186,28 +190,28 @@ describe('Preferences', () => {
     await waitFor(() => {
       // Check the specific call for updating task frequency
       expect(axios.put).toHaveBeenCalledWith(
-        'http://localhost:3002/user/update-preferred-tasks', // Adjust URL as necessary
+        'http://localhost:3002/user/update-preferred-tasks',
         expect.objectContaining({
           username: 'testuser',
           preferredTasks: expect.any(Object),
         })
       );
       expect(axios.put).toHaveBeenCalledWith(
-        'http://localhost:3002/user/update-task-frequency', // Adjust URL as necessary
+        'http://localhost:3002/user/update-task-frequency',
         expect.objectContaining({
           taskFrequency: 5400000, // 1.5 hours in milliseconds
           username: 'testuser',
         })
       );
       expect(axios.put).toHaveBeenCalledWith(
-        'http://localhost:3002/user/update-work-preferences', // Adjust URL as necessary
+        'http://localhost:3002/user/update-work-preferences',
         expect.objectContaining({
           username: 'testuser',
           workPreferences: expect.any(String),
         })
       );
       expect(axios.put).toHaveBeenCalledWith(
-        'http://localhost:3002/user/update-reading-preferences', // Adjust URL as necessary
+        'http://localhost:3002/user/update-reading-preferences',
         expect.objectContaining({
           username: 'testuser',
           readingPreferences: expect.any(String),
@@ -215,6 +219,4 @@ describe('Preferences', () => {
       );
     });
   });
-
-  // Ensure to cover all interactive elements and scenarios in your component to achieve high test coverage.
 });
