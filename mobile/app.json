@@ -4,8 +4,19 @@
     "name": "infiniteFocus",
     "slug": "infiniteFocus",
     "version": "1.0.0",
+    "ios": {
+      "bundleIdentifier": "org.name.infiniteFocus"
+    },
     "extra": {
-      "dev": "true"
+      "dev": "true",
+      "API_URL": "distraction-avoider-bcd786e690c7.herokuapp.com",
+      "API_TYPE": "production",
+      "eas": {
+        "projectId": "ad8e6db1-d659-48fd-a96e-27115b7fb1bc"
+      }
+    },
+    "android": {
+      "package": "org.name.infiniteFocus"
     }
   }
 }

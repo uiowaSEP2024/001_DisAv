@@ -24,8 +24,9 @@ To install InfiniteFocus, clone the repo and install the dependencies:
 ## Usage
 
 To run InfiniteFocus, run the server first in the /server directory using the following command:
+
 - `yarn start`
-Then navigate to the /mobile directory and run the mobile expo:
+  Then navigate to the /mobile directory and run the mobile expo:
 - `npx expo start`
 
 ## Contributing

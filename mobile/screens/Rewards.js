@@ -24,9 +24,10 @@ export default function Rewards({ navigation }) {
       return;
     }
     try {
-      const response = await axios.get(
-        `http://${api}/task/get-by-username?username=${user.username}`
+      console.log(
+        `Fetching user tasks via url ${api}/task/get-by-username?username=${user.username}`
       );
+      const response = await axios.get(`${api}/task/get-by-username?username=${user.username}`);
       const userTasks = response.data.tasks;
       let points = 0;
       const completed = [];

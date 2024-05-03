@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../config/Api';
 
 const exercises = [
-  { key: 'walk', description: 'Walk 100 steps', target: 100, duration: 1 },
+  { key: 'walk', description: 'Walk 20 steps', target: 20, duration: 1 },
   { key: 'pushups', description: 'Do 15 pushups', target: 15, duration: 1 },
   { key: 'jumpingJacks', description: 'Do 15 jumping jacks', target: 15, duration: 1 },
 ];
@@ -104,10 +104,18 @@ const ExerciseScreen = () => {
     setIsLoading(true);
     try {
       // Assuming you have an API endpoint to mark an exercise as complete
-      const response = await axios.put(`http://${api}/task/update-completed`, {
+      const response = await axios.put(`${api}/task/update-completed`, {
         id: currentTask._id,
         isCompleted: true,
         endTime: new Date(),
+        points: 15,
+        taskType: 'Exercise',
+      });
+
+      await axios.put(`${api}/user/update-frozen-browsing`, {
+        username: user.username,
+        frozenBrowsing: false,
+        nextFrozen: new Date(new Date().getTime() + user.taskFrequency),
       });
 
       if (response.status === 200) {
@@ -141,7 +149,7 @@ const ExerciseScreen = () => {
   const createExerciseTask = async exercise => {
     setIsLoading(true);
     try {
-      await axios.post(`http://${api}/task/create`, {
+      await axios.post(`${api}/task/create`, {
         username: user.username,
         taskType: 'Exercise',
         description: exercise.description,

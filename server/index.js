@@ -36,12 +36,12 @@ mongoose
   .then(r => console.log('db connected'))
   .catch(e => console.log('DB not connected check IP'));
 
-const PORT = process.env.PORT || 3002; // Fallback to 3002 if process.env.PORT is not defined
+const PORT = process.env.PORT || 3004; // Fallback to 3004 if process.env.PORT is not defined
 app
   .listen(PORT, () => console.log(`SERVER STARTED on port ${PORT}`))
   .on('error', err => {
     if (err.code === 'EADDRINUSE') {
-      console.log(`Error: Port 3002 is already in use.`);
+      console.log(`Error: Port 3004 is already in use.`);
     } else {
       console.log('Error starting the app:', err);
     }

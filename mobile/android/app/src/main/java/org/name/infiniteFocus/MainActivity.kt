@@ -1,4 +1,4 @@
-package com.infinitefocus
+package org.name.infiniteFocus
 
 import android.os.Build
 import android.os.Bundle

@@ -16,7 +16,7 @@ jest.mock('expo-constants', () => ({
     extra: {
       dev: true, // Or false, depending on your testing needs
     },
-    hostUri: 'http://192.168.0.113:3002',
+    hostUri: 'http://192.168.0.113:3004',
   },
 }));
 
@@ -58,7 +58,7 @@ describe('SignUp Screen', () => {
     fireEvent.press(getByTestId('signUpButton'));
 
     await waitFor(() => {
-      expect(axios.post).toHaveBeenCalledWith('http://http:3002/auth/register', {
+      expect(axios.post).toHaveBeenCalledWith('http://http:3004/auth/register', {
         firstname: 'John',
         lastname: 'Doe',
         username: 'johndoe',

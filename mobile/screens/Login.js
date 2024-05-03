@@ -20,16 +20,21 @@ export default function Login({ navigation }) {
   };
 
   async function signIn() {
+    console.log('Signing in with:', userName);
     if (userName === '' || password === '') {
       setErr('All fields are required');
       return;
     }
+    console.log(
+      `Signing in with the api request of ${api}/auth/login?username=${userName}&password=${password}`
+    );
     await axios
-      .post(`http://${api}/auth/login`, {
+      .post(`${api}/auth/login`, {
         username: userName,
-        password,
+        password: password,
       })
       .then(r => {
+        /* istanbul ignore next */
         if (r.data.message) {
           setErr(r.data.message);
         } else {
@@ -40,13 +45,20 @@ export default function Login({ navigation }) {
         }
       })
       .catch(error => {
-        console.log('Error', error);
-        // Here, specifically handle the 401 error
-        if (error.response && error.response.status === 401) {
-          setErr('Unauthorized: Check your username and password.');
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
         } else {
-          setErr('An error occurred during login.');
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
         }
+        console.log(error.config);
       });
   }
 
